@@ -1,4 +1,5 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# DumbHack :: Survival
+### DumbHack :: Survival este un joc de tip supravietuire in care personajul principal este un simplu student dornic sa isi puna in aplicare cunostiintele intr-un eveniment de programare. Insa, protagonistul nu este o persoana punctuala, astfel incat el reuseste sa intarzie la competitie. Intre timp, lucrurile au luat o intorsatura neasteptata, fiindca intre timp, un virus cibernetic a transformat toti ceilalti participanti la competitie in niste zombii setati sa opreasca pe oricine incearca sa ii combata. Studentul este nevoit acum sa lupte cu acesti zombii in timp ce da tot ce are el mai bun sa opreasca acest virus si sa aduca totul la normal.
 
 ### Important!
 Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar în folder-ul `generated`.
