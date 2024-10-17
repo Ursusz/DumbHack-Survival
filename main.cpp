@@ -7,6 +7,7 @@
 
 #include <Helper.h>
 
+#include "Vec2.h"
 //////////////////////////////////////////////////////////////////////
 /// NOTE: this include is needed for environment-specific fixes     //
 /// You can remove this include and the call from main              //
@@ -29,15 +30,20 @@ SomeClass *getC() {
 
 
 int main() {
+    Vec2 vector(1.0f, 1.0f);
+    std::cout << vector << std::endl;
+    // Vec2 vector2 = vector;
+    // std::cout << vector2 << std::endl;
+
     ////////////////////////////////////////////////////////////////////////
     /// NOTE: this function call is needed for environment-specific fixes //
     init_threads();                                                       //
     ////////////////////////////////////////////////////////////////////////
     ///
-    std::cout << "Hello, world!\n";
-    std::array<int, 100> v{};
-    int nr;
-    std::cout << "Introduceți nr: ";
+    // std::cout << "Hello, world!\n";
+    // std::array<int, 100> v{};
+    // int nr;
+    // std::cout << "Introduceți nr: ";
     /////////////////////////////////////////////////////////////////////////
     /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
     /// dați exemple de date de intrare folosind fișierul tastatura.txt
@@ -58,17 +64,17 @@ int main() {
     /// program care merg (și să le evitați pe cele care nu merg).
     ///
     /////////////////////////////////////////////////////////////////////////
-    std::cin >> nr;
+    // std::cin >> nr;
     /////////////////////////////////////////////////////////////////////////
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "v[" << i << "] = ";
-        std::cin >> v[i];
-    }
-    std::cout << "\n\n";
-    std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "- " << v[i] << "\n";
-    }
+    // for(int i = 0; i < nr; ++i) {
+    //     std::cout << "v[" << i << "] = ";
+    //     std::cin >> v[i];
+    // }
+    // std::cout << "\n\n";
+    // std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
+    // for(int i = 0; i < nr; ++i) {
+    //     std::cout << "- " << v[i] << "\n";
+    // }
     ///////////////////////////////////////////////////////////////////////////
     /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
     /// alt fișier propriu cu ce alt nume doriți.
@@ -80,13 +86,13 @@ int main() {
     ///////////////////////////////////////////////////////////////////////////
     ///                Exemplu de utilizare cod generat                     ///
     ///////////////////////////////////////////////////////////////////////////
-    Helper helper;
-    helper.help();
+    // Helper helper;
+    // helper.help();
     ///////////////////////////////////////////////////////////////////////////
 
-    SomeClass *c = getC();
-    std::cout << c << "\n";
-    delete c;
+    // SomeClass *c = getC();
+    // std::cout << c << "\n";
+    // delete c;
 
     sf::RenderWindow window;
     ///////////////////////////////////////////////////////////////////////////
@@ -110,11 +116,11 @@ int main() {
                 window.close();
                 break;
             case sf::Event::Resized:
-                std::cout << "New width: " << window.getSize().x << '\n'
-                          << "New height: " << window.getSize().y << '\n';
+                // std::cout << "New width: " << window.getSize().x << '\n'
+                          // << "New height: " << window.getSize().y << '\n';
                 break;
             case sf::Event::KeyPressed:
-                std::cout << "Received key " << (e.key.code == sf::Keyboard::X ? "X" : "(other)") << "\n";
+                // std::cout << "Received key " << (e.key.code == sf::Keyboard::X ? "X" : "(other)") << "\n";
                 if(e.key.code == sf::Keyboard::Escape)
                     shouldExit = true;
                 break;
