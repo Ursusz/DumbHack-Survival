@@ -1,5 +1,5 @@
 #pragma once
-#include "Vec2.h"
+#include "myVec.h"
 
 class Component{
 protected:
@@ -7,6 +7,6 @@ protected:
 };
 
 class CTransform : public Component {
-  Vec2 position();
-  Vec2 velocity();
+  myVec position();
+  myVec velocity();
 };

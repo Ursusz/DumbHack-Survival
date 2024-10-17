@@ -54,8 +54,8 @@ add_executable(${PROJECT_NAME}
         main.cpp
     generated/src/Helper.cpp
     env_fixes.h
-        header/Vec2.h
-        source/Vec2.cpp
+        header/myVec.h
+        source/myVec.cpp
         header/Components.h
 )
 
