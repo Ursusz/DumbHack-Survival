@@ -15,7 +15,7 @@ myVec::myVec(const myVec& rhs) {
     m_y = rhs.m_y;
 }
 
-myVec::~myVec() {std::cout << "destr\n";}
+myVec::~myVec() {}
 
 
 bool myVec::operator == (const myVec& rhs) const{
@@ -90,3 +90,6 @@ std::ostream& operator << (std::ostream& os, const myVec& rhs) {
     os << "(" << rhs.m_x << ", " << rhs.m_y << ")";
     return os;
 }
+
+float myVec::getX() const { return m_x; }
+float myVec::getY() const { return m_y; }
