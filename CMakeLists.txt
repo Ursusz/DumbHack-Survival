@@ -57,9 +57,8 @@ add_executable(${PROJECT_NAME}
         header/myVec.h
         source/myVec.cpp
         header/Components.h
-        source/Game.cpp
-        header/Entity.h
-        source/Entity.cpp
+        header/GameEngine.h
+        source/GameEngine.cpp
 )
 
 include(cmake/CompilerFlags.cmake)
