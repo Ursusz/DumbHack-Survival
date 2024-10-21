@@ -2,7 +2,9 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
+#include "../header/myVec.h"
+
 
 inline struct WindowSetup {int width, height, FPS; bool fullscreen;} myWindowConfig;
 

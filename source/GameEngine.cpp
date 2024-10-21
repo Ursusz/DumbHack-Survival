@@ -1,7 +1,5 @@
 #include "../header/GameEngine.h"
 
-#include "myVec.h"
-
 GameEngine::GameEngine(const std::string& setupPath) {
     m_setupPath = setupPath;
 }
@@ -40,7 +38,6 @@ void GameEngine::run() {
             }
         }
         m_window.clear();
-
         m_window.display();
     }
 }
