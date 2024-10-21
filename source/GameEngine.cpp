@@ -1,4 +1,4 @@
-#include "GameEngine.h"
+#include "../header/GameEngine.h"
 
 #include "myVec.h"
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-#include "Components.h"
+#include "../header/Components.h"
 
 class Player {
     std::shared_ptr<MotionComponent> cMotion;
