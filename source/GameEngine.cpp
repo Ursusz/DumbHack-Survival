@@ -22,7 +22,7 @@ void GameEngine::Init(const std::string& setupPath) {
     }
 
     try {
-        m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
+        m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::Fullscreen : sf::Style::Close);
     } catch (const std::exception& e) {
         std::cerr << "Error during window creation: " << e.what() << std::endl;
     }
