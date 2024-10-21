@@ -59,6 +59,8 @@ add_executable(${PROJECT_NAME}
         header/Components.h
         header/GameEngine.h
         source/GameEngine.cpp
+        Player.h
+        Player.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

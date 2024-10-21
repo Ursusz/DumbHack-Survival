@@ -13,8 +13,13 @@ class GameEngine {
     void Init(const std::string& setupPath);
 
 public:
-    GameEngine(const std::string& setupPath);
-
+    explicit GameEngine(const std::string& setupPath);
+    ~GameEngine() = default;
 
     void run();
+
+    friend std::ostream& operator << (std::ostream& os, const GameEngine& game) {
+        os << "Setup path: " << game.m_setupPath << std::endl;
+        return os;
+    }
 };

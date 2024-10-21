@@ -18,9 +18,7 @@ void GameEngine::Init(const std::string& setupPath) {
     while(input >> commandKey) {
         if(commandKey == "Window") {
             input >> myWindowConfig.width >> myWindowConfig.height >> myWindowConfig.FPS;
-            input >> myWindowConfig.fullscreen;
-            std::cout << "Width: " << myWindowConfig.width << ", Height: " << myWindowConfig.height << ", FPS: " << myWindowConfig.FPS << ", Fullscreen: " << myWindowConfig.fullscreen << std::endl;
-        }
+            input >> myWindowConfig.fullscreen;}
     }
 
     try {
@@ -33,6 +31,7 @@ void GameEngine::Init(const std::string& setupPath) {
 
 void GameEngine::run() {
     Init(m_setupPath);
+
     while(m_window.isOpen()) {
         sf::Event event{};
         while(m_window.pollEvent(event)) {
