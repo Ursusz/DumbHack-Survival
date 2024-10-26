@@ -1,6 +1,6 @@
 #pragma once
-#include "myVec.h"
-#include "SFML/Graphics/RectangleShape.hpp"
+#include "../header/myVec.h"
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <iostream>
 
 class MotionComponent {

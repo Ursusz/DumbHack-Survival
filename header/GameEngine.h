@@ -3,8 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "myVec.h"
-#include "Player.h"
+#include "../header/myVec.h"
+#include "../header/Player.h"
 
 
 inline struct WindowSetup {int width, height, FPS; bool fullscreen;} myWindowConfig;

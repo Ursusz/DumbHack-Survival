@@ -1,6 +1,6 @@
-#include "GameEngine.h"
+#include "../header/GameEngine.h"
 
-#include "Player.h"
+#include "../header/Player.h"
 
 GameEngine::GameEngine(const std::string& setupPath) : m_setupPath(setupPath) {}
 

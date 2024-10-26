@@ -1,6 +1,4 @@
-#include "Player.h"
-
-#include "SFML/Graphics/RenderWindow.hpp"
+#include "../header/Player.h"
 
 
 Player::Player(const myVec &position, const myVec &velocity, const int width, const int height)

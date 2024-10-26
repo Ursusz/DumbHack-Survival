@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
 
-#include "Components.h"
-#include "SFML/Graphics/RenderTarget.hpp"
+#include "../header/Components.h"
+#include <SFML/Graphics/RenderTarget.hpp>
 
 class Player {
     std::shared_ptr<MotionComponent> cMotion;
