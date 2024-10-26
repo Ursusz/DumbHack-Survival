@@ -1,4 +1,4 @@
-#include "../header/myVec.h"
+#include "myVec.h"
 
 #include <cmath>
 #include <iostream>
