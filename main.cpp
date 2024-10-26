@@ -1,6 +1,6 @@
 #include <Helper.h>
 #include "env_fixes.h"
-#include "../header/GameEngine.h"
+#include "header/GameEngine.h"
 
 int main() {
     init_threads();
