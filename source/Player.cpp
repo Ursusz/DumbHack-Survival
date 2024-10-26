@@ -15,9 +15,10 @@ std::shared_ptr<MotionComponent> Player::getMotionComponent() const {
     return cMotion;
 }
 
-std::shared_ptr<ShapeComponent> Player::getShapeComponent() const {
-    return cShape;
-}
+/// TODO : Maybe used later
+// std::shared_ptr<ShapeComponent> Player::getShapeComponent() const {
+//     return cShape;
+// }
 
 void Player::draw(sf::RenderTarget &target) {
     cShape->getShape().setPosition(cMotion->getPosition().getX(), cMotion->getPosition().getY());

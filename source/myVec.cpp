@@ -82,9 +82,11 @@ bool myVec::normalize() {
     return true;
 }
 
-float myVec::distance(const myVec& rhs) const {
-    return (rhs - *this).length();
-}
+
+///TODO : maybe used later
+// float myVec::distance(const myVec& rhs) const {
+//     return (rhs - *this).length();
+// }
 
 std::ostream& operator << (std::ostream& os, const myVec& rhs) {
     os << "(" << rhs.m_x << ", " << rhs.m_y << ")";

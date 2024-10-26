@@ -26,13 +26,15 @@ public:
         return os;
     }
 
-    void updatePosition(myVec& direction) {
+    void updatePosition(const myVec& direction) {
         m_position += direction;
     }
 
+    /// Maybe used later
+    /*
     void updateVelocity(const myVec& velocity) {
         m_velocity = velocity;
-    }
+    }*/
 };
 
 class KeyboardComponent {
