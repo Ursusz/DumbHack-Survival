@@ -3,8 +3,8 @@
 
 Player::Player(const myVec &position, const myVec &velocity, const int width, const int height)
     : cMotion(std::make_shared<MotionComponent>(position, velocity))
-    , cShape(std::make_shared<ShapeComponent>(width, height))
     , cKeyboard(std::make_shared<KeyboardComponent>())
+    , cShape(std::make_shared<ShapeComponent>(width, height))
 {}
 
 std::shared_ptr<KeyboardComponent> Player::getKeyboardComponent() const {
