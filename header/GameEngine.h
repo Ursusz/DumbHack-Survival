@@ -3,6 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+
+#include "Zombie.h"
 #include "../header/myVec.h"
 #include "../header/Player.h"
 
@@ -12,7 +14,9 @@ inline struct WindowSetup {int width, height, FPS; bool fullscreen;} myWindowCon
 class GameEngine {
     sf::RenderWindow m_window;
     Player m_player;
+    Zombie m_zombie;
     std::string m_setupPath;
+
     void Init(const std::string& setupPath);
 
     void listenEvents();

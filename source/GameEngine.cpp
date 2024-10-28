@@ -1,6 +1,7 @@
 #include "../header/GameEngine.h"
 
 #include "../header/Player.h"
+#include "../header/Zombie.h"
 
 GameEngine::GameEngine(const std::string& setupPath) : m_setupPath(setupPath) {}
 
@@ -26,7 +27,10 @@ void GameEngine::Init(const std::string& setupPath) {
     }
     m_window.setFramerateLimit(myWindowConfig.FPS);
 
-   m_player = Player(myVec(100, 100), myVec(10, 10), 64, 64);
+    m_player = Player(myVec(100, 100), myVec(5, 5), "../assets/pixil-frame-0 (1).png");
+    m_player.getSpriteComponent()->getSprite().setOrigin(8, 8);
+    m_zombie = Zombie(myVec(500, 500), myVec(2, 2), "../assets/pixil-frame-0 (2).png");
+    m_zombie.getSpriteComponent()->getSprite().setOrigin(8, 8);
 }
 
 void GameEngine::run() {
@@ -37,6 +41,8 @@ void GameEngine::run() {
         handleEvents();
         m_window.clear();
         m_player.draw(m_window);
+        m_zombie.updatePosition(m_player.getMotionComponent()->getPosition());
+        m_zombie.draw(m_window);
         m_window.display();
 
     }
@@ -96,7 +102,8 @@ void GameEngine::handleEvents() {
 
     if(direction.getX() != 0.0f && direction.getY() != 0.0f) {
         direction.normalize();
-        direction *= 10.0f;
+        direction *= 5.0f;
+        // direction *= 10.0f;
     }
 
     m_player.getMotionComponent()->updatePosition(direction);

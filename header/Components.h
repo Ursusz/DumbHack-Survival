@@ -3,13 +3,17 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <iostream>
 
+#include "SFML/Graphics/Sprite.hpp"
+#include "SFML/Graphics/Texture.hpp"
+
 class MotionComponent {
     myVec m_position = {0.0f, 0.0f};
     myVec m_velocity = {0.0f, 0.0f};
 public:
     MotionComponent() = default;
     MotionComponent(const myVec& position, const myVec& velocity)
-        : m_position(position), m_velocity(velocity)
+        : m_position(position)
+        , m_velocity(velocity)
     {}
     ~MotionComponent() = default;
 
@@ -69,15 +73,29 @@ public:
     void setRight(bool value) {
         isRight = value;
     }
+    friend std::ostream& operator << (std::ostream& os, const KeyboardComponent& k) {
+        os << k.isUp << " " << k.isDown << " " << k.isLeft << " " << k.isRight;
+        return os;
+    }
 };
 
-class ShapeComponent {
-    sf::RectangleShape m_shape;
+class SpriteComponent {
+    sf::Sprite m_sprite;
+    sf::Texture m_texture;
 public:
-    ShapeComponent() = default;
-    ShapeComponent(const int width, const int height) : m_shape(sf::Vector2f(width, height)) {}
+    SpriteComponent() = default;
 
-    sf::RectangleShape& getShape() {
-        return m_shape;
+    explicit SpriteComponent(const std::string& texture_path) {
+        if(!m_texture.loadFromFile(texture_path, sf::IntRect(0, 0, 16, 16))) {
+            std::cerr << "Failed to load sprite texture: " << texture_path << std::endl;
+        }
+        m_sprite.setTexture(m_texture);
+        m_sprite.setScale(4.0f, 4.0f);
+    }
+    sf::Sprite getSprite() const {
+        return m_sprite;
+    }
+    void setSprite(const sf::Texture& texture) {
+        m_sprite.setTexture(texture);
     }
 };

@@ -26,9 +26,10 @@ bool myVec::operator != (const myVec& rhs) const{
     return m_x != rhs.m_y || m_y != rhs.m_y;
 }
 
-void myVec::operator = (const myVec& rhs) {
+myVec& myVec::operator = (const myVec& rhs) {
     m_x = rhs.m_x;
     m_y = rhs.m_y;
+    return *this;
 }
 
 myVec myVec::operator + (const myVec& rhs) const{
@@ -93,5 +94,5 @@ std::ostream& operator << (std::ostream& os, const myVec& rhs) {
     return os;
 }
 
-[[maybe_unused]] float myVec::getX() const { return m_x; }
-[[maybe_unused]] float myVec::getY() const { return m_y; }
+float myVec::getX() const { return m_x; }
+float myVec::getY() const { return m_y; }

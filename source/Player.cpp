@@ -1,26 +1,44 @@
 #include "../header/Player.h"
 
 
-Player::Player(const myVec &position, const myVec &velocity, const int width, const int height)
-    : cMotion(std::make_shared<MotionComponent>(position, velocity))
-    , cKeyboard(std::make_shared<KeyboardComponent>())
-    , cShape(std::make_shared<ShapeComponent>(width, height))
+Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path)
+    : m_cMotion(std::make_shared<MotionComponent>(position, velocity))
+    , m_cKeyboard(std::make_shared<KeyboardComponent>())
+    , m_cSprite(std::make_shared<SpriteComponent>(texture_path))
+{}
+
+Player::Player(const Player &rhs)
+    : m_cMotion(rhs.m_cMotion)
+    , m_cKeyboard(rhs.m_cKeyboard)
+    , m_cSprite(rhs.m_cSprite)
 {}
 
 std::shared_ptr<KeyboardComponent> Player::getKeyboardComponent() const {
-    return cKeyboard;
+    return m_cKeyboard;
 }
 
 std::shared_ptr<MotionComponent> Player::getMotionComponent() const {
-    return cMotion;
+    return m_cMotion;
 }
 
-/// TODO : Maybe used later
-// std::shared_ptr<ShapeComponent> Player::getShapeComponent() const {
-//     return cShape;
-// }
+std::shared_ptr<SpriteComponent> Player::getSpriteComponent() const {
+    return m_cSprite;
+}
 
 void Player::draw(sf::RenderTarget &target) {
-    cShape->getShape().setPosition(cMotion->getPosition().getX(), cMotion->getPosition().getY());
-    target.draw(cShape->getShape());
+    sf::Sprite drawingSprite = m_cSprite->getSprite();
+    drawingSprite.setPosition(m_cMotion->getPosition().getX(), m_cMotion->getPosition().getY());
+    target.draw(drawingSprite);
+}
+
+std::ostream& operator<<(std::ostream &os, const Player &player) {
+    os << player.m_cMotion << player.m_cKeyboard;
+    return os;
+}
+
+Player& Player::operator=(const Player &rhs) {
+    m_cMotion = rhs.m_cMotion;
+    m_cKeyboard = rhs.m_cKeyboard;
+    m_cSprite = rhs.m_cSprite;
+    return *this;
 }

@@ -61,6 +61,8 @@ add_executable(${PROJECT_NAME}
         source/GameEngine.cpp
         header/Player.h
         source/Player.cpp
+        header/Zombie.h
+        source/Zombie.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

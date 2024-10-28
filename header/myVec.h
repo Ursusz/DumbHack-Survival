@@ -13,7 +13,7 @@ public:
   bool operator == (const myVec& rhs) const;
   bool operator != (const myVec& rhs) const;
 
-  void operator = (const myVec& rhs);
+  myVec& operator = (const myVec& rhs);
   myVec operator + (const myVec& rhs) const;
   myVec operator - (const myVec& rhs) const;
   myVec operator * (float rhs) const;
