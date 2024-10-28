@@ -9,6 +9,7 @@ class Zombie {
 public:
     Zombie() = default;
     Zombie(const myVec& position, const myVec& velocity, const std::string& texture_path);
+    Zombie(const Zombie& rhs);
     ~Zombie() = default;
 
     std::shared_ptr<MotionComponent> getMotionComponent() const;

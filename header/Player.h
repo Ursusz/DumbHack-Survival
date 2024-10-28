@@ -14,6 +14,7 @@ public:
     Player() = default;
     Player(const myVec& position, const myVec& velocity, const std::string& texture_path);
     Player(const Player& rhs);
+    ~Player() = default;
 
     std::shared_ptr<MotionComponent> getMotionComponent() const;
     std::shared_ptr<KeyboardComponent> getKeyboardComponent() const;

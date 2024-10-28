@@ -6,6 +6,10 @@ Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &
     : m_cMotion(std::make_shared<MotionComponent>(position, velocity))
     , m_cSprite(std::make_shared<SpriteComponent>(texture_path))
 {}
+Zombie::Zombie(const Zombie& rhs)
+    : m_cMotion(rhs.m_cMotion)
+    , m_cSprite(rhs.m_cSprite)
+{}
 
 std::shared_ptr<MotionComponent> Zombie::getMotionComponent() const {
     return m_cMotion;
@@ -29,7 +33,6 @@ void Zombie::updatePosition(const myVec &playerPos) {
         m_cMotion->updatePosition(direction);
     }
 }
-
 
 Zombie& Zombie::operator=(const Zombie &rhs) {
     m_cMotion = rhs.m_cMotion;

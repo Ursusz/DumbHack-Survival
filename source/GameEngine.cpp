@@ -1,9 +1,11 @@
+#include <utility>
+
 #include "../header/GameEngine.h"
 
 #include "../header/Player.h"
 #include "../header/Zombie.h"
 
-GameEngine::GameEngine(const std::string& setupPath) : m_setupPath(setupPath) {}
+GameEngine::GameEngine(std::string  setupPath) : m_setupPath(std::move(setupPath)) {}
 
 
 void GameEngine::Init(const std::string& setupPath) {
@@ -40,9 +42,12 @@ void GameEngine::run() {
         listenEvents();
         handleEvents();
         m_window.clear();
+
         m_player.draw(m_window);
         m_zombie.updatePosition(m_player.getMotionComponent()->getPosition());
+
         m_zombie.draw(m_window);
+
         m_window.display();
 
     }

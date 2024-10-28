@@ -22,7 +22,7 @@ class GameEngine {
     void listenEvents();
     void handleEvents();
 public:
-    explicit GameEngine(const std::string& setupPath);
+    explicit GameEngine(std::string  setupPath);
     ~GameEngine() = default;
 
     void run();
