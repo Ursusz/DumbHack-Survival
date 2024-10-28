@@ -96,7 +96,7 @@ public:
         return m_sprite;
     }
 
-    ///TODO: Maybe used later
+    ///Maybe used later
     // void setSprite(const sf::Texture& texture) {
     //     m_sprite.setTexture(texture);
     // }
