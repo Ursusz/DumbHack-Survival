@@ -95,7 +95,9 @@ public:
     sf::Sprite getSprite() const {
         return m_sprite;
     }
-    void setSprite(const sf::Texture& texture) {
-        m_sprite.setTexture(texture);
-    }
+
+    ///TODO: Maybe used later
+    // void setSprite(const sf::Texture& texture) {
+    //     m_sprite.setTexture(texture);
+    // }
 };
