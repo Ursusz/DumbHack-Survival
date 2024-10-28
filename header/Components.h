@@ -3,8 +3,8 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <iostream>
 
-#include "SFML/Graphics/Sprite.hpp"
-#include "SFML/Graphics/Texture.hpp"
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 class MotionComponent {
     myVec m_position = {0.0f, 0.0f};
