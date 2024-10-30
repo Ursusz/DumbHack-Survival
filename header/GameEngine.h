@@ -7,7 +7,7 @@
 #include "Zombie.h"
 #include "../header/myVec.h"
 #include "../header/Player.h"
-#include "../header/Tile.h""
+#include "../header/Tile.h"
 
 
 inline struct WindowSetup {int width, height, FPS; bool fullscreen;} myWindowConfig;
