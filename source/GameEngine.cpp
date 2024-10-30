@@ -22,6 +22,7 @@ void GameEngine::Init(const std::string& setupPath) {
             input >> myWindowConfig.fullscreen;}
     }
 
+    ///NOTE: preventiv, schimb pe viitor // Init returneaza eroare ->
     try {
         m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
     } catch (const std::exception& e) {
@@ -29,10 +30,11 @@ void GameEngine::Init(const std::string& setupPath) {
     }
     m_window.setFramerateLimit(myWindowConfig.FPS);
 
-    m_player = Player(myVec(100, 100), myVec(5, 5), "../assets/pixil-frame-0 (1).png");
-    m_player.getSpriteComponent()->getSprite().setOrigin(8, 8);
-    m_zombie = Zombie(myVec(500, 500), myVec(2, 2), "../assets/pixil-frame-0 (2).png");
-    m_zombie.getSpriteComponent()->getSprite().setOrigin(8, 8);
+    m_player = Player(myVec(100, 100), myVec(5, 5), "assets/Player.png");
+    m_zombie = Zombie(myVec(500, 500), myVec(2, 2), "assets/pixil-frame-0 (2).png");
+
+    rect = sf::RectangleShape(sf::Vector2f(48, 48));
+    rect2 = sf::RectangleShape(sf::Vector2f(144, 96));
 }
 
 void GameEngine::run() {
@@ -41,15 +43,41 @@ void GameEngine::run() {
     while(m_window.isOpen()) {
         listenEvents();
         handleEvents();
-        m_window.clear();
+        m_window.clear(sf::Color::Cyan);
 
+        rect.setOrigin(24, 24);
+        rect.setOutlineColor(sf::Color::Black);
+        rect.setFillColor(sf::Color::Magenta);
+        rect.setOutlineThickness(2);
+        rect.setPosition(m_player.getMotionComponent()->getPosition().getX(), m_player.getMotionComponent()->getPosition().getY());
+
+        rect2.setOrigin(72, 48);
+        rect2.setOutlineColor(sf::Color::Black);
+        rect2.setFillColor(sf::Color::Green);
+        rect2.setOutlineThickness(2);
+        rect2.setPosition(m_player.getMotionComponent()->getPosition().getX(), m_player.getMotionComponent()->getPosition().getY());
+
+
+        // m_window.draw(rect2);
+        // m_window.draw(rect);
         m_player.draw(m_window);
-        m_zombie.updatePosition(m_player.getMotionComponent()->getPosition());
 
+        m_zombie.updatePosition(m_player.getMotionComponent()->getPosition());
         m_zombie.draw(m_window);
 
         m_window.display();
 
+        m_frame ++;
+
+        ///NOTE: Using m_frame to update the frame for each animation every 12 frames.
+        if(m_frame > 12) {
+            if(m_animation == 0) {
+                m_animation = 16;
+            }else if(m_animation == 16) {
+                m_animation = 0;
+            }
+            m_frame = 0;
+        }
     }
 }
 
@@ -59,6 +87,7 @@ void GameEngine::listenEvents() {
         if(event.type == sf::Event::Closed) {
             m_window.close();
         }
+
         if(event.type == sf::Event::KeyPressed) {
             if(event.key.code == sf::Keyboard::W) {
                 m_player.getKeyboardComponent()->setUp(true);
@@ -94,15 +123,19 @@ void GameEngine::handleEvents() {
     myVec direction(0.0f, 0.0f);
     if(m_player.getKeyboardComponent()->up()) {
         direction += myVec(0, -m_player.getMotionComponent()->getVelocity().getY());
+        m_player.getSpriteComponent()->updateSpriteComponent("up", m_animation);
     }
     if(m_player.getKeyboardComponent()->down()) {
         direction += myVec(0, m_player.getMotionComponent()->getVelocity().getY());
+        m_player.getSpriteComponent()->updateSpriteComponent("down", m_animation);
     }
     if(m_player.getKeyboardComponent()->left()) {
         direction += myVec(-m_player.getMotionComponent()->getVelocity().getX(), 0);
+        m_player.getSpriteComponent()->updateSpriteComponent("left", m_animation);
     }
     if(m_player.getKeyboardComponent()->right()) {
         direction += myVec(m_player.getMotionComponent()->getVelocity().getX(), 0);
+        m_player.getSpriteComponent()->updateSpriteComponent("right", m_animation);
     }
 
     if(direction.getX() != 0.0f && direction.getY() != 0.0f) {

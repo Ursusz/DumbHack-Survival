@@ -26,8 +26,10 @@ std::shared_ptr<SpriteComponent> Player::getSpriteComponent() const {
 }
 
 void Player::draw(sf::RenderTarget &target) {
+
     sf::Sprite drawingSprite = m_cSprite->getSprite();
     drawingSprite.setPosition(m_cMotion->getPosition().getX(), m_cMotion->getPosition().getY());
+    drawingSprite.setOrigin(8, 8);
     target.draw(drawingSprite);
 }
 

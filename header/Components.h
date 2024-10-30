@@ -82,16 +82,46 @@ public:
 class SpriteComponent {
     sf::Sprite m_sprite;
     sf::Texture m_texture;
+    std::string m_texturePath;
 public:
     SpriteComponent() = default;
 
     explicit SpriteComponent(const std::string& texture_path) {
-        if(!m_texture.loadFromFile(texture_path, sf::IntRect(0, 0, 16, 16))) {
+        m_texturePath = texture_path;
+        if(!m_texture.loadFromFile(texture_path)) {
             std::cerr << "Failed to load sprite texture: " << texture_path << std::endl;
         }
         m_sprite.setTexture(m_texture);
-        m_sprite.setScale(4.0f, 4.0f);
+        m_sprite.setTextureRect(sf::IntRect(0, 0, 16, 16));
+        m_sprite.setScale(3.0f, 3.0f);
     }
+
+    void updateSpriteComponent(const std::string& direction, int animation) {
+        sf::IntRect textureRect;
+        if(direction == "up") {
+            textureRect = sf::IntRect(32, animation, 16, 16);
+            m_sprite.setTextureRect(textureRect);
+            m_sprite.setScale(3.0f, 3.0f);
+        }
+        if(direction == "down") {
+            textureRect = sf::IntRect(16, animation, 16, 16);
+            m_sprite.setTextureRect(textureRect);
+            m_sprite.setScale(3.0f, 3.0f);
+
+        }
+        if(direction == "left") {
+            textureRect = sf::IntRect(0, animation, 16, 16);
+            m_sprite.setTextureRect(textureRect);
+            m_sprite.setScale(-3.0f, 3.0f);
+        }
+        if(direction == "right") {
+            textureRect = sf::IntRect(0, animation, 16, 16);
+            m_sprite.setTextureRect(textureRect);
+            m_sprite.setScale(3.0f, 3.0f);
+        }
+    }
+
+
     sf::Sprite getSprite() const {
         return m_sprite;
     }

@@ -7,7 +7,7 @@ int main() {
     init_threads();
     Helper helper;
     helper.help();
-    GameEngine game("../Init/setup.txt");
+    GameEngine game("Init/setup.txt");
     game.run();
     return 0;
 }

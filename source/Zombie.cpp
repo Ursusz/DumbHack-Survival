@@ -22,6 +22,7 @@ std::shared_ptr<SpriteComponent> Zombie::getSpriteComponent() const {
 void Zombie::draw(sf::RenderTarget& target){
     sf::Sprite sprite = m_cSprite->getSprite();
     sprite.setPosition(m_cMotion->getPosition().getX(), m_cMotion->getPosition().getY());
+    sprite.setOrigin(8, 8);
     target.draw(sprite);
 }
 

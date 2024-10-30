@@ -16,6 +16,11 @@ class GameEngine {
     Player m_player;
     Zombie m_zombie;
     std::string m_setupPath;
+    int m_frame = 0;
+    int m_animation = 0;
+    sf::RectangleShape rect;
+    sf::RectangleShape rect2;
+
 
     void Init(const std::string& setupPath);
 
