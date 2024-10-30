@@ -35,6 +35,12 @@ void GameEngine::Init(const std::string& setupPath) {
 
     rect = sf::RectangleShape(sf::Vector2f(48, 48));
     rect2 = sf::RectangleShape(sf::Vector2f(144, 96));
+
+    for(int i = 0; i < 40; i++) {
+        for(int j = 0; j < 23; j++) {
+            m_tile[i][j] = Tile(myVec(i*48 + 24, j*48 + 24), "assets/Wooden Plank.png");
+        }
+    }
 }
 
 void GameEngine::run() {
@@ -45,25 +51,33 @@ void GameEngine::run() {
         handleEvents();
         m_window.clear(sf::Color::Cyan);
 
+        for(int i = 0; i < 40; i++) {
+            for(int j = 0; j < 23; j++) {
+                m_tile[i][j].draw(m_window);
+            }
+        }
+
         rect.setOrigin(24, 24);
-        rect.setOutlineColor(sf::Color::Black);
-        rect.setFillColor(sf::Color::Magenta);
+        rect.setOutlineColor(sf::Color::Green);
+        rect.setFillColor(sf::Color::Transparent);
         rect.setOutlineThickness(2);
         rect.setPosition(m_player.getMotionComponent()->getPosition().getX(), m_player.getMotionComponent()->getPosition().getY());
 
         rect2.setOrigin(72, 48);
-        rect2.setOutlineColor(sf::Color::Black);
-        rect2.setFillColor(sf::Color::Green);
+        rect2.setOutlineColor(sf::Color::Green);
+        rect2.setFillColor(sf::Color::Transparent);
         rect2.setOutlineThickness(2);
         rect2.setPosition(m_player.getMotionComponent()->getPosition().getX(), m_player.getMotionComponent()->getPosition().getY());
 
 
-        // m_window.draw(rect2);
-        // m_window.draw(rect);
-        m_player.draw(m_window);
+        m_window.draw(rect2);
+        m_window.draw(rect);
 
         m_zombie.updatePosition(m_player.getMotionComponent()->getPosition());
         m_zombie.draw(m_window);
+
+        m_player.draw(m_window);
+
 
         m_window.display();
 
@@ -141,7 +155,6 @@ void GameEngine::handleEvents() {
     if(direction.getX() != 0.0f && direction.getY() != 0.0f) {
         direction.normalize();
         direction *= 5.0f;
-        // direction *= 10.0f;
     }
 
     m_player.getMotionComponent()->updatePosition(direction);

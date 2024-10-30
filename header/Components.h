@@ -86,8 +86,9 @@ class SpriteComponent {
 public:
     SpriteComponent() = default;
 
-    explicit SpriteComponent(const std::string& texture_path) {
-        m_texturePath = texture_path;
+    explicit SpriteComponent(const std::string& texture_path)
+        :m_texturePath(texture_path)
+    {
         if(!m_texture.loadFromFile(texture_path)) {
             std::cerr << "Failed to load sprite texture: " << texture_path << std::endl;
         }
@@ -99,12 +100,12 @@ public:
     void updateSpriteComponent(const std::string& direction, int animation) {
         sf::IntRect textureRect;
         if(direction == "up") {
-            textureRect = sf::IntRect(32, animation, 16, 16);
+            textureRect = sf::IntRect(33, animation, 16, 16);
             m_sprite.setTextureRect(textureRect);
             m_sprite.setScale(3.0f, 3.0f);
         }
         if(direction == "down") {
-            textureRect = sf::IntRect(16, animation, 16, 16);
+            textureRect = sf::IntRect(17, animation, 16, 16);
             m_sprite.setTextureRect(textureRect);
             m_sprite.setScale(3.0f, 3.0f);
 

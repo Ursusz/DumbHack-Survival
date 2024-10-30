@@ -63,6 +63,8 @@ add_executable(${PROJECT_NAME}
         source/Player.cpp
         header/Zombie.h
         source/Zombie.cpp
+        header/Tile.h
+        source/Tile.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

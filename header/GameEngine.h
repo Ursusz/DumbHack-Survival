@@ -7,6 +7,7 @@
 #include "Zombie.h"
 #include "../header/myVec.h"
 #include "../header/Player.h"
+#include "../header/Tile.h""
 
 
 inline struct WindowSetup {int width, height, FPS; bool fullscreen;} myWindowConfig;
@@ -20,6 +21,7 @@ class GameEngine {
     int m_animation = 0;
     sf::RectangleShape rect;
     sf::RectangleShape rect2;
+    Tile m_tile[40][23];
 
 
     void Init(const std::string& setupPath);
