@@ -65,6 +65,8 @@ add_executable(${PROJECT_NAME}
         source/Zombie.cpp
         header/Tile.h
         source/Tile.cpp
+        header/TileManager.h
+        source/TileManager.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

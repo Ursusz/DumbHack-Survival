@@ -84,7 +84,7 @@ bool myVec::normalize() {
 }
 
 
-///TODO : maybe used later
+///NOTE : maybe used later
 // float myVec::distance(const myVec& rhs) const {
 //     return (rhs - *this).length();
 // }

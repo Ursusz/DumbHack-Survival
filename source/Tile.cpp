@@ -14,4 +14,9 @@ void Tile::draw(sf::RenderTarget &target) {
     target.draw(drawingSprite);
 }
 
+std::ostream& operator<<(std::ostream& os, const Tile& tile) {
+    os << tile.m_cMotion << std::endl;
+    return os;
+}
+
 

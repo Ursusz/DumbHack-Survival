@@ -73,6 +73,7 @@ public:
     void setRight(bool value) {
         isRight = value;
     }
+
     friend std::ostream& operator << (std::ostream& os, const KeyboardComponent& k) {
         os << k.isUp << " " << k.isDown << " " << k.isLeft << " " << k.isRight;
         return os;
@@ -98,6 +99,10 @@ public:
     }
 
     void updateSpriteComponent(const std::string& direction, int animation) {
+        //16 means the size in X and Y of my sprite;
+        //player.png is 48x32 containing 6 different frames for each direction
+        //0, 17 and 33 are the position on X axes in Player.png where the texture for each direction is located
+        //animation variable is the same, but on Y axes and it is changed every 12 frames to create a walking effect
         sf::IntRect textureRect;
         if(direction == "up") {
             textureRect = sf::IntRect(33, animation, 16, 16);

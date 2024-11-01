@@ -7,7 +7,6 @@
 
 GameEngine::GameEngine(std::string  setupPath) : m_setupPath(std::move(setupPath)) {}
 
-
 void GameEngine::Init(const std::string& setupPath) {
     std::ifstream input(setupPath);
     if (!input.is_open()) {
@@ -19,7 +18,16 @@ void GameEngine::Init(const std::string& setupPath) {
     while(input >> commandKey) {
         if(commandKey == "Window") {
             input >> myWindowConfig.width >> myWindowConfig.height >> myWindowConfig.FPS;
-            input >> myWindowConfig.fullscreen;}
+            input >> myWindowConfig.fullscreen;
+        }
+        if(commandKey == "Player") {
+            input >> myPlayerConfig.posX >> myPlayerConfig.posY;
+            input >> myPlayerConfig.vecX >> myPlayerConfig.vecY;
+        }
+        if(commandKey == "Zombie") {
+            input >> myZombieConfig.posX >> myZombieConfig.posY;
+            input >> myZombieConfig.vecX >> myZombieConfig.vecY;
+        }
     }
 
     ///NOTE: preventiv, schimb pe viitor // Init returneaza eroare ->
@@ -30,17 +38,19 @@ void GameEngine::Init(const std::string& setupPath) {
     }
     m_window.setFramerateLimit(myWindowConfig.FPS);
 
-    m_player = Player(myVec(100, 100), myVec(5, 5), "assets/Player.png");
-    m_zombie = Zombie(myVec(500, 500), myVec(2, 2), "assets/pixil-frame-0 (2).png");
+    m_tileManager.loadMap("Init/world.txt");
 
-    rect = sf::RectangleShape(sf::Vector2f(48, 48));
-    rect2 = sf::RectangleShape(sf::Vector2f(144, 96));
+    keyMap[sf::Keyboard::W] = 0;    //UP
+    keyMap[sf::Keyboard::S] = 1;    //DOWN
+    keyMap[sf::Keyboard::A] = 2;    //LEFT
+    keyMap[sf::Keyboard::D] = 3;    //RIGHT
 
-    for(int i = 0; i < 40; i++) {
-        for(int j = 0; j < 23; j++) {
-            m_tile[i][j] = Tile(myVec(i*48 + 24, j*48 + 24), "assets/Wooden Plank.png");
-        }
-    }
+    m_player = Player(myVec(myPlayerConfig.posX, myPlayerConfig.posY),
+                        myVec(myPlayerConfig.vecX, myPlayerConfig.vecY),
+                        "assets/Player.png");
+    m_zombie = Zombie(myVec(myZombieConfig.posX, myZombieConfig.posY),
+                        myVec(myZombieConfig.vecX, myZombieConfig.vecY),
+                        "assets/pixil-frame-0 (2).png");
 }
 
 void GameEngine::run() {
@@ -51,38 +61,16 @@ void GameEngine::run() {
         handleEvents();
         m_window.clear(sf::Color::Cyan);
 
-        for(int i = 0; i < 40; i++) {
-            for(int j = 0; j < 23; j++) {
-                m_tile[i][j].draw(m_window);
-            }
-        }
+        m_tileManager.printMap(m_window);
 
-        rect.setOrigin(24, 24);
-        rect.setOutlineColor(sf::Color::Green);
-        rect.setFillColor(sf::Color::Transparent);
-        rect.setOutlineThickness(2);
-        rect.setPosition(m_player.getMotionComponent()->getPosition().getX(), m_player.getMotionComponent()->getPosition().getY());
-
-        rect2.setOrigin(72, 48);
-        rect2.setOutlineColor(sf::Color::Green);
-        rect2.setFillColor(sf::Color::Transparent);
-        rect2.setOutlineThickness(2);
-        rect2.setPosition(m_player.getMotionComponent()->getPosition().getX(), m_player.getMotionComponent()->getPosition().getY());
-
-
-        m_window.draw(rect2);
-        m_window.draw(rect);
-
-        m_zombie.updatePosition(m_player.getMotionComponent()->getPosition());
+        m_zombie.updatePosition(m_player.getPositionFromComp());
         m_zombie.draw(m_window);
 
         m_player.draw(m_window);
 
-
         m_window.display();
 
         m_frame ++;
-
         ///NOTE: Using m_frame to update the frame for each animation every 12 frames.
         if(m_frame > 12) {
             if(m_animation == 0) {
@@ -103,59 +91,43 @@ void GameEngine::listenEvents() {
         }
 
         if(event.type == sf::Event::KeyPressed) {
-            if(event.key.code == sf::Keyboard::W) {
-                m_player.getKeyboardComponent()->setUp(true);
-            }
-            if(event.key.code == sf::Keyboard::S) {
-                m_player.getKeyboardComponent()->setDown(true);
-            }
-            if(event.key.code == sf::Keyboard::A) {
-                m_player.getKeyboardComponent()->setLeft(true);
-            }
-            if(event.key.code == sf::Keyboard::D) {
-                m_player.getKeyboardComponent()->setRight(true);
+            if (keyMap.contains(event.key.code)) {
+                m_player.setKeyValue(keyMap.at(event.key.code), true);
             }
         }
         if(event.type == sf::Event::KeyReleased) {
-            if(event.key.code == sf::Keyboard::W) {
-                m_player.getKeyboardComponent()->setUp(false);
-            }
-            if(event.key.code == sf::Keyboard::S) {
-                m_player.getKeyboardComponent()->setDown(false);
-            }
-            if(event.key.code == sf::Keyboard::A) {
-                m_player.getKeyboardComponent()->setLeft(false);
-            }
-            if(event.key.code == sf::Keyboard::D) {
-                m_player.getKeyboardComponent()->setRight(false);
+            if (keyMap.contains(event.key.code)) {
+                m_player.setKeyValue(keyMap.at(event.key.code), false);
             }
         }
     }
 }
 
-void GameEngine::handleEvents() {
+void GameEngine::handleEvents() const {
     myVec direction(0.0f, 0.0f);
-    if(m_player.getKeyboardComponent()->up()) {
-        direction += myVec(0, -m_player.getMotionComponent()->getVelocity().getY());
-        m_player.getSpriteComponent()->updateSpriteComponent("up", m_animation);
+    if(m_player.isKeyUp()) {
+        direction += myVec(0, -m_player.getVelocityFromComp().getY());
+        // m_player.getSpriteComponent()->updateSpriteComponent("up", m_animation);
+        m_player.updateSprite("up", m_animation);
     }
-    if(m_player.getKeyboardComponent()->down()) {
-        direction += myVec(0, m_player.getMotionComponent()->getVelocity().getY());
-        m_player.getSpriteComponent()->updateSpriteComponent("down", m_animation);
+    if(m_player.isKeyDown()) {
+        direction += myVec(0, m_player.getVelocityFromComp().getY());
+        m_player.updateSprite("down", m_animation);
+
     }
-    if(m_player.getKeyboardComponent()->left()) {
-        direction += myVec(-m_player.getMotionComponent()->getVelocity().getX(), 0);
-        m_player.getSpriteComponent()->updateSpriteComponent("left", m_animation);
+    if(m_player.isKeyLeft()) {
+        direction += myVec(-m_player.getVelocityFromComp().getX(), 0);
+        m_player.updateSprite("left", m_animation);
+
     }
-    if(m_player.getKeyboardComponent()->right()) {
-        direction += myVec(m_player.getMotionComponent()->getVelocity().getX(), 0);
-        m_player.getSpriteComponent()->updateSpriteComponent("right", m_animation);
+    if(m_player.isKeyRight()) {
+        direction += myVec(m_player.getVelocityFromComp().getX(), 0);
+        m_player.updateSprite("right", m_animation);
     }
 
     if(direction.getX() != 0.0f && direction.getY() != 0.0f) {
         direction.normalize();
         direction *= 5.0f;
     }
-
-    m_player.getMotionComponent()->updatePosition(direction);
+    m_player.updatePositionInComp(direction);
 }

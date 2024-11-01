@@ -28,7 +28,9 @@ public:
 
   float length() const;
   bool normalize();
-  float distance(const myVec& rhs) const;
+
+  //NOTE : maybe used later
+  // float distance(const myVec& rhs) const;
 
   float getX() const;
   float getY() const;

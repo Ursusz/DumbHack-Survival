@@ -12,9 +12,6 @@ public:
     Zombie(const Zombie& rhs);
     ~Zombie() = default;
 
-    std::shared_ptr<MotionComponent> getMotionComponent() const;
-    std::shared_ptr<SpriteComponent> getSpriteComponent() const;
-
     void draw(sf::RenderTarget& target);
 
     void updatePosition(const myVec& playerPos);

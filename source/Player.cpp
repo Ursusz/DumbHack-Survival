@@ -13,16 +13,56 @@ Player::Player(const Player &rhs)
     , m_cSprite(rhs.m_cSprite)
 {}
 
-std::shared_ptr<KeyboardComponent> Player::getKeyboardComponent() const {
-    return m_cKeyboard;
+
+myVec Player::getVelocityFromComp() const {
+    return m_cMotion->getVelocity();
 }
 
-std::shared_ptr<MotionComponent> Player::getMotionComponent() const {
-    return m_cMotion;
+myVec Player::getPositionFromComp() const {
+    return m_cMotion->getPosition();
 }
 
-std::shared_ptr<SpriteComponent> Player::getSpriteComponent() const {
-    return m_cSprite;
+void Player::updatePositionInComp(const myVec &position) const {
+    m_cMotion->updatePosition(position);
+}
+
+bool Player::isKeyUp() const {
+    return m_cKeyboard->up();
+}
+
+bool Player::isKeyDown() const {
+    return m_cKeyboard->down();
+}
+
+bool Player::isKeyLeft() const {
+    return m_cKeyboard->left();
+}
+
+bool Player::isKeyRight() const {
+    return m_cKeyboard->right();
+}
+
+void Player::updateSprite(const std::string &direction, int animation) const {
+    m_cSprite->updateSpriteComponent(direction, animation);
+}
+
+
+void Player::setKeyValue(int key, bool toggle) {
+    switch(key) {
+        case 0:
+            m_cKeyboard->setUp(toggle);
+            break;
+        case 1:
+            m_cKeyboard->setDown(toggle);
+            break;
+        case 2:
+            m_cKeyboard->setLeft(toggle);
+            break;
+        case 3:
+            m_cKeyboard->setRight(toggle);
+            break;
+        default: break;
+    }
 }
 
 void Player::draw(sf::RenderTarget &target) {
@@ -39,6 +79,10 @@ std::ostream& operator<<(std::ostream &os, const Player &player) {
 }
 
 Player& Player::operator=(const Player &rhs) {
+    if(&rhs == this) {
+        return *this;
+    }
+
     m_cMotion = rhs.m_cMotion;
     m_cKeyboard = rhs.m_cKeyboard;
     m_cSprite = rhs.m_cSprite;

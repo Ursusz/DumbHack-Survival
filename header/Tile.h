@@ -13,5 +13,6 @@ public:
     Tile(const myVec& position, const std::string& texture_path);
     ~Tile() = default;
 
+    friend std::ostream& operator<<(std::ostream& os, const Tile& tile);
     void draw(sf::RenderTarget& target);
 };
