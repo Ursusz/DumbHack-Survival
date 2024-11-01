@@ -2,8 +2,6 @@
 
 #include <fstream>
 
-#include "SFML/Graphics/RenderTarget.hpp"
-
 TileManager::TileManager() {
     mapLoader = new int*[number_of_tiles_per_window_width];
     for(int i = 0; i < number_of_tiles_per_window_width; i++) {

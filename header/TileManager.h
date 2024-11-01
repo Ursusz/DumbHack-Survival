@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 #include "../header/Tile.h"
 

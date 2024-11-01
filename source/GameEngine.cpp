@@ -59,7 +59,7 @@ void GameEngine::run() {
     while(m_window.isOpen()) {
         listenEvents();
         handleEvents();
-        m_window.clear(sf::Color::Cyan);
+        m_window.clear(sf::Color::Black);
 
         m_tileManager.printMap(m_window);
 
