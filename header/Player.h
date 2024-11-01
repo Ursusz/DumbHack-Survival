@@ -7,8 +7,6 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
-#include "SFML/Window/Keyboard.hpp"
-
 class Player {
     std::shared_ptr<MotionComponent> m_cMotion;
     std::shared_ptr<KeyboardComponent> m_cKeyboard;
