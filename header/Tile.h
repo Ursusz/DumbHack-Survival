@@ -17,4 +17,5 @@ public:
     Tile& operator=(const Tile& rhs);
     friend std::ostream& operator<<(std::ostream& os, const Tile& tile);
     void draw(sf::RenderTarget& target);
+    void test(){}
 };
