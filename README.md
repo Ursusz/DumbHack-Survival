@@ -21,20 +21,20 @@ O cerință nu se consideră îndeplinită dacă este realizată doar ca o serie
 ## Tema 1
 
 #### Cerințe
-- [ ] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi
-- [ ] constructori de inițializare cu parametri
-- [ ] pentru o aceeași (singură) clasă: constructor de copiere, `operator=` de copiere, destructor
+- [x] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi
+- [x] constructori de inițializare cu parametri
+- [x] pentru o aceeași (singură) clasă: constructor de copiere, `operator=` de copiere, destructor
 <!-- - [ ] pentru o altă clasă: constructor de mutare, `operator=` de mutare, destructor -->
 <!-- - [ ] pentru o altă clasă: toate cele 5 funcții membru speciale -->
-- [ ] `operator<<` pentru toate clasele pentru afișare (std::ostream)
-- [ ] cât mai multe `const` (unde este cazul)
-- [ ] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese, dintre care cel puțin 1-2 funcții mai complexe
+- [x] `operator<<` pentru toate clasele pentru afișare (std::ostream)
+- [x] cât mai multe `const` (unde este cazul)
+- [x] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese, dintre care cel puțin 1-2 funcții mai complexe
   - nu doar citiri/afișări sau adăugat/șters elemente într-un/dintr-un vector
-- [ ] scenariu de utilizare a claselor definite:
+- [x] scenariu de utilizare a claselor definite:
   - crearea de obiecte și apelarea tuturor funcțiilor membru publice în main
   - vor fi adăugate în fișierul `tastatura.txt` DOAR exemple de date de intrare de la tastatură (dacă există); dacă aveți nevoie de date din fișiere, creați alte fișiere separat
-- [ ] tag de `git`: de exemplu `v0.1`
-- [ ] serviciu de integrare continuă (CI); exemplu: GitHub Actions
+- [x] tag de `git`: de exemplu `v0.1`
+- [x] serviciu de integrare continuă (CI); exemplu: GitHub Actions
 
 ## Tema 2
 
