@@ -13,7 +13,10 @@ class TileManager{
     std::map<int, std::string> m_textures;
 public:
     TileManager();
+    TileManager(const TileManager& rhs);
     ~TileManager();
+
+    TileManager& operator=(const TileManager& rhs);
     void loadMap(const std::string& mapFile);
     void printMap(sf::RenderTarget& target);
 };

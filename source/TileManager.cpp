@@ -16,6 +16,55 @@ TileManager::TileManager() {
     }
 }
 
+TileManager::TileManager(const TileManager& rhs) {
+    mapLoader = new int*[number_of_tiles_per_window_width];
+    for(int i = 0; i < number_of_tiles_per_window_width; i++) {
+        mapLoader[i] = new int[number_of_tiles_per_window_height];
+    }
+    map = new Tile*[number_of_tiles_per_window_width];
+    for(int i = 0; i < number_of_tiles_per_window_width; i++) {
+        map[i] = new Tile[number_of_tiles_per_window_height];
+    }
+    for(int i = 0; i < number_of_tiles_per_window_width; i++) {
+        for(int j = 0; j < number_of_tiles_per_window_height; j++) {
+            mapLoader[i][j] = rhs.mapLoader[i][j];
+        }
+    }
+}
+
+TileManager& TileManager::operator=(const TileManager& rhs) {
+    if (this == &rhs) {
+        return *this;
+    }
+    for (int i = 0; i < number_of_tiles_per_window_height; ++i) {
+        delete[] mapLoader[i];
+        delete[] map[i];
+    }
+    delete[] mapLoader;
+    delete[] map;
+
+    mapLoader = new int*[number_of_tiles_per_window_height];
+    for (int i = 0; i < number_of_tiles_per_window_height; ++i) {
+        mapLoader[i] = new int[number_of_tiles_per_window_width];
+    }
+
+    map = new Tile*[number_of_tiles_per_window_height];
+    for (int i = 0; i < number_of_tiles_per_window_height; ++i) {
+        map[i] = new Tile[number_of_tiles_per_window_width];
+    }
+    m_textures = rhs.m_textures;
+
+    for (int i = 0; i < number_of_tiles_per_window_height; ++i) {
+        for (int j = 0; j < number_of_tiles_per_window_width; ++j) {
+            mapLoader[i][j] = rhs.mapLoader[i][j];
+            map[i][j] = rhs.map[i][j];
+        }
+    }
+
+    return *this;
+}
+
+
 TileManager::~TileManager() {
     for(int i = 0; i < number_of_tiles_per_window_width; i++) {
         delete[] mapLoader[i];
