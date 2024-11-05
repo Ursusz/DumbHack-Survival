@@ -30,13 +30,18 @@ void GameEngine::Init(const std::string& setupPath) {
         }
     }
 
-    ///NOTE: preventiv, schimb pe viitor // Init returneaza eroare ->
-    try {
-        m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
-    } catch (const std::exception& e) {
-        std::cerr << "Error during window creation: " << e.what() << std::endl;
-    }
+    m_desktopMode = sf::VideoMode::getDesktopMode();
+
+    scaleX = m_desktopMode.width / myWindowConfig.width;
+    scaleY = m_desktopMode.height / myWindowConfig.height;
+    scaleFactor = std::min(scaleX, scaleY);
+
+    m_view = sf::View(sf::FloatRect(0, 0, myWindowConfig.width, myWindowConfig.height));
+    m_view.setViewport(sf::FloatRect(0, 0, scaleFactor * myWindowConfig.width / m_desktopMode.width, scaleFactor * myWindowConfig.height / m_desktopMode.height));
+
+    m_window.create(m_desktopMode, "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::None : sf::Style::Default);
     m_window.setFramerateLimit(myWindowConfig.FPS);
+    m_window.setView(m_view);
 
     m_tileManager.loadMap("Init/world.txt");
 
@@ -50,7 +55,7 @@ void GameEngine::Init(const std::string& setupPath) {
                         "assets/Player.png");
     m_zombie = Zombie(myVec(myZombieConfig.posX, myZombieConfig.posY),
                         myVec(myZombieConfig.vecX, myZombieConfig.vecY),
-                        "assets/pixil-frame-0 (2).png");
+                        "assets/Zombie.png");
 }
 
 void GameEngine::run() {
@@ -59,26 +64,37 @@ void GameEngine::run() {
     while(m_window.isOpen()) {
         listenEvents();
         handleEvents();
+        checkPlayerOutOfBounds();
         m_window.clear(sf::Color::Black);
 
         m_tileManager.printMap(m_window);
 
         m_zombie.updatePosition(m_player.getPositionFromComp());
+        m_zombie.updateSprite(m_animationZombie);
         m_zombie.draw(m_window);
 
         m_player.draw(m_window);
 
         m_window.display();
 
-        m_frame ++;
+        m_playerFrameCounter ++;
+        m_zombieFrameCounter ++;
         ///NOTE: Using m_frame to update the frame for each animation every 12 frames.
-        if(m_frame > 12) {
-            if(m_animation == 0) {
-                m_animation = 16;
-            }else if(m_animation == 16) {
-                m_animation = 0;
+        if(m_playerFrameCounter > 12) {
+            if(m_animationPlayer == 0) {
+                m_animationPlayer = 16;
+            }else if(m_animationPlayer == 16) {
+                m_animationPlayer = 0;
             }
-            m_frame = 0;
+            m_playerFrameCounter = 0;
+        }
+        if(m_zombieFrameCounter > 18) {
+            if(m_animationZombie == 0) {
+                m_animationZombie = 16;
+            }else if(m_animationZombie == 16) {
+                m_animationZombie = 0;
+            }
+            m_zombieFrameCounter = 0;
         }
     }
 }
@@ -94,6 +110,9 @@ void GameEngine::listenEvents() {
             if (keyMap.contains(event.key.code)) {
                 m_player.setKeyValue(keyMap.at(event.key.code), true);
             }
+            if(event.key.code == sf::Keyboard::Escape) {
+                m_window.close();
+            }
         }
         if(event.type == sf::Event::KeyReleased) {
             if (keyMap.contains(event.key.code)) {
@@ -108,21 +127,21 @@ void GameEngine::handleEvents() const {
     if(m_player.isKeyUp()) {
         direction += myVec(0, -m_player.getVelocityFromComp().getY());
         // m_player.getSpriteComponent()->updateSpriteComponent("up", m_animation);
-        m_player.updateSprite("up", m_animation);
+        m_player.updateSprite("up", m_animationPlayer);
     }
     if(m_player.isKeyDown()) {
         direction += myVec(0, m_player.getVelocityFromComp().getY());
-        m_player.updateSprite("down", m_animation);
+        m_player.updateSprite("down", m_animationPlayer);
 
     }
     if(m_player.isKeyLeft()) {
         direction += myVec(-m_player.getVelocityFromComp().getX(), 0);
-        m_player.updateSprite("left", m_animation);
+        m_player.updateSprite("left", m_animationPlayer);
 
     }
     if(m_player.isKeyRight()) {
         direction += myVec(m_player.getVelocityFromComp().getX(), 0);
-        m_player.updateSprite("right", m_animation);
+        m_player.updateSprite("right", m_animationPlayer);
     }
 
     if(direction.getX() != 0.0f && direction.getY() != 0.0f) {
@@ -130,4 +149,12 @@ void GameEngine::handleEvents() const {
         direction *= 5.0f;
     }
     m_player.updatePositionInComp(direction);
+}
+
+
+void GameEngine::checkPlayerOutOfBounds() {
+    if(m_player.getPositionFromComp().getX() < 16)                          m_player.setPositionInComp(myVec(16, m_player.getPositionFromComp().getY()));
+    if(m_player.getPositionFromComp().getX() > m_window.getSize().x - 16)   m_player.setPositionInComp(myVec(m_window.getSize().x - 16, m_player.getPositionFromComp().getY()));
+    if(m_player.getPositionFromComp().getY() < 16)                          m_player.setPositionInComp(myVec(m_player.getPositionFromComp().getX(),16));
+    if(m_player.getPositionFromComp().getY() > m_window.getSize().y - 16)   m_player.setPositionInComp(myVec(m_player.getPositionFromComp().getX(), m_window.getSize().y - 16));
 }

@@ -16,7 +16,7 @@ void Tile::draw(sf::RenderTarget &target) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Tile& tile) {
-    os << tile.m_cMotion << std::endl;
+    os << tile.m_cMotion->getPosition() << std::endl;
     return os;
 }
 

@@ -21,16 +21,32 @@ void Zombie::draw(sf::RenderTarget& target){
 }
 
 void Zombie::updatePosition(const myVec &playerPos) {
-    myVec direction = playerPos - m_cMotion->getPosition();
-    //Original sprite size is 16, it is scaled x3 so the new size is 48x48
-    //the distance between the origin of my player and the origin of my zombie
-    //is the sum of half their size in each direction, 48/2 + 48/2 = 48
-    if(direction.length() > 48) {
+    direction = playerPos - m_cMotion->getPosition();
+    //The zombie movement is the vector from the player to it. So if the direction is greater than 48 it means that the zombie
+    //is next to the player. (the zombie and the player are both 16x16 and being scaled up to 3x, half the size of player and zombie is 16x3/2 = 24
+    //so the distance between them should be 24 + 24 = 48 for the collision to take place)
+    //Because they are not 16 pixels wide, only the sprite is, we are subtracting a padding of 12 pixels to look more like a real life collision)
+    if(direction.length() > 48 - 12) {
         direction.normalize();
-        direction *= 2.0f;
+        direction *= 1.5f;
         m_cMotion->updatePosition(direction);
     }
+    if(direction.getY() < 0 && std::abs(direction.getY()) > std::abs(direction.getX())) m_direction = "up";
+    if(direction.getY() > 0 && std::abs(direction.getY()) > std::abs(direction.getX())) m_direction = "down";
+    if(direction.getX() < 0 && std::abs(direction.getX()) > std::abs(direction.getY())) m_direction = "left";
+    if(direction.getX() > 0 && std::abs(direction.getX()) > std::abs(direction.getY())) m_direction = "right";
 }
+
+
+void Zombie::updateSprite(int animation) const {
+    //direction.length() is greater the closer the zombie is to the player
+    //the direction is normalized and then multiplied by 2.0f, so when the zombie is next to the player
+    //the direction would be much higher than 2, so we stop rendering animation for walking
+    if(direction.length() < 1.5) {
+        m_cSprite->updateSpriteComponent(m_direction, animation);
+    }
+}
+
 
 Zombie& Zombie::operator=(const Zombie &rhs) {
     if(&rhs == this) {

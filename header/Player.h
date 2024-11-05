@@ -20,6 +20,7 @@ public:
     myVec getVelocityFromComp() const;
     myVec getPositionFromComp() const;
     void updatePositionInComp(const myVec& position) const;
+    void setPositionInComp(const myVec& position) const;
 
     bool isKeyUp() const;
     bool isKeyDown() const;

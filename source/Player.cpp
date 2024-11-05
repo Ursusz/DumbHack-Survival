@@ -26,6 +26,11 @@ void Player::updatePositionInComp(const myVec &position) const {
     m_cMotion->updatePosition(position);
 }
 
+void Player::setPositionInComp(const myVec &position) const {
+    m_cMotion->setPosition(position);
+}
+
+
 bool Player::isKeyUp() const {
     return m_cKeyboard->up();
 }

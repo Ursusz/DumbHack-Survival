@@ -34,6 +34,10 @@ public:
         m_position += direction;
     }
 
+    void setPosition(const myVec& position) {
+        m_position = position;
+    }
+
     /// Maybe used later
     /*
     void updateVelocity(const myVec& velocity) {
