@@ -14,9 +14,7 @@ class GameEngine {
     struct PlayerSetup {float posX=0, posY=0, vecX=0, vecY=0; } myPlayerConfig;
     struct ZombieSetup {float posX=0, posY=0, vecX=0, vecY=0; } myZombieConfig;
 
-    float scaleX = 0;
-    float scaleY = 0;
-    float scaleFactor = 0;
+    float newWidth = 0, newHeight = 0, windowAspectRatio = 0, mapAspectRatio = 0;
 
     sf::RenderWindow m_window;
     sf::VideoMode m_desktopMode;

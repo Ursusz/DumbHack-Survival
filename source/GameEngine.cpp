@@ -30,18 +30,24 @@ void GameEngine::Init(const std::string& setupPath) {
         }
     }
 
-    m_desktopMode = sf::VideoMode::getDesktopMode();
 
-    scaleX = m_desktopMode.width / myWindowConfig.width;
-    scaleY = m_desktopMode.height / myWindowConfig.height;
-    scaleFactor = std::min(scaleX, scaleY);
+    m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::None : sf::Style::Default);
+    windowAspectRatio = static_cast<float>(m_window.getSize().x) / static_cast<float>(m_window.getSize().y);
+    mapAspectRatio = 1920.f / 1080.f;
 
-    m_view = sf::View(sf::FloatRect(0, 0, myWindowConfig.width, myWindowConfig.height));
-    m_view.setViewport(sf::FloatRect(0, 0, scaleFactor * myWindowConfig.width / m_desktopMode.width, scaleFactor * myWindowConfig.height / m_desktopMode.height));
+    if (windowAspectRatio > mapAspectRatio) {
+        float newHeight = m_window.getSize().x / mapAspectRatio;
+        m_view.setSize(m_window.getSize().x, newHeight);
+        m_view.setCenter(m_window.getSize().x / 2.f, newHeight / 2.f);
+    } else {
+        float newWidth = m_window.getSize().y * mapAspectRatio;
+        m_view.setSize(newWidth, m_window.getSize().y);
+        m_view.setCenter(newWidth / 2.f, m_window.getSize().y / 2.f);
+    }
 
-    m_window.create(m_desktopMode, "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::None : sf::Style::Default);
-    m_window.setFramerateLimit(myWindowConfig.FPS);
     m_window.setView(m_view);
+
+    m_window.setFramerateLimit(myWindowConfig.FPS);
 
     m_tileManager.loadMap("Init/world.txt");
 
