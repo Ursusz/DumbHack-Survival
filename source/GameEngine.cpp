@@ -36,11 +36,11 @@ void GameEngine::Init(const std::string& setupPath) {
     mapAspectRatio = 1920.f / 1080.f;
 
     if (windowAspectRatio > mapAspectRatio) {
-        float newHeight = m_window.getSize().x / mapAspectRatio;
+        newHeight = m_window.getSize().x / mapAspectRatio;
         m_view.setSize(m_window.getSize().x, newHeight);
         m_view.setCenter(m_window.getSize().x / 2.f, newHeight / 2.f);
     } else {
-        float newWidth = m_window.getSize().y * mapAspectRatio;
+        newWidth = m_window.getSize().y * mapAspectRatio;
         m_view.setSize(newWidth, m_window.getSize().y);
         m_view.setCenter(newWidth / 2.f, m_window.getSize().y / 2.f);
     }
