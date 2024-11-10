@@ -143,8 +143,8 @@ public:
 };
 
 class BoundingBoxComponent {
-    int m_halfWidth;
-    int m_halfHeight;
+    int m_halfWidth=0;
+    int m_halfHeight=0;
 public:
     BoundingBoxComponent() = default;
     BoundingBoxComponent(int halfWidth, int halfHeight) : m_halfWidth(halfWidth), m_halfHeight(halfHeight) {}

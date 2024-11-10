@@ -108,5 +108,6 @@ Player& Player::operator=(const Player &rhs) {
     m_cKeyboard = rhs.m_cKeyboard;
     m_cSprite = rhs.m_cSprite;
     m_cBoundingBox = rhs.m_cBoundingBox;
+    hitPoints = rhs.hitPoints;
     return *this;
 }

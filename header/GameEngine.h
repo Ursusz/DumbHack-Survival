@@ -15,8 +15,8 @@ class GameEngine {
     struct ZombieSetup {float posX=0, posY=0, vecX=0, vecY=0; } myZombieConfig;
 
     float newWidth = 0, newHeight = 0, windowAspectRatio = 0, mapAspectRatio = 0;
-    float deltaX, deltaY;
-    float overlapX, overlapY;
+    float deltaX=0, deltaY=0;
+    float overlapX=0, overlapY=0;
     sf::RenderWindow m_window;
     sf::VideoMode m_desktopMode;
     sf::View m_view;

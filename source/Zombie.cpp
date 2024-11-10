@@ -85,6 +85,7 @@ Zombie& Zombie::operator=(const Zombie &rhs) {
     m_cMotion = rhs.m_cMotion;
     m_cSprite = rhs.m_cSprite;
     m_cBoundingBox = rhs.m_cBoundingBox;
+    lastHit = rhs.lastHit;
     return *this;
 }
 
