@@ -21,6 +21,7 @@ class GameEngine {
     sf::VideoMode m_desktopMode;
     sf::View m_view;
     sf::Text m_text;
+    sf::Text gameState;
     sf::Font m_font;
     Player m_player;
     Zombie m_zombie;

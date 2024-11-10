@@ -56,6 +56,11 @@ bool Player::isKeyRight() const {
     return m_cKeyboard->right();
 }
 
+bool Player::isAlive() const {
+    return hitPoints != 0;
+}
+
+
 void Player::updateHitPoints(float damage) {
     hitPoints -= damage;
 }

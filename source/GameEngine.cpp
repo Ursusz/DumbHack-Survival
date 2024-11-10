@@ -70,7 +70,14 @@ void GameEngine::Init(const std::string& setupPath) {
     m_text.setString("Player HP: " + std::to_string(m_player.getHitPoitns()));
     m_text.setCharacterSize(24);
     m_text.setFillColor(sf::Color::Cyan);
+    m_text.setStyle(sf::Text::Bold);
     m_text.setPosition(880, 50);
+
+    gameState.setFont(m_font);
+    gameState.setCharacterSize(32);
+    gameState.setFillColor(sf::Color::Red);
+    gameState.setStyle(sf::Text::Bold);
+    gameState.setPosition(880, 540);
 }
 
 void GameEngine::run() {
@@ -78,18 +85,24 @@ void GameEngine::run() {
 
     while(m_window.isOpen()) {
         listenEvents();
-        handleEvents();
-        checkPlayerOutOfBounds();
+        if(m_player.isAlive()) {
+            handleEvents();
+            checkPlayerOutOfBounds();
+        }
         checkCollisions(m_player, m_zombie);
 
         m_window.clear(sf::Color::Black);
 
         m_tileManager.printMap(m_window);
 
-        m_zombie.updatePosition(m_player.getPositionFromComp());
-        m_zombie.updateSprite(m_animationZombie);
-        m_zombie.draw(m_window);
-
+        if(m_player.isAlive()) {
+            m_zombie.updatePosition(m_player.getPositionFromComp());
+            m_zombie.updateSprite(m_animationZombie);
+            m_zombie.draw(m_window);
+        }else {
+            gameState.setString("GAME LOST");
+            m_window.draw(gameState);
+        }
         m_player.draw(m_window);
 
         m_window.draw(m_text);
@@ -184,11 +197,11 @@ void GameEngine::checkCollisions(Player& p, Zombie& z) {
         z.getPositionFromComp().getY() - z.getHalfHeight() < p.getPositionFromComp().getY() + p.getHalfHeight() &&
         z.getPositionFromComp().getY() + z.getHalfHeight() > p.getPositionFromComp().getY() - p.getHalfHeight()) {
 
-        if(z.getLastHit() == 0) {
+        if(z.getLastHit() == 0 && p.getHitPoitns() > 0) {
             p.updateHitPoints(10);
             z.updateHitCooldown(m_frame);
             m_text.setString("Player HP: " + std::to_string(p.getHitPoitns()));
-        }else if(m_frame - z.getLastHit() > 180) {
+        }else if(m_frame - z.getLastHit() > 180 && p.getHitPoitns() > 0) {   ///180 = 3 seconds, the zombie should have a 3 seconds cooldown between hits
             p.updateHitPoints(10);
             z.updateHitCooldown(m_frame);
             m_text.setString("Player HP: " + std::to_string(p.getHitPoitns()));

@@ -32,7 +32,7 @@ public:
     bool isKeyDown() const;
     bool isKeyLeft() const;
     bool isKeyRight() const;
-
+    bool isAlive() const;
 
     void updateHitPoints(float damage);
     int getHitPoitns() const;
