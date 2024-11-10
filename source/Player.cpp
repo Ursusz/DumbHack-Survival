@@ -5,14 +5,15 @@ Player::Player(const myVec &position, const myVec &velocity, const std::string& 
     : m_cMotion(std::make_shared<MotionComponent>(position, velocity))
     , m_cKeyboard(std::make_shared<KeyboardComponent>())
     , m_cSprite(std::make_shared<SpriteComponent>(texture_path))
+    , m_cBoundingBox(std::make_shared<BoundingBoxComponent>(24, 24))
 {}
 
 Player::Player(const Player &rhs)
     : m_cMotion(rhs.m_cMotion)
     , m_cKeyboard(rhs.m_cKeyboard)
     , m_cSprite(rhs.m_cSprite)
+    , m_cBoundingBox(rhs.m_cBoundingBox)
 {}
-
 
 myVec Player::getVelocityFromComp() const {
     return m_cMotion->getVelocity();
@@ -20,6 +21,14 @@ myVec Player::getVelocityFromComp() const {
 
 myVec Player::getPositionFromComp() const {
     return m_cMotion->getPosition();
+}
+
+int Player::getHalfWidth() const {
+    return m_cBoundingBox->getHalfWidth();
+}
+
+int Player::getHalfHeight() const {
+    return m_cBoundingBox->getHalfHeight();
 }
 
 void Player::updatePositionInComp(const myVec &position) const {
@@ -47,10 +56,18 @@ bool Player::isKeyRight() const {
     return m_cKeyboard->right();
 }
 
+void Player::updateHitPoints(float damage) {
+    hitPoints -= damage;
+}
+
+int Player::getHitPoitns() const {
+    return hitPoints;
+}
+
+
 void Player::updateSprite(const std::string &direction, int animation) const {
     m_cSprite->updateSpriteComponent(direction, animation);
 }
-
 
 void Player::setKeyValue(int key, bool toggle) {
     switch(key) {
@@ -71,8 +88,7 @@ void Player::setKeyValue(int key, bool toggle) {
 }
 
 void Player::draw(sf::RenderTarget &target) {
-
-    sf::Sprite drawingSprite = m_cSprite->getSprite();
+    drawingSprite = m_cSprite->getSprite();
     drawingSprite.setPosition(m_cMotion->getPosition().getX(), m_cMotion->getPosition().getY());
     drawingSprite.setOrigin(8, 8);
     target.draw(drawingSprite);
@@ -91,5 +107,6 @@ Player& Player::operator=(const Player &rhs) {
     m_cMotion = rhs.m_cMotion;
     m_cKeyboard = rhs.m_cKeyboard;
     m_cSprite = rhs.m_cSprite;
+    m_cBoundingBox = rhs.m_cBoundingBox;
     return *this;
 }

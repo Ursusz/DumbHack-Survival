@@ -31,7 +31,7 @@ void GameEngine::Init(const std::string& setupPath) {
     }
 
 
-    m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
+    m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::None : sf::Style::Default);
     windowAspectRatio = static_cast<float>(m_window.getSize().x) / static_cast<float>(m_window.getSize().y);
     mapAspectRatio = 1920.f / 1080.f;
 
@@ -62,6 +62,15 @@ void GameEngine::Init(const std::string& setupPath) {
     m_zombie = Zombie(myVec(myZombieConfig.posX, myZombieConfig.posY),
                         myVec(myZombieConfig.vecX, myZombieConfig.vecY),
                         "assets/Zombie.png");
+
+    if(m_font.loadFromFile("Fonts/ARIAL.TTF")) {
+        std::cerr<<"Error loading font."<<std::endl;
+    }
+    m_text.setFont(m_font);
+    m_text.setString("Player HP: " + std::to_string(m_player.getHitPoitns()));
+    m_text.setCharacterSize(24);
+    m_text.setFillColor(sf::Color::Cyan);
+    m_text.setPosition(880, 50);
 }
 
 void GameEngine::run() {
@@ -71,6 +80,8 @@ void GameEngine::run() {
         listenEvents();
         handleEvents();
         checkPlayerOutOfBounds();
+        checkCollisions(m_player, m_zombie);
+
         m_window.clear(sf::Color::Black);
 
         m_tileManager.printMap(m_window);
@@ -81,10 +92,12 @@ void GameEngine::run() {
 
         m_player.draw(m_window);
 
+        m_window.draw(m_text);
         m_window.display();
 
         m_playerFrameCounter ++;
         m_zombieFrameCounter ++;
+        m_frame++;
         ///NOTE: Using m_frame to update the frame for each animation every 12 frames.
         if(m_playerFrameCounter > 12) {
             if(m_animationPlayer == 0) {
@@ -164,3 +177,41 @@ void GameEngine::checkPlayerOutOfBounds() {
     if(m_player.getPositionFromComp().getY() < 16)                          m_player.setPositionInComp(myVec(m_player.getPositionFromComp().getX(),16));
     if(m_player.getPositionFromComp().getY() > m_window.getSize().y - 16)   m_player.setPositionInComp(myVec(m_player.getPositionFromComp().getX(), m_window.getSize().y - 16));
 }
+
+void GameEngine::checkCollisions(Player& p, Zombie& z) {
+    if (z.getPositionFromComp().getX() - z.getHalfWidth() < p.getPositionFromComp().getX() + p.getHalfWidth() &&
+        z.getPositionFromComp().getX() + z.getHalfWidth() > p.getPositionFromComp().getX() - p.getHalfWidth() &&
+        z.getPositionFromComp().getY() - z.getHalfHeight() < p.getPositionFromComp().getY() + p.getHalfHeight() &&
+        z.getPositionFromComp().getY() + z.getHalfHeight() > p.getPositionFromComp().getY() - p.getHalfHeight()) {
+
+        if(z.getLastHit() == 0) {
+            p.updateHitPoints(10);
+            z.updateHitCooldown(m_frame);
+            m_text.setString("Player HP: " + std::to_string(p.getHitPoitns()));
+        }else if(m_frame - z.getLastHit() > 180) {
+            p.updateHitPoints(10);
+            z.updateHitCooldown(m_frame);
+            m_text.setString("Player HP: " + std::to_string(p.getHitPoitns()));
+        }
+        deltaX = p.getPositionFromComp().getX() - z.getPositionFromComp().getX();
+        deltaY = p.getPositionFromComp().getY() - z.getPositionFromComp().getY();
+
+        overlapX = (p.getHalfWidth() + z.getHalfWidth()) - std::abs(deltaX);
+        overlapY = (p.getHalfHeight() + z.getHalfHeight()) - std::abs(deltaY);
+
+        if (overlapX < overlapY) {
+            if (deltaX > 0.0f) {
+                p.setPositionInComp(p.getPositionFromComp() + myVec(overlapX, 0.0f));
+            } else {
+                p.setPositionInComp(p.getPositionFromComp() - myVec(overlapX, 0.0f));
+            }
+        } else {
+            if (deltaY > 0.0f) {
+                p.setPositionInComp(p.getPositionFromComp() + myVec(0.0f, overlapY));
+            } else {
+                p.setPositionInComp(p.getPositionFromComp() - myVec(0.0f, overlapY));
+            }
+        }
+    }
+}
+

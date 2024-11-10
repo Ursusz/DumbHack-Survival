@@ -5,19 +5,49 @@
 Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path)
     : m_cMotion(std::make_shared<MotionComponent>(position, velocity))
     , m_cSprite(std::make_shared<SpriteComponent>(texture_path))
+    , m_cBoundingBox(std::make_shared<BoundingBoxComponent>(24, 24))
 {}
+
 Zombie::Zombie(const Zombie& rhs)
     : m_cMotion(rhs.m_cMotion)
     , m_cSprite(rhs.m_cSprite)
 {}
 
+myVec Zombie::getPositionFromComp() const {
+    return m_cMotion->getPosition();
+}
+
+myVec Zombie::getVelocityFromComp() const {
+    return m_cMotion->getVelocity();
+}
+
+void Zombie::setPositionInComp(const myVec &position) const {
+    m_cMotion->setPosition(position);
+}
+
+int Zombie::getHalfWidth() const {
+    return m_cBoundingBox->getHalfWidth();
+}
+
+int Zombie::getHalfHeight() const {
+    return m_cBoundingBox->getHalfHeight();
+}
+
 void Zombie::draw(sf::RenderTarget& target){
-    sf::Sprite sprite = m_cSprite->getSprite();
-    sprite.setPosition(m_cMotion->getPosition().getX(), m_cMotion->getPosition().getY());
+    drawingSprite = m_cSprite->getSprite();
+    drawingSprite.setPosition(m_cMotion->getPosition().getX(), m_cMotion->getPosition().getY());
     //Original sprite size is 16x16 so the middle of the sprite, before rescaling is 8, 8 from
     //the top left pixels
-    sprite.setOrigin(8, 8);
-    target.draw(sprite);
+    drawingSprite.setOrigin(8, 8);
+    target.draw(drawingSprite);
+}
+
+void Zombie::updateHitCooldown(int frame) {
+    lastHit = frame;
+}
+
+int Zombie::getLastHit() const {
+    return lastHit;
 }
 
 void Zombie::updatePosition(const myVec &playerPos) {
@@ -54,6 +84,7 @@ Zombie& Zombie::operator=(const Zombie &rhs) {
     }
     m_cMotion = rhs.m_cMotion;
     m_cSprite = rhs.m_cSprite;
+    m_cBoundingBox = rhs.m_cBoundingBox;
     return *this;
 }
 

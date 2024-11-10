@@ -15,16 +15,20 @@ class GameEngine {
     struct ZombieSetup {float posX=0, posY=0, vecX=0, vecY=0; } myZombieConfig;
 
     float newWidth = 0, newHeight = 0, windowAspectRatio = 0, mapAspectRatio = 0;
-
+    float deltaX, deltaY;
+    float overlapX, overlapY;
     sf::RenderWindow m_window;
     sf::VideoMode m_desktopMode;
     sf::View m_view;
+    sf::Text m_text;
+    sf::Font m_font;
     Player m_player;
     Zombie m_zombie;
     TileManager m_tileManager;
 
     std::map<sf::Keyboard::Key, int> keyMap;
     std::string m_setupPath;
+    int m_frame=0;
     int m_playerFrameCounter = 0;
     int m_animationPlayer = 0;
     int m_zombieFrameCounter = 0;
@@ -35,6 +39,7 @@ class GameEngine {
     void listenEvents();
     void handleEvents() const;
     void checkPlayerOutOfBounds();
+    void checkCollisions(Player& p, Zombie& z);
 public:
     explicit GameEngine(std::string  setupPath);
     ~GameEngine() = default;

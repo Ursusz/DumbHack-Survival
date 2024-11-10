@@ -17,6 +17,8 @@ public:
     TileManager(const TileManager& rhs);
     ~TileManager();
 
+    Tile** getMap() const;
+
     TileManager& operator=(const TileManager& rhs);
     void loadMap(const std::string& mapFile);
     void printMap(sf::RenderTarget& target);

@@ -11,6 +11,9 @@ class Player {
     std::shared_ptr<MotionComponent> m_cMotion;
     std::shared_ptr<KeyboardComponent> m_cKeyboard;
     std::shared_ptr<SpriteComponent> m_cSprite;
+    std::shared_ptr<BoundingBoxComponent> m_cBoundingBox;
+    sf::Sprite drawingSprite;
+    int hitPoints = 100;
 public:
     Player() = default;
     Player(const myVec& position, const myVec& velocity, const std::string& texture_path);
@@ -19,6 +22,9 @@ public:
 
     myVec getVelocityFromComp() const;
     myVec getPositionFromComp() const;
+    int getHalfWidth() const;
+    int getHalfHeight() const;
+
     void updatePositionInComp(const myVec& position) const;
     void setPositionInComp(const myVec& position) const;
 
@@ -27,6 +33,9 @@ public:
     bool isKeyLeft() const;
     bool isKeyRight() const;
 
+
+    void updateHitPoints(float damage);
+    int getHitPoitns() const;
     void updateSprite(const std::string& direction, int animation) const;
 
     void setKeyValue(int, bool); /// 0 - Up, 1 - Down, 2 - Left, 3 - Right

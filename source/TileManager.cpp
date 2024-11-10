@@ -75,6 +75,9 @@ TileManager::~TileManager() {
     delete[] map;
 }
 
+Tile** TileManager::getMap() const{
+    return map;
+}
 
 void TileManager::loadMap(const std::string &mapFile) {
     m_textures.insert({0, "assets/WoodenPlank.png"});

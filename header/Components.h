@@ -141,3 +141,18 @@ public:
     //     m_sprite.setTexture(texture);
     // }
 };
+
+class BoundingBoxComponent {
+    int m_halfWidth;
+    int m_halfHeight;
+public:
+    BoundingBoxComponent() = default;
+    BoundingBoxComponent(int halfWidth, int halfHeight) : m_halfWidth(halfWidth), m_halfHeight(halfHeight) {}
+    ~BoundingBoxComponent() = default;
+    int getHalfWidth() const {
+        return m_halfWidth;
+    }
+    int getHalfHeight() const {
+        return m_halfHeight;
+    }
+};
