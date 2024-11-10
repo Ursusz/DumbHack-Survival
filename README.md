@@ -1,40 +1,11 @@
 # DumbHack :: Survival
-### DumbHack :: Survival este un joc de tip supravietuire in care personajul principal este un simplu student dornic sa isi puna in aplicare cunostintele intr-un eveniment de programare. Insa, protagonistul nu este o persoana punctuala, astfel incat el reuseste sa intarzie la competitie. Intre timp, lucrurile au luat o intorsatura neasteptata, fiindca, un virus cibernetic a transformat toti ceilalti participanti la competitie in niste zombii setati sa opreasca pe oricine incearca sa ii combata. Studentul este nevoit acum sa lupte cu acesti zombii in timp ce da tot ce are el mai bun sa opreasca acest virus si sa aduca totul la normal.
+## DumbHack :: Survival este un joc de tip supravietuire in care personajul principal este un simplu student dornic sa isi puna in aplicare cunostintele intr-un eveniment de programare. Insa, protagonistul nu este o persoana punctuala, astfel incat el reuseste sa intarzie la competitie. Intre timp, lucrurile au luat o intorsatura neasteptata, fiindca, un virus cibernetic a transformat toti ceilalti participanti la competitie in niste zombii setati sa opreasca pe oricine incearca sa ii combata. Studentul este nevoit acum sa lupte cu acesti zombii in timp ce da tot ce are el mai bun sa opreasca acest virus si sa aduca totul la normal.
 
-### Important!
-Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar în folder-ul `generated`.
-Codul generat pus "ca să fie"/pe care nu îl înțelegeți se punctează doar pentru puncte bonus, doar în contextul
-în care oferă funcționalități ajutătoare și doar dacă are sens.
+## Assets
+Toate assets-urile din acest proiect sunt create de mine, folosind [acest tool](https://www.pixilart.com/).
 
-O cerință nu se consideră îndeplinită dacă este realizată doar ca o serie de apeluri proxy către cod generat.
-
-### Cerințe modele de limbaj la nivel de semestru
-- [ ] minim o funcționalitate majoritar doar cu LLM
-- [ ] minim 2-3 funcționalități ~50% voi, ~50% LLM-ul
-- [ ] minim 2-3 funcționalități suficient de complicate pe care un LLM nu le poate implementa
-
-### Tema 0
-
-- [ ] Nume proiect (poate fi schimbat ulterior)
-- [ ] Scurtă descriere a temei alese, ce v-ați propus să implementați
-
-## Tema 1
-
-#### Cerințe
-- [x] definirea a minim **3-4 clase** folosind compunere cu clasele definite de voi
-- [x] constructori de inițializare cu parametri
-- [x] pentru o aceeași (singură) clasă: constructor de copiere, `operator=` de copiere, destructor
-<!-- - [ ] pentru o altă clasă: constructor de mutare, `operator=` de mutare, destructor -->
-<!-- - [ ] pentru o altă clasă: toate cele 5 funcții membru speciale -->
-- [x] `operator<<` pentru toate clasele pentru afișare (std::ostream)
-- [x] cât mai multe `const` (unde este cazul)
-- [x] implementarea a minim 3 funcții membru publice pentru funcționalități specifice temei alese, dintre care cel puțin 1-2 funcții mai complexe
-  - nu doar citiri/afișări sau adăugat/șters elemente într-un/dintr-un vector
-- [x] scenariu de utilizare a claselor definite:
-  - crearea de obiecte și apelarea tuturor funcțiilor membru publice în main
-  - vor fi adăugate în fișierul `tastatura.txt` DOAR exemple de date de intrare de la tastatură (dacă există); dacă aveți nevoie de date din fișiere, creați alte fișiere separat
-- [x] tag de `git`: de exemplu `v0.1`
-- [x] serviciu de integrare continuă (CI); exemplu: GitHub Actions
+## Fonts
+Font-ul textului din proiect a fost downloadat de [aici](https://font.download/font/arial).
 
 ## Tema 2
 
