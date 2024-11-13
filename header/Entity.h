@@ -15,18 +15,18 @@ public:
     Entity(const Entity& rhs);
     virtual ~Entity() = default;
 
-    virtual myVec getPositionFromComp() const;
-    virtual myVec getVelocityFromComp() const;
+    myVec getPositionFromComp() const;
+    myVec getVelocityFromComp() const;
 
-    virtual int getHalfWidth() const;
-    virtual int getHalfHeight() const;
+    int getHalfWidth() const;
+    int getHalfHeight() const;
 
-    virtual void updatePositionInComp(const myVec& position) const;
-    virtual void setPositionInComp(const myVec& position) const;
+    void updatePositionInComp(const myVec& position) const;
+    void setPositionInComp(const myVec& position) const;
 
-    virtual void updateSprite(const std::string& direction, int animation) const;
+    void updateSprite(const std::string& direction, int animation) const;
 
-    virtual void draw(sf::RenderTarget& target);
+    void draw(sf::RenderTarget& target);
 
     //virtual functions for player class
     virtual int getHitPoints() const {return 0;}

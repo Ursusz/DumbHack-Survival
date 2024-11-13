@@ -227,4 +227,3 @@ void GameEngine::checkCollisions(Entity& p, Entity& z) {
         }
     }
 }
-
