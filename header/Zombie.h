@@ -16,8 +16,8 @@ public:
 
     std::string& getDirection();
 
-    void updateHitCooldown(int frame);
-    int getLastHit() const;
+    void updateHitCooldown(int frame) override;
+    int getLastHit() const override;
     void followPlayer(const myVec& playerPos);
     Zombie& operator=(const Zombie& zombie);
 };

@@ -2,7 +2,7 @@
 
 #include "../header/Components.h"
 #include <memory>
-#include "SFML/Graphics/RenderTarget.hpp"
+#include <SFML/Graphics/RenderTarget.hpp>
 
 class Entity {
     std::shared_ptr<MotionComponent> m_cMotion;

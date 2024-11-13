@@ -24,8 +24,8 @@ public:
     bool isKeyRight() const;
     bool isAlive() const;
 
-    void updateHitPoints(int damage);
-    int getHitPoints() const;
+    void updateHitPoints(int damage) override;
+    int getHitPoints() const override;
 
     void setKeyValue(int, bool); /// 0 - Up, 1 - Down, 2 - Left, 3 - Right
 
