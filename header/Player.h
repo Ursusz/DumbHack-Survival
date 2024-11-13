@@ -6,27 +6,17 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include "../header/Entity.h"
 
-class Player {
-    std::shared_ptr<MotionComponent> m_cMotion;
+class Player : public Entity{
     std::shared_ptr<KeyboardComponent> m_cKeyboard;
-    std::shared_ptr<SpriteComponent> m_cSprite;
-    std::shared_ptr<BoundingBoxComponent> m_cBoundingBox;
     sf::Sprite drawingSprite;
     int hitPoints = 100;
 public:
     Player() = default;
     Player(const myVec& position, const myVec& velocity, const std::string& texture_path);
     Player(const Player& rhs);
-    ~Player() = default;
-
-    myVec getVelocityFromComp() const;
-    myVec getPositionFromComp() const;
-    int getHalfWidth() const;
-    int getHalfHeight() const;
-
-    void updatePositionInComp(const myVec& position) const;
-    void setPositionInComp(const myVec& position) const;
+    ~Player() override = default;
 
     bool isKeyUp() const;
     bool isKeyDown() const;
@@ -34,14 +24,10 @@ public:
     bool isKeyRight() const;
     bool isAlive() const;
 
-    void updateHitPoints(float damage);
-    int getHitPoitns() const;
-    void updateSprite(const std::string& direction, int animation) const;
+    void updateHitPoints(int damage);
+    int getHitPoints() const;
 
     void setKeyValue(int, bool); /// 0 - Up, 1 - Down, 2 - Left, 3 - Right
 
-    void draw(sf::RenderTarget& target);
-
-    friend std::ostream& operator<<(std::ostream& os, const Player& player);
     Player& operator=(const Player& rhs);
 };

@@ -5,8 +5,16 @@
 Tile::Tile(const myVec &position, const std::string& texture_path)
     : m_cMotion(std::make_shared<MotionComponent>(position, myVec(0.0f, 0.0f)))
     , m_cSprite(std::make_shared<SpriteComponent>(texture_path))
+    , m_cBoundingBox(std::make_shared<BoundingBoxComponent>(24, 24))
 {}
 
+int Tile::getHalfWidth() const {
+    return m_cBoundingBox->getHalfWidth();
+}
+
+int Tile::getHalfHeight() const {
+    return m_cBoundingBox->getHalfHeight();
+}
 
 void Tile::draw(sf::RenderTarget &target) {
     sf::Sprite drawingSprite = m_cSprite->getSprite();

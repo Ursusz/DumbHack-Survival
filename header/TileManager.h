@@ -17,6 +17,8 @@ public:
     TileManager(const TileManager& rhs);
     ~TileManager();
 
+    // void checkCollision();
+
     TileManager& operator=(const TileManager& rhs);
     void loadMap(const std::string& mapFile);
     void printMap(sf::RenderTarget& target);

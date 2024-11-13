@@ -63,11 +63,11 @@ void GameEngine::Init(const std::string& setupPath) {
                         myVec(myZombieConfig.vecX, myZombieConfig.vecY),
                         "assets/Zombie.png");
 
-    if(m_font.loadFromFile("Fonts/ARIAL.TTF")) {
+    if(!m_font.loadFromFile("Fonts/ARIAL.TTF")) {
         std::cerr<<"Error loading font."<<std::endl;
     }
     m_text.setFont(m_font);
-    m_text.setString("Player HP: " + std::to_string(m_player.getHitPoitns()));
+    m_text.setString("Player HP: " + std::to_string(m_player.getHitPoints()));
     m_text.setCharacterSize(24);
     m_text.setFillColor(sf::Color::Cyan);
     m_text.setStyle(sf::Text::Bold);
@@ -96,8 +96,8 @@ void GameEngine::run() {
         m_tileManager.printMap(m_window);
 
         if(m_player.isAlive()) {
-            m_zombie.updatePosition(m_player.getPositionFromComp());
-            m_zombie.updateSprite(m_animationZombie);
+            m_zombie.followPlayer(m_player.getPositionFromComp());
+            m_zombie.updateSprite(m_zombie.getDirection(), m_animationZombie);
             m_zombie.draw(m_window);
         }else {
             gameState.setString("GAME LOST");
@@ -191,20 +191,20 @@ void GameEngine::checkPlayerOutOfBounds() {
     if(m_player.getPositionFromComp().getY() > m_window.getSize().y - 16)   m_player.setPositionInComp(myVec(m_player.getPositionFromComp().getX(), m_window.getSize().y - 16));
 }
 
-void GameEngine::checkCollisions(Player& p, Zombie& z) {
+void GameEngine::checkCollisions(Entity& p, Entity& z) {
     if (z.getPositionFromComp().getX() - z.getHalfWidth() < p.getPositionFromComp().getX() + p.getHalfWidth() &&
         z.getPositionFromComp().getX() + z.getHalfWidth() > p.getPositionFromComp().getX() - p.getHalfWidth() &&
         z.getPositionFromComp().getY() - z.getHalfHeight() < p.getPositionFromComp().getY() + p.getHalfHeight() &&
         z.getPositionFromComp().getY() + z.getHalfHeight() > p.getPositionFromComp().getY() - p.getHalfHeight()) {
 
-        if(z.getLastHit() == 0 && p.getHitPoitns() > 0) {
+        if(z.getLastHit() == 0 && p.getHitPoints() > 0) {
             p.updateHitPoints(10);
             z.updateHitCooldown(m_frame);
-            m_text.setString("Player HP: " + std::to_string(p.getHitPoitns()));
-        }else if(m_frame - z.getLastHit() > 180 && p.getHitPoitns() > 0) {   ///180 = 3 seconds, the zombie should have a 3 seconds cooldown between hits
+            m_text.setString("Player HP: " + std::to_string(p.getHitPoints()));
+        }else if(m_frame - z.getLastHit() > 180 && p.getHitPoints() > 0) {   ///180 = 3 seconds, the zombie should have a 3 seconds cooldown between hits
             p.updateHitPoints(10);
             z.updateHitCooldown(m_frame);
-            m_text.setString("Player HP: " + std::to_string(p.getHitPoitns()));
+            m_text.setString("Player HP: " + std::to_string(p.getHitPoints()));
         }
         deltaX = p.getPositionFromComp().getX() - z.getPositionFromComp().getX();
         deltaY = p.getPositionFromComp().getY() - z.getPositionFromComp().getY();

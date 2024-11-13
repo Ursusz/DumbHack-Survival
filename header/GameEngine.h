@@ -40,7 +40,7 @@ class GameEngine {
     void listenEvents();
     void handleEvents() const;
     void checkPlayerOutOfBounds();
-    void checkCollisions(Player& p, Zombie& z);
+    void checkCollisions(Entity& p, Entity& z);
 public:
     explicit GameEngine(std::string  setupPath);
     ~GameEngine() = default;
