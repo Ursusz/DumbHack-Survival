@@ -28,14 +28,13 @@ public:
 
     virtual void draw(sf::RenderTarget& target);
 
-
     //virtual functions for player class
     virtual int getHitPoints() const {return 0;}
-    virtual void updateHitPoints(int damage) {}
+    virtual void updateHitPoints(int) {}
 
     //virtual functions for zombie class
     virtual int getLastHit() const {return 0;};
-    virtual void updateHitCooldown(int frame) {};
+    virtual void updateHitCooldown(int) {}
 
     friend std::ostream& operator<<(std::ostream& os, const Entity& rhs);
     Entity& operator=(const Entity& rhs);
