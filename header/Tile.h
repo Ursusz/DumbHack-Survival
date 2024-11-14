@@ -11,5 +11,5 @@ class Tile : public Entity{
 public:
     Tile() = default;
     Tile(const myVec& position, const std::string& texture_path, const std::string& entity_type);
-    ~Tile() = default;
+    ~Tile() override = default;
 };
