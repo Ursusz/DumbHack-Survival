@@ -2,21 +2,14 @@
 
 #include <memory>
 
-#include "Components.h"
-#include "myVec.h"
+#include "../header/Components.h"
+#include "../header/Entity.h"
+#include "../header/myVec.h"
 
-class Tile {
-    std::shared_ptr<MotionComponent> m_cMotion;
-    std::shared_ptr<SpriteComponent> m_cSprite;
-    std::shared_ptr<BoundingBoxComponent> m_cBoundingBox;
+class Tile : public Entity{
+    int x = 0;
 public:
     Tile() = default;
-    Tile(const myVec& position, const std::string& texture_path);
+    Tile(const myVec& position, const std::string& texture_path, const std::string& entity_type);
     ~Tile() = default;
-
-    int getHalfWidth() const;
-    int getHalfHeight() const;
-
-    friend std::ostream& operator<<(std::ostream& os, const Tile& tile);
-    void draw(sf::RenderTarget& target);
 };

@@ -8,9 +8,10 @@ class Zombie : public Entity{
     std::string m_direction;    //this is the string that sets the zombie to look at a direction
     myVec direction;    //this is the direction vector
     int lastHit=0;
+    const int change_animation_frame = 18;
 public:
     Zombie() = default;
-    Zombie(const myVec& position, const myVec& velocity, const std::string& texture_path);
+    Zombie(const myVec& position, const myVec& velocity, const std::string& texture_path, const std::string& entity_type);
     Zombie(const Zombie& rhs);
     ~Zombie() override= default;
 

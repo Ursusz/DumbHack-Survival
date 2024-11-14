@@ -2,29 +2,6 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
-Tile::Tile(const myVec &position, const std::string& texture_path)
-    : m_cMotion(std::make_shared<MotionComponent>(position, myVec(0.0f, 0.0f)))
-    , m_cSprite(std::make_shared<SpriteComponent>(texture_path))
-    , m_cBoundingBox(std::make_shared<BoundingBoxComponent>(24, 24))
+Tile::Tile(const myVec &position, const std::string& texture_path, const std::string& entity_type)
+    : Entity(position, myVec(0, 0), texture_path, entity_type)
 {}
-
-int Tile::getHalfWidth() const {
-    return m_cBoundingBox->getHalfWidth();
-}
-
-int Tile::getHalfHeight() const {
-    return m_cBoundingBox->getHalfHeight();
-}
-
-void Tile::draw(sf::RenderTarget &target) {
-    sf::Sprite drawingSprite = m_cSprite->getSprite();
-    drawingSprite.setPosition(m_cMotion->getPosition().getX(), m_cMotion->getPosition().getY());
-    drawingSprite.setOrigin(8, 8);
-    target.draw(drawingSprite);
-}
-
-std::ostream& operator<<(std::ostream& os, const Tile& tile) {
-    os << tile.m_cMotion->getPosition() << std::endl;
-    return os;
-}
-

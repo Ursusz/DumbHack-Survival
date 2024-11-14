@@ -58,26 +58,24 @@ void GameEngine::Init(const std::string& setupPath) {
 
     m_player = Player(myVec(myPlayerConfig.posX, myPlayerConfig.posY),
                         myVec(myPlayerConfig.vecX, myPlayerConfig.vecY),
-                        "assets/Player.png");
+                        "assets/Player.png",
+                        "player");
     m_zombie = Zombie(myVec(myZombieConfig.posX, myZombieConfig.posY),
                         myVec(myZombieConfig.vecX, myZombieConfig.vecY),
-                        "assets/Zombie.png");
+                        "assets/Zombie.png",
+                        "zombie");
 
-    if(!m_font.loadFromFile("Fonts/ARIAL.TTF")) {
-        std::cerr<<"Error loading font."<<std::endl;
-    }
-    m_text.setFont(m_font);
-    m_text.setString("Player HP: " + std::to_string(m_player.getHitPoints()));
-    m_text.setCharacterSize(24);
-    m_text.setFillColor(sf::Color::Cyan);
-    m_text.setStyle(sf::Text::Bold);
-    m_text.setPosition(880, 50);
+    m_playerHPText = Text("Fonts/ARIAL.TTF",
+                "Player HP : " + std::to_string(m_player.getHitPoints()),
+                24,
+                sf::Color::Cyan,
+                myVec(960, 100));
 
-    gameState.setFont(m_font);
-    gameState.setCharacterSize(32);
-    gameState.setFillColor(sf::Color::Red);
-    gameState.setStyle(sf::Text::Bold);
-    gameState.setPosition(880, 540);
+    m_gameLostMsg = Text("Fonts/ARIAL.TTF",
+                        "GAME LOST",
+                        32,
+                        sf::Color::Red,
+                        myVec(960, 540));
 }
 
 void GameEngine::run() {
@@ -91,43 +89,32 @@ void GameEngine::run() {
         }
         checkCollisions(m_player, m_zombie);
 
+        for(size_t i = 0; i < 23; i++) {
+            for(size_t j = 0; j < 40; j++) {
+                checkCollisions(m_player, m_tileManager.getTile(i, j));
+                checkCollisions(m_zombie, m_tileManager.getTile(i, j));
+            }
+        }
+
         m_window.clear(sf::Color::Black);
 
         m_tileManager.printMap(m_window);
 
         if(m_player.isAlive()) {
             m_zombie.followPlayer(m_player.getPositionFromComp());
-            m_zombie.updateSprite(m_zombie.getDirection(), m_animationZombie);
+            m_zombie.updateSprite(m_zombie.getDirection());
             m_zombie.draw(m_window);
         }else {
-            gameState.setString("GAME LOST");
-            m_window.draw(gameState);
+            m_gameLostMsg.drawText(m_window);
         }
+        m_playerHPText.drawText(m_window);
         m_player.draw(m_window);
 
-        m_window.draw(m_text);
         m_window.display();
 
-        m_playerFrameCounter ++;
-        m_zombieFrameCounter ++;
+        m_player.changeAnimation();
+        m_zombie.changeAnimation();
         m_frame++;
-        ///NOTE: Using m_frame to update the frame for each animation every 12 frames.
-        if(m_playerFrameCounter > 12) {
-            if(m_animationPlayer == 0) {
-                m_animationPlayer = 16;
-            }else if(m_animationPlayer == 16) {
-                m_animationPlayer = 0;
-            }
-            m_playerFrameCounter = 0;
-        }
-        if(m_zombieFrameCounter > 18) {
-            if(m_animationZombie == 0) {
-                m_animationZombie = 16;
-            }else if(m_animationZombie == 16) {
-                m_animationZombie = 0;
-            }
-            m_zombieFrameCounter = 0;
-        }
     }
 }
 
@@ -145,6 +132,9 @@ void GameEngine::listenEvents() {
             if(event.key.code == sf::Keyboard::Escape) {
                 m_window.close();
             }
+            if(event.key.code == sf::Keyboard::R) {
+                run();
+            }
         }
         if(event.type == sf::Event::KeyReleased) {
             if (keyMap.contains(event.key.code)) {
@@ -158,22 +148,21 @@ void GameEngine::handleEvents() const {
     myVec direction(0.0f, 0.0f);
     if(m_player.isKeyUp()) {
         direction += myVec(0, -m_player.getVelocityFromComp().getY());
-        // m_player.getSpriteComponent()->updateSpriteComponent("up", m_animation);
-        m_player.updateSprite("up", m_animationPlayer);
+        m_player.updateSprite("up");
     }
     if(m_player.isKeyDown()) {
         direction += myVec(0, m_player.getVelocityFromComp().getY());
-        m_player.updateSprite("down", m_animationPlayer);
+        m_player.updateSprite("down");
 
     }
     if(m_player.isKeyLeft()) {
         direction += myVec(-m_player.getVelocityFromComp().getX(), 0);
-        m_player.updateSprite("left", m_animationPlayer);
+        m_player.updateSprite("left");
 
     }
     if(m_player.isKeyRight()) {
         direction += myVec(m_player.getVelocityFromComp().getX(), 0);
-        m_player.updateSprite("right", m_animationPlayer);
+        m_player.updateSprite("right");
     }
 
     if(direction.getX() != 0.0f && direction.getY() != 0.0f) {
@@ -191,38 +180,39 @@ void GameEngine::checkPlayerOutOfBounds() {
     if(m_player.getPositionFromComp().getY() > m_window.getSize().y - 16)   m_player.setPositionInComp(myVec(m_player.getPositionFromComp().getX(), m_window.getSize().y - 16));
 }
 
-void GameEngine::checkCollisions(Entity& p, Entity& z) {
-    if (z.getPositionFromComp().getX() - z.getHalfWidth() < p.getPositionFromComp().getX() + p.getHalfWidth() &&
-        z.getPositionFromComp().getX() + z.getHalfWidth() > p.getPositionFromComp().getX() - p.getHalfWidth() &&
-        z.getPositionFromComp().getY() - z.getHalfHeight() < p.getPositionFromComp().getY() + p.getHalfHeight() &&
-        z.getPositionFromComp().getY() + z.getHalfHeight() > p.getPositionFromComp().getY() - p.getHalfHeight()) {
+void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
+    if (e2.getPositionFromComp().getX() - e2.getHalfWidth() < e1.getPositionFromComp().getX() + e1.getHalfWidth() &&
+        e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
+        e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
+        e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) {
 
-        if(z.getLastHit() == 0 && p.getHitPoints() > 0) {
-            p.updateHitPoints(10);
-            z.updateHitCooldown(m_frame);
-            m_text.setString("Player HP: " + std::to_string(p.getHitPoints()));
-        }else if(m_frame - z.getLastHit() > 180 && p.getHitPoints() > 0) {   ///180 = 3 seconds, the zombie should have a 3 seconds cooldown between hits
-            p.updateHitPoints(10);
-            z.updateHitCooldown(m_frame);
-            m_text.setString("Player HP: " + std::to_string(p.getHitPoints()));
-        }
-        deltaX = p.getPositionFromComp().getX() - z.getPositionFromComp().getX();
-        deltaY = p.getPositionFromComp().getY() - z.getPositionFromComp().getY();
-
-        overlapX = (p.getHalfWidth() + z.getHalfWidth()) - std::abs(deltaX);
-        overlapY = (p.getHalfHeight() + z.getHalfHeight()) - std::abs(deltaY);
-
-        if (overlapX < overlapY) {
-            if (deltaX > 0.0f) {
-                p.setPositionInComp(p.getPositionFromComp() + myVec(overlapX, 0.0f));
-            } else {
-                p.setPositionInComp(p.getPositionFromComp() - myVec(overlapX, 0.0f));
+        if(e1.isType("player") && e2.isType("zombie")) {
+            if(e2.getLastHit() == 0 && e1.getHitPoints() > 0) {
+                e1.updateHitPoints(10);
+                e2.updateHitCooldown(m_frame);
+                m_playerHPText.updateTextContent("Player HP : " + std::to_string(e1.getHitPoints()));
+            }else if(m_frame - e2.getLastHit() > 180 && e1.getHitPoints() > 0) {   ///180 = 3 seconds, the zombie should have a 3 seconds cooldown between hits
+                e1.updateHitPoints(10);
+                e2.updateHitCooldown(m_frame);
+                m_playerHPText.updateTextContent("Player HP : " + std::to_string(e1.getHitPoints()));
             }
-        } else {
-            if (deltaY > 0.0f) {
-                p.setPositionInComp(p.getPositionFromComp() + myVec(0.0f, overlapY));
+        }
+
+        m_collision.setOverlap(e1, e2);
+
+        if((e1.isType("player") || e1.isType("zombie")) && (e2.isType("zombie") || e2.isType("tile"))) {
+            if (m_collision.isHorizontalOverlap()) {
+                if (m_collision.isLeftOverlap()) {
+                    e1.setPositionInComp(e1.getPositionFromComp() + myVec(m_collision.getOverlapX(), 0.0f));
+                } else {
+                    e1.setPositionInComp(e1.getPositionFromComp() - myVec(m_collision.getOverlapX(), 0.0f));
+                }
             } else {
-                p.setPositionInComp(p.getPositionFromComp() - myVec(0.0f, overlapY));
+                if (m_collision.isTopOverlap()) {
+                    e1.setPositionInComp(e1.getPositionFromComp() + myVec(0.0f, m_collision.getOverlapY()));
+                } else {
+                    e1.setPositionInComp(e1.getPositionFromComp() - myVec(0.0f, m_collision.getOverlapY()));
+                }
             }
         }
     }

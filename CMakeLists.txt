@@ -69,6 +69,10 @@ add_executable(${PROJECT_NAME}
         source/TileManager.cpp
         header/Entity.h
         source/Entity.cpp
+        source/Text.cpp
+        header/Text.h
+        header/Collision.h
+        source/Collision.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

@@ -2,8 +2,8 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
-Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path)
-    : Entity(position, velocity, texture_path)
+Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, const std::string& entity_type)
+    : Entity(position, velocity, texture_path, entity_type)
 {}
 
 Zombie::Zombie(const Zombie& rhs)
@@ -32,7 +32,6 @@ void Zombie::followPlayer(const myVec &playerPos) {
     if(direction.length() > 50) {
         direction.normalize();
         direction *= 1.5f;
-        // m_cMotion->updatePosition(direction);
         this->updatePositionInComp(direction);
     }
     if(direction.getY() < 0 && std::abs(direction.getY()) > std::abs(direction.getX())) m_direction = "up";

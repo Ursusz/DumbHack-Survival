@@ -12,9 +12,10 @@ class Player : public Entity{
     std::shared_ptr<KeyboardComponent> m_cKeyboard;
     sf::Sprite drawingSprite;
     int hitPoints = 100;
+
 public:
     Player() = default;
-    Player(const myVec& position, const myVec& velocity, const std::string& texture_path);
+    Player(const myVec& position, const myVec& velocity, const std::string& texture_path, const std::string& entity_type);
     Player(const Player& rhs);
     ~Player() override = default;
 

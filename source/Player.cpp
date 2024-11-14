@@ -1,8 +1,8 @@
 #include "../header/Player.h"
 
 
-Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path)
-    : Entity(position, velocity, texture_path)
+Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path, const std::string& entity_type)
+    : Entity(position, velocity, texture_path, entity_type)
     , m_cKeyboard(std::make_shared<KeyboardComponent>())
 {}
 
