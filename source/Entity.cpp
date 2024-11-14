@@ -80,5 +80,7 @@ Entity& Entity::operator=(const Entity &rhs) {
     m_cSprite = rhs.m_cSprite;
     m_cBoundingBox = rhs.m_cBoundingBox;
     m_EntityType = rhs.m_EntityType;
+    current_frame = 0;
+    assets_pos_x = 0;
     return *this;
 }

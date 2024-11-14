@@ -5,13 +5,14 @@
 #include "../header/Tile.h"
 
 class TileManager{
-    enum : int {
-        number_of_tiles_per_window_width = 40,
-        number_of_tiles_per_window_height = 23
-    };
+    int number_of_tiles_per_window_width = 40;
+    int number_of_tiles_per_window_height = 23;
 
-    std::array<std::array<int, number_of_tiles_per_window_width>, number_of_tiles_per_window_height> mapLoader;
-    std::array<std::array<Tile, number_of_tiles_per_window_width>, number_of_tiles_per_window_height> map;
+    static constexpr int width = 40;
+    static constexpr int height = 23;
+    
+    std::vector<std::vector<int>> mapLoader = std::vector<std::vector<int>>(height, std::vector<int>(width));
+    std::vector<std::vector<Tile>> map = std::vector<std::vector<Tile>>(height, std::vector<Tile>(width));
 
     std::map<int, std::string> m_textures;
 public:
