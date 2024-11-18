@@ -3,7 +3,7 @@
 #include "../header/Entity.h"
 #include "../header/Components.h"
 #include "../header/MapConfig.h"
-#include "AStar.h"
+#include <AStar.h>
 #include <fstream>
 #include <SFML/Graphics/RenderTarget.hpp>
 
