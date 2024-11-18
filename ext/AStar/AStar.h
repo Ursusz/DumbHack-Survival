@@ -17,7 +17,7 @@ namespace AStar
     {
         int x, y;
 
-        bool operator == (const Vec2i& coordinates_);
+        bool operator == (const Vec2i& coordinates_) const;
         friend Vec2i operator + (const AStar::Vec2i& left_, const AStar::Vec2i& right_) {
             return{ left_.x + right_.x, left_.y + right_.y };
         }
@@ -34,7 +34,7 @@ namespace AStar
         Node *parent;
 
         Node(Vec2i coord_, Node *parent_ = nullptr);
-        uint getScore();
+        uint getScore() const;
     };
 
     using NodeSet = std::vector<Node*>;

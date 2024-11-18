@@ -3,7 +3,7 @@
 #include "../header/Entity.h"
 #include "../header/Components.h"
 #include "../header/MapConfig.h"
-#include <AStar.h>
+#include "AStar.h"
 #include <fstream>
 #include <SFML/Graphics/RenderTarget.hpp>
 
@@ -15,6 +15,7 @@ class Zombie : public Entity{
     AStar::Generator m_generator;
     int next = 2;
     int obstacleReader = 0;
+    int map[23][40];
 public:
     Zombie() = default;
     Zombie(const myVec& position, const myVec& velocity, const std::string& texture_path, const std::string& entity_type);
