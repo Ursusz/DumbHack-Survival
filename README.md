@@ -7,6 +7,11 @@ Toate assets-urile din acest proiect sunt create de mine, folosind [acest tool](
 ## Fonts
 Font-ul textului din proiect a fost downloadat de [aici](https://font.download/font/arial).
 
+## Surse cod extern
+
+În acest proiect, am folosit [AStar](ext/AStar) din surse externe:
+  1. **[a-star](https://github.com/daancode/a-star)** - [Licența MIT](https://github.com/daancode/a-star?tab=MIT-1-ov-file)
+
 ## Tema 2
 
 #### Cerințe
