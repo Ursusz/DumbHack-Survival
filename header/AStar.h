@@ -42,7 +42,7 @@ namespace AStar
     class Generator
     {
         bool detectCollision(Vec2i coordinates_);
-        Node* findNodeOnList(NodeSet& nodes_, Vec2i coordinates_);
+        Node* findNodeOnList(const NodeSet& nodes_, Vec2i coordinates_);
         void releaseNodes(NodeSet& nodes_);
 
     public:
@@ -52,13 +52,13 @@ namespace AStar
         void setHeuristic(HeuristicFunction heuristic_);
         CoordinateList findPath(Vec2i source_, Vec2i target_);
         void addCollision(Vec2i coordinates_);
-        void removeCollision(Vec2i coordinates_);
-        void clearCollisions();
+        // void removeCollision(Vec2i coordinates_);
+        // void clearCollisions();
 
     private:
         HeuristicFunction heuristic;
         CoordinateList direction, walls;
-        Vec2i worldSize;
+        Vec2i worldSize = {0, 0};
         uint directions;
     };
 
@@ -69,7 +69,7 @@ namespace AStar
     public:
         static uint manhattan(Vec2i source_, Vec2i target_);
         static uint euclidean(Vec2i source_, Vec2i target_);
-        static uint octagonal(Vec2i source_, Vec2i target_);
+        // static uint octagonal(Vec2i source_, Vec2i target_);
     };
 }
 
