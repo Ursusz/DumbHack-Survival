@@ -73,8 +73,7 @@ add_executable(${PROJECT_NAME}
         header/Text.h
         header/Collision.h
         source/Collision.cpp
-        header/AStar.h
-        source/AStar.cpp
+        ext/AStar/AStar.cpp
         header/MapConfig.h
 )
 
@@ -86,6 +85,7 @@ include(cmake/CompilerFlags.cmake)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE generated/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/AStar)
 target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-window sfml-system Threads::Threads)
 #target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE header)

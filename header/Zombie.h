@@ -2,9 +2,10 @@
 
 #include "../header/Entity.h"
 #include "../header/Components.h"
-#include "../header/AStar.h"
+#include "../ext/Astar/AStar.h"
 #include "../header/MapConfig.h"
 #include <fstream>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 class Zombie : public Entity{
     sf::Sprite drawingSprite;

@@ -1,5 +1,4 @@
 #include "../header/Zombie.h"
-#include <SFML/Graphics/RenderTarget.hpp>
 
 Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, const std::string& entity_type)
     : Entity(position, velocity, texture_path, entity_type) {
