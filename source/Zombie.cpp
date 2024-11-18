@@ -60,6 +60,7 @@ Zombie& Zombie::operator=(const Zombie &rhs) {
     Entity::operator=(rhs);
     lastHit = rhs.lastHit;
     m_generator = rhs.m_generator;
+    next = 2;
     std::ifstream in("Init/world.txt");
     for(int i = 0; i < MAP_HEIGHT; i++) {
         for(int j = 0; j < MAP_WIDTH; j++) {
