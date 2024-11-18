@@ -86,11 +86,11 @@ target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE generated/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
 
-add_library(AStarLib STATIC ext/AStar/AStar.cpp)#asta
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/AStar)#asta
+add_library(AStarLib STATIC ext/AStar/AStar.cpp)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/AStar)
 target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-window sfml-system Threads::Threads)
-target_link_libraries(${PROJECT_NAME} PRIVATE AStarLib) #asta
+target_link_libraries(${PROJECT_NAME} PRIVATE AStarLib)
 #target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE header)
 #target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE source)
 if(APPLE)

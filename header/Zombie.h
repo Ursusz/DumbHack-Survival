@@ -15,7 +15,6 @@ class Zombie : public Entity{
     AStar::Generator m_generator;
     int next = 2;
     int obstacleReader = 0;
-    int map[23][40];
 public:
     Zombie() = default;
     Zombie(const myVec& position, const myVec& velocity, const std::string& texture_path, const std::string& entity_type);
