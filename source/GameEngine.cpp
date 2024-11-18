@@ -76,6 +76,7 @@ void GameEngine::Init(const std::string& setupPath) {
                         32,
                         sf::Color::Red,
                         myVec(960, 540));
+
 }
 
 void GameEngine::run() {
@@ -87,10 +88,9 @@ void GameEngine::run() {
             handleEvents();
             checkPlayerOutOfBounds();
         }
-        checkCollisions(m_player, m_zombie);
 
-        for(size_t i = 0; i < 23; i++) {
-            for(size_t j = 0; j < 40; j++) {
+        for(size_t i = 0; i < MAP_HEIGHT; i++) {
+            for(size_t j = 0; j < MAP_WIDTH; j++) {
                 checkCollisions(m_player, m_tileManager.getTile(i, j));
                 checkCollisions(m_zombie, m_tileManager.getTile(i, j));
             }
@@ -102,6 +102,7 @@ void GameEngine::run() {
 
         if(m_player.isAlive()) {
             m_zombie.followPlayer(m_player.getPositionFromComp());
+            checkCollisions(m_player, m_zombie);
             m_zombie.updateSprite(m_zombie.getDirection());
             m_zombie.draw(m_window);
         }else {
@@ -185,7 +186,6 @@ void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
         e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
         e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
         e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) {
-
         if(e1.isType("player") && e2.isType("zombie")) {
             if(e2.getLastHit() == 0 && e1.getHitPoints() > 0) {
                 e1.updateHitPoints(10);
@@ -199,7 +199,6 @@ void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
         }
 
         m_collision.setOverlap(e1, e2);
-
         if((e1.isType("player") || e1.isType("zombie")) && (e2.isType("zombie") || e2.isType("tile"))) {
             if (m_collision.isHorizontalOverlap()) {
                 if (m_collision.isLeftOverlap()) {

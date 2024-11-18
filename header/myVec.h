@@ -30,7 +30,7 @@ public:
   bool normalize();
 
   //NOTE : maybe used later
-  // float distance(const myVec& rhs) const;
+  float distance(const myVec& rhs) const;
 
   float getX() const;
   float getY() const;

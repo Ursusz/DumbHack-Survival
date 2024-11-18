@@ -11,6 +11,7 @@
 #include "../header/TileManager.h"
 #include "../header/Text.h"
 #include "../header/Collision.h"
+#include "../header/MapConfig.h"
 
 class GameEngine {
     struct WindowSetup {int width=720, height=480, FPS=60; bool fullscreen=false;} myWindowConfig;
@@ -36,6 +37,7 @@ class GameEngine {
     std::string m_setupPath;
 
     int m_frame = 0;
+
 
     void Init(const std::string& setupPath);
 

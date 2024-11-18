@@ -73,6 +73,9 @@ add_executable(${PROJECT_NAME}
         header/Text.h
         header/Collision.h
         source/Collision.cpp
+        header/AStar.h
+        source/AStar.cpp
+        header/MapConfig.h
 )
 
 include(cmake/CompilerFlags.cmake)

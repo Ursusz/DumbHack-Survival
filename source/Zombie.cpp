@@ -1,19 +1,21 @@
 #include "../header/Zombie.h"
-
 #include <SFML/Graphics/RenderTarget.hpp>
 
 Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, const std::string& entity_type)
-    : Entity(position, velocity, texture_path, entity_type)
-{}
+    : Entity(position, velocity, texture_path, entity_type) {
+    m_generator.setWorldSize({23, 40});
+    m_generator.setHeuristic(AStar::Heuristic::euclidean);
+    m_generator.setDiagonalMovement(true);
+}
 
 Zombie::Zombie(const Zombie& rhs)
     : Entity(rhs)
+    , m_generator(rhs.m_generator)
 {}
 
 std::string &Zombie::getDirection() {
     return m_direction;
 }
-
 
 void Zombie::updateHitCooldown(int frame) {
     lastHit = frame;
@@ -24,12 +26,23 @@ int Zombie::getLastHit() const {
 }
 
 void Zombie::followPlayer(const myVec &playerPos) {
-    direction = playerPos - this->getPositionFromComp();
-    //The zombie movement is the vector from the player to it. So if the direction is greater than 48 it means that the zombie
-    //is next to the player. (the zombie and the player are both 16x16 and being scaled up to 3x, half the size of player and zombie is 16x3/2 = 24
-    //so the distance between them should be 24 + 24 = 48 for the collision to take place)
-    //Because they are not 16 pixels wide, only the sprite is, we are subtracting a padding of 12 pixels to look more like a real life collision)
-    if(direction.length() > 50) {
+    if(this->getPositionFromComp().distance(playerPos) > 100) {
+        auto path = m_generator.findPath({(int)playerPos.getY()/48, (int)playerPos.getX()/48},
+                        {(int)this->getPositionFromComp().getY()/48, (int)this->getPositionFromComp().getX()/48});
+        if(this->getPositionFromComp()/48 != playerPos/48 && (int)path.size() > next) {
+            if(this->getPositionFromComp().getX()/48 < path.at(next).x || this->getPositionFromComp().getX()/48 > path.at(next).x
+                    || this->getPositionFromComp().getY() < path.at(next).y || this->getPositionFromComp().getY()/48 > path.at(next).y) {
+                direction = myVec(path.at(next).y * 48 + 24 - this->getPositionFromComp().getX(), path.at(next).x * 48 + 24 - this->getPositionFromComp().getY());
+                    }else {
+                        next++;
+                    }
+        }
+    }else {
+        direction = playerPos - this->getPositionFromComp();
+    }
+    ///Zombie width and height are both 48, same for player, so the distance between their middle points is 48
+    ///the zombie should stop right before he hits the player (48 + 1 pixel padding) so he won't push the player
+    if(direction.length() > 49) {
         direction.normalize();
         direction *= 1.5f;
         this->updatePositionInComp(direction);
@@ -46,5 +59,17 @@ Zombie& Zombie::operator=(const Zombie &rhs) {
     }
     Entity::operator=(rhs);
     lastHit = rhs.lastHit;
+    m_generator = rhs.m_generator;
+    ///TODO : remove these declarations from here
+    std::ifstream in("Init/world.txt");
+    for(int i = 0; i < MAP_HEIGHT; i++) {
+        for(int j = 0; j < MAP_WIDTH; j++) {
+            in >> obstacleReader;
+            if(obstacleReader != 0) {
+                m_generator.addCollision({i, j});
+            }
+        }
+    }
+    in.close();
     return *this;
 }

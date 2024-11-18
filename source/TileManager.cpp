@@ -27,9 +27,10 @@ Tile& TileManager::getTile(size_t i, size_t j) {
 }
 
 void TileManager::loadMap(const std::string &mapFile) {
-
-    m_textures.insert({0, "assets/WoodenPlank.png"});
+    m_textures.insert({0, "assets/woodenPlank.png"});
     m_textures.insert({1, "assets/pixil-frame-0 (5).png"});
+    m_textures.insert({2, "assets/Tree.png"});
+    m_textures.insert({3, "assets/wall.png"});
     std::ifstream file(mapFile);
     if (!file.is_open()) {
         std::cerr << "Could not open file " << mapFile << std::endl;
@@ -40,7 +41,7 @@ void TileManager::loadMap(const std::string &mapFile) {
             file >> mapLoader[i][j];
             map[i][j] = Tile(myVec(j * 48 + 24, i * 48 + 24),
                             m_textures.at(mapLoader[i][j]),
-                            mapLoader[i][j] == 1 ? "tile" : "test");
+                            mapLoader[i][j] != 0 ? "tile" : "test");
         }
     }
     file.close();
