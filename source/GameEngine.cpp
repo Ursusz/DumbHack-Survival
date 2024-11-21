@@ -1,8 +1,6 @@
 #include <utility>
 
 #include "../header/GameEngine.h"
-
-#include "../cmake-build-debug/_deps/sfml-src/extlibs/headers/glad/include/glad/gl.h"
 #include "../header/Player.h"
 #include "../header/Zombie.h"
 
