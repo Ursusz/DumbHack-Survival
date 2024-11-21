@@ -7,6 +7,7 @@
 #include <fstream>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <math.h>
+#include <array>
 
 class Zombie : public Entity{
     std::shared_ptr<SpriteComponent> heartSprite;
