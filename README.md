@@ -9,8 +9,10 @@ Font-ul textului din proiect a fost downloadat de [aici](https://font.download/f
 
 ## Surse cod extern
 
-În acest proiect, am folosit [AStar](ext/AStar) din surse externe:
+În acest proiect, am folosit algoritmul [AStar](ext/AStar) din surse externe:
   1. **[a-star](https://github.com/daancode/a-star)** - [Licența MIT](https://github.com/daancode/a-star?tab=MIT-1-ov-file)
+    
+  > De menționat faptul că am adus modificări proprii asupra sursei externe, pentru a putea fi implementată în cadrul acestui proiect.
 
 ## Tema 2
 

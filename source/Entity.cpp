@@ -13,6 +13,7 @@ Entity::Entity(const Entity &rhs)
     : m_cMotion(rhs.m_cMotion)
     , m_cSprite(rhs.m_cSprite)
     , m_cBoundingBox(rhs.m_cBoundingBox)
+    , m_EntityType(rhs.m_EntityType)
 {}
 
 myVec Entity::getVelocityFromComp() const {
@@ -47,11 +48,7 @@ void Entity::setPositionInComp(const myVec &position) const {
 void Entity::changeAnimation() {
     current_frame++;
     if(current_frame > change_animation_frame) {
-        if(assets_pos_x == 0) {
-            assets_pos_x = 16;
-        }else if(assets_pos_x == 16) {
-            assets_pos_x = 0;
-        }
+        assets_pos_x = (assets_pos_x == 0) ? 16 : 0;
         current_frame = 0;
     }
 }

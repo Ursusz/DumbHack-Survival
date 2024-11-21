@@ -28,9 +28,10 @@ Tile& TileManager::getTile(size_t i, size_t j) {
 
 void TileManager::loadMap(const std::string &mapFile) {
     m_textures.insert({0, "assets/woodenPlank.png"});
-    m_textures.insert({1, "assets/pixil-frame-0 (5).png"});
+    m_textures.insert({1, "assets/table.png"});
     m_textures.insert({2, "assets/Tree.png"});
     m_textures.insert({3, "assets/wall.png"});
+    m_textures.insert({4, "assets/computer.png"});
     std::ifstream file(mapFile);
     if (!file.is_open()) {
         std::cerr << "Could not open file " << mapFile << std::endl;
@@ -39,6 +40,8 @@ void TileManager::loadMap(const std::string &mapFile) {
     for(int i = 0; i < number_of_tiles_per_window_height; i++) {
         for(int j = 0; j < number_of_tiles_per_window_width; j++) {
             file >> mapLoader[i][j];
+            ///Every tile is 48x48 so I am placing them at 48 pixels between each of them
+            ///but i want them to be placed where their origin is located (their center -> 48/2 = 24) so i am adding 24 more pixels
             map[i][j] = Tile(myVec(j * 48 + 24, i * 48 + 24),
                             m_textures.at(mapLoader[i][j]),
                             mapLoader[i][j] != 0 ? "tile" : "test");

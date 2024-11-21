@@ -21,6 +21,5 @@ public:
     ~Text() = default;
 
     void drawText(sf::RenderTarget& target);
-    void updateTextContent(const std::string& text);
     Text& operator=(const Text& rhs);
 };

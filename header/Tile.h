@@ -11,4 +11,6 @@ public:
     Tile() = default;
     Tile(const myVec& position, const std::string& texture_path, const std::string& entity_type);
     ~Tile() override = default;
+    void takeDamage(int damage) override;
+    bool canHit(int) override;
 };

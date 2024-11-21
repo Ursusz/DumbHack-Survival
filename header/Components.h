@@ -135,11 +135,6 @@ public:
     sf::Sprite getSprite() const {
         return m_sprite;
     }
-
-    ///Maybe used later
-    // void setSprite(const sf::Texture& texture) {
-    //     m_sprite.setTexture(texture);
-    // }
 };
 
 class BoundingBoxComponent {

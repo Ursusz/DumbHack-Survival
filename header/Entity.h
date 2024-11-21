@@ -36,17 +36,8 @@ public:
 
     void draw(sf::RenderTarget& target);
 
-    //virtual functions for player class
-    virtual int getHitPoints() const {return 0;}
-    ///NOTE : this function will be changed into pure virtual function
-    ///For now zombies cant take damage
-    ///Changing this to pure when zombie damage is implemented
-    virtual void updateHitPoints(int /*damage*/) {}
-
-    //virtual functions for zombie class
-    virtual int getLastHit() const {return 0;};
-    ///Same fot his one
-    virtual void updateHitCooldown(int /*frame*/) {}
+    virtual bool canHit(int /*frame*/) = 0;
+    virtual void takeDamage(int /*damage*/) = 0;
 
     friend std::ostream& operator<<(std::ostream& os, const Entity& rhs);
     Entity& operator=(const Entity& rhs);

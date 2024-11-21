@@ -2,6 +2,7 @@
 
 #include "../header/GameEngine.h"
 
+#include "../cmake-build-debug/_deps/sfml-src/extlibs/headers/glad/include/glad/gl.h"
 #include "../header/Player.h"
 #include "../header/Zombie.h"
 
@@ -64,18 +65,15 @@ void GameEngine::Init(const std::string& setupPath) {
                         myVec(myZombieConfig.vecX, myZombieConfig.vecY),
                         "assets/Zombie.png",
                         "zombie");
-
-    m_playerHPText = Text("Fonts/ARIAL.TTF",
-                "Player HP : " + std::to_string(m_player.getHitPoints()),
-                24,
-                sf::Color::Cyan,
-                myVec(960, 100));
+    m_zombies.push_back(m_zombie);
 
     m_gameLostMsg = Text("Fonts/ARIAL.TTF",
                         "GAME LOST",
                         32,
                         sf::Color::Red,
                         myVec(960, 540));
+
+    loadBarSprite = std::make_shared<SpriteComponent>("assets/loadBar.png");
 
 }
 
@@ -92,7 +90,9 @@ void GameEngine::run() {
         for(size_t i = 0; i < MAP_HEIGHT; i++) {
             for(size_t j = 0; j < MAP_WIDTH; j++) {
                 checkCollisions(m_player, m_tileManager.getTile(i, j));
-                checkCollisions(m_zombie, m_tileManager.getTile(i, j));
+                for(auto& zombie : m_zombies) {
+                    checkCollisions(zombie, m_tileManager.getTile(i, j));
+                }
             }
         }
 
@@ -101,20 +101,26 @@ void GameEngine::run() {
         m_tileManager.printMap(m_window);
 
         if(m_player.isAlive()) {
-            m_zombie.followPlayer(m_player.getPositionFromComp());
-            checkCollisions(m_player, m_zombie);
-            m_zombie.updateSprite(m_zombie.getDirection());
-            m_zombie.draw(m_window);
+            for(auto& zombie : m_zombies) {
+                zombie.followPlayer(m_player.getPositionFromComp());
+                checkCollisions(m_player, zombie);
+                zombie.updateSprite(zombie.getDirection());
+                zombie.draw(m_window);
+                zombie.drawHP(m_window);
+            }
         }else {
             m_gameLostMsg.drawText(m_window);
         }
-        m_playerHPText.drawText(m_window);
         m_player.draw(m_window);
+        m_player.drawHP(m_window);
 
+        loadingBarComputer();
         m_window.display();
 
         m_player.changeAnimation();
-        m_zombie.changeAnimation();
+        for(auto& zombie : m_zombies) {
+            zombie.changeAnimation();
+        }
         m_frame++;
     }
 }
@@ -135,6 +141,9 @@ void GameEngine::listenEvents() {
             }
             if(event.key.code == sf::Keyboard::R) {
                 run();
+            }
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                attackEnemies();
             }
         }
         if(event.type == sf::Event::KeyReleased) {
@@ -187,14 +196,8 @@ void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
         e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
         e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) {
         if(e1.isType("player") && e2.isType("zombie")) {
-            if(e2.getLastHit() == 0 && e1.getHitPoints() > 0) {
-                e1.updateHitPoints(10);
-                e2.updateHitCooldown(m_frame);
-                m_playerHPText.updateTextContent("Player HP : " + std::to_string(e1.getHitPoints()));
-            }else if(m_frame - e2.getLastHit() > 180 && e1.getHitPoints() > 0) {   ///180 = 3 seconds, the zombie should have a 3 seconds cooldown between hits
-                e1.updateHitPoints(10);
-                e2.updateHitCooldown(m_frame);
-                m_playerHPText.updateTextContent("Player HP : " + std::to_string(e1.getHitPoints()));
+            if(e2.canHit(m_frame)) {
+                e1.takeDamage(10);
             }
         }
 
@@ -212,6 +215,35 @@ void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
                 } else {
                     e1.setPositionInComp(e1.getPositionFromComp() - myVec(0.0f, m_collision.getOverlapY()));
                 }
+            }
+        }
+    }
+}
+
+void GameEngine::loadingBarComputer() {
+    if(m_player.isInComputerRange()) {
+        frameCounterInsideComputerRange++;
+        for(int i = 0; i < 12; i++) {
+            loadBars[i] = loadBarSprite->getSprite();
+            loadBars[i].setOrigin(8, 8);
+            loadBars[i].setScale(1, 1);
+            loadBars[i].setPosition(888 - 34 + i * 6, 552 - 35);
+        }
+    }
+    for(int i = 0; i < 12; i++) {
+        if(frameCounterInsideComputerRange/3 > i) {
+            m_window.draw(loadBars[i]);
+        }
+    }
+}
+
+void GameEngine::attackEnemies() {
+    for(auto& zombie : m_zombies) {
+        myVec attackDirection(sf::Mouse::getPosition().x - m_player.getPositionFromComp().getX(), sf::Mouse::getPosition().y - m_player.getPositionFromComp().getY());
+        attackDirection.normalize();
+        if(m_player.isEnemyInFront(zombie.getPositionFromComp(), attackDirection, 100, 90)) {
+            if(m_player.canHit(m_frame)) {
+                zombie.takeDamage(10);
             }
         }
     }

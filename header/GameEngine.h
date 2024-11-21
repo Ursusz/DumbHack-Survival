@@ -26,18 +26,20 @@ class GameEngine {
     sf::VideoMode m_desktopMode;
     sf::View m_view;
 
-    Text m_playerHPText;
     Text m_gameLostMsg;
 
     Player m_player;
     Zombie m_zombie;
+    std::vector<Zombie> m_zombies;
     TileManager m_tileManager;
 
     std::map<sf::Keyboard::Key, int> keyMap;
     std::string m_setupPath;
 
     int m_frame = 0;
-
+    int frameCounterInsideComputerRange = 0;
+    std::shared_ptr<SpriteComponent> loadBarSprite;
+    std::array<sf::Sprite, 12> loadBars;
 
     void Init(const std::string& setupPath);
 
@@ -45,6 +47,8 @@ class GameEngine {
     void handleEvents() const;
     void checkPlayerOutOfBounds();
     void checkCollisions(Entity& e1, Entity& e2);
+    void loadingBarComputer();
+    void attackEnemies();
 public:
     explicit GameEngine(std::string  setupPath);
     ~GameEngine() = default;

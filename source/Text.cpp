@@ -24,10 +24,6 @@ void Text::drawText(sf::RenderTarget &target) {
     target.draw(m_text);
 }
 
-void Text::updateTextContent(const std::string &text) {
-    m_text.setString(text);
-}
-
 Text& Text::operator=(const Text &rhs) {
     if(&rhs == this) {
         return *this;
