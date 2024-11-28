@@ -4,6 +4,7 @@
 #include "../header/Components.h"
 #include <memory>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 class Computer {
     const myVec position;
     std::shared_ptr<SpriteComponent> loadBarSprite;
@@ -12,7 +13,7 @@ class Computer {
     static int computersCount;
     bool hasCompleted = false;
 public:
-    Computer() = default;;
+    Computer() = default;
     explicit Computer(const myVec& position);
     explicit Computer(const Computer& rhs);
     ~Computer();

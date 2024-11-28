@@ -6,10 +6,8 @@
 #include "../header/myVec.h"
 
 class Weapon {
-    int animationDuration=30;
     sf::Sprite m_sprite;
     sf::Texture m_texture;
-    bool lastDirection = 0;
     sf::Clock clock;
     int currentStage = -1;
 public:

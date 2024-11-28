@@ -4,7 +4,6 @@ Computer::Computer(const myVec &position)
     : position(position)
     , loadBarSprite(std::make_shared<SpriteComponent>("assets/loadBar.png")){
     computersCount++;
-    std::cout<<computersCount<<std::endl;
 }
 
 Computer::Computer(const Computer& rhs)
