@@ -5,6 +5,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "../header/Computer.h"
 #include "../header/Zombie.h"
 #include "../header/Player.h"
 #include "../header/myVec.h"
@@ -27,6 +28,7 @@ class GameEngine {
     sf::View m_view;
 
     Text m_gameLostMsg;
+    Text m_gameWonMsg;
 
     Player m_player;
     Zombie m_zombie;
@@ -37,9 +39,7 @@ class GameEngine {
     std::string m_setupPath;
 
     int m_frame = 0;
-    int frameCounterInsideComputerRange = 0;
-    std::shared_ptr<SpriteComponent> loadBarSprite;
-    std::array<sf::Sprite, 12> loadBars;
+    std::vector<Computer> objectComputers;
 
     void Init(const std::string& setupPath);
 

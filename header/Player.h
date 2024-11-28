@@ -8,6 +8,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <array>
 #include "../header/Entity.h"
+#include "../header/Weapon.h"
 
 class Player : public Entity{
     std::shared_ptr<KeyboardComponent> m_cKeyboard;
@@ -16,7 +17,8 @@ class Player : public Entity{
     int hitPoints = 100;
     std::array<sf::Sprite, 5> hearts = {};
     int lastHit = 0;
-
+    std::shared_ptr<Weapon> m_weapon;
+    bool lastDirection = 0;
 public:
     Player() = default;
     Player(const myVec& position, const myVec& velocity, const std::string& texture_path, const std::string& entity_type);
@@ -33,12 +35,14 @@ public:
     bool canHit(int frame) override;
 
 
-    bool isEnemyInFront(const myVec& enemyPos, const myVec& playerDirection, float range, float angleThreshHold);
+    bool isEnemyInFront(const myVec& enemyPos, const myVec& playerDirection, float range, float  );
 
     void setKeyValue(int, bool); /// 0 - Up, 1 - Down, 2 - Left, 3 - Right
 
     void drawHP(sf::RenderTarget& m_window);
-    bool isInComputerRange() const;
+
+    void drawWeapon(sf::RenderTarget& m_window);
+    void swingWeapon();
 
     Player& operator=(const Player& rhs);
 };

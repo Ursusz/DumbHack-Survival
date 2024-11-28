@@ -2,6 +2,8 @@
 #include <map>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <fstream>
+
+#include "../header/Computer.h"
 #include "../header/Tile.h"
 
 class TileManager{
@@ -23,6 +25,6 @@ public:
     Tile& getTile(size_t i, size_t j);
 
     TileManager& operator=(const TileManager& rhs);
-    void loadMap(const std::string& mapFile);
+    void loadMap(const std::string& mapFile, std::vector<Computer>& objectComputers);
     void printMap(sf::RenderTarget& target);
 };

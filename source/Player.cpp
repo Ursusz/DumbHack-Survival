@@ -5,11 +5,13 @@ Player::Player(const myVec &position, const myVec &velocity, const std::string& 
     : Entity(position, velocity, texture_path, entity_type)
     , m_cKeyboard(std::make_shared<KeyboardComponent>())
     , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
+    , m_weapon(std::make_shared<Weapon>("assets/weapon.png"))
 {}
 
 Player::Player(const Player &rhs)
     : Entity(rhs)
     , m_cKeyboard(rhs.m_cKeyboard)
+    , m_weapon(rhs.m_weapon)
 {}
 
 
@@ -40,7 +42,7 @@ void Player::takeDamage(int damage) {
 }
 
 bool Player::canHit(int frame) {
-    if(lastHit == 0 || frame - lastHit > 60) {
+    if(lastHit == 0 || frame - lastHit > 30) {
         lastHit = frame;
         return true;
     }
@@ -69,9 +71,11 @@ void Player::setKeyValue(int key, bool toggle) {
             break;
         case 2:
             m_cKeyboard->setLeft(toggle);
+            lastDirection = 1;
             break;
         case 3:
             m_cKeyboard->setRight(toggle);
+            lastDirection = 0;
             break;
         default: break;
     }
@@ -82,6 +86,9 @@ void Player::drawHP(sf::RenderTarget &m_window) {
         hearts[i] = heartSprite->getSprite();
         hearts[i].setOrigin(8, 8);
         hearts[i].setScale(1, 1);
+        /// -26 means that the hearts vector is placed 26 px further to the left so the HP is centered to the player
+        /// i * 12 is placing every heart at 12 pixels from each other
+        /// 48 is placing the hearts vector 48 pixels above the player
         hearts[i].setPosition(Entity::getPositionFromComp().getX() - 26 + i*12, Entity::getPositionFromComp().getY()-48);
         if(hitPoints%20 != 0) {
             hearts[hitPoints/20].setTextureRect(sf::IntRect(17, 0, 16, 16));
@@ -90,9 +97,14 @@ void Player::drawHP(sf::RenderTarget &m_window) {
     }
 }
 
-bool Player::isInComputerRange() const {
-    if(this->getPositionFromComp().distance(myVec(888, 552)) < 200) return true;
-    return false;
+
+void Player::drawWeapon(sf::RenderTarget &m_window) {
+    m_weapon->updateAnim();
+    m_weapon->draw(m_window, this->getPositionFromComp(), lastDirection);
+}
+
+void Player::swingWeapon() {
+    m_weapon->swing();
 }
 
 
@@ -105,5 +117,6 @@ Player& Player::operator=(const Player &rhs) {
     heartSprite = rhs.heartSprite;
     hitPoints = 100;
     lastHit = 0;
+    m_weapon = rhs.m_weapon;
     return *this;
 }

@@ -48,7 +48,8 @@ void GameEngine::Init(const std::string& setupPath) {
 
     m_window.setFramerateLimit(myWindowConfig.FPS);
 
-    m_tileManager.loadMap("Init/world.txt");
+    ///tile_manager is loading the map textures and also saving here the coordinates of every computer on the map
+    m_tileManager.loadMap("Init/world.txt", objectComputers);
 
     keyMap[sf::Keyboard::W] = 0;    //UP
     keyMap[sf::Keyboard::S] = 1;    //DOWN
@@ -71,8 +72,11 @@ void GameEngine::Init(const std::string& setupPath) {
                         sf::Color::Red,
                         myVec(960, 540));
 
-    loadBarSprite = std::make_shared<SpriteComponent>("assets/loadBar.png");
-
+    m_gameWonMsg = Text("Fonts/ARIAL.TTF",
+                        "GAME WON",
+                        32,
+                        sf::Color::Green,
+                        myVec(960, 540));
 }
 
 void GameEngine::run() {
@@ -80,7 +84,7 @@ void GameEngine::run() {
 
     while(m_window.isOpen()) {
         listenEvents();
-        if(m_player.isAlive()) {
+        if(m_player.isAlive() && !Computer::allComputersCompleted()) {
             handleEvents();
             checkPlayerOutOfBounds();
         }
@@ -98,7 +102,7 @@ void GameEngine::run() {
 
         m_tileManager.printMap(m_window);
 
-        if(m_player.isAlive()) {
+        if(m_player.isAlive() && !Computer::allComputersCompleted()) {
             for(auto& zombie : m_zombies) {
                 zombie.followPlayer(m_player.getPositionFromComp());
                 checkCollisions(m_player, zombie);
@@ -106,11 +110,14 @@ void GameEngine::run() {
                 zombie.draw(m_window);
                 zombie.drawHP(m_window);
             }
-        }else {
+        }else if(!m_player.isAlive()) {
             m_gameLostMsg.drawText(m_window);
+        }else if(Computer::allComputersCompleted()) {
+            m_gameWonMsg.drawText(m_window);
         }
         m_player.draw(m_window);
         m_player.drawHP(m_window);
+        m_player.drawWeapon(m_window);
 
         loadingBarComputer();
         m_window.display();
@@ -140,9 +147,10 @@ void GameEngine::listenEvents() {
             if(event.key.code == sf::Keyboard::R) {
                 run();
             }
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                attackEnemies();
-            }
+        }
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            m_player.swingWeapon();
+            attackEnemies();
         }
         if(event.type == sf::Event::KeyReleased) {
             if (keyMap.contains(event.key.code)) {
@@ -219,19 +227,8 @@ void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
 }
 
 void GameEngine::loadingBarComputer() {
-    if(m_player.isInComputerRange()) {
-        frameCounterInsideComputerRange++;
-        for(int i = 0; i < 12; i++) {
-            loadBars[i] = loadBarSprite->getSprite();
-            loadBars[i].setOrigin(8, 8);
-            loadBars[i].setScale(1, 1);
-            loadBars[i].setPosition(888 - 34 + i * 6, 552 - 35);
-        }
-    }
-    for(int i = 0; i < 12; i++) {
-        if(frameCounterInsideComputerRange/3 > i) {
-            m_window.draw(loadBars[i]);
-        }
+    for(auto& computer : objectComputers) {
+        computer.drawLoadBars(m_window, m_player.getPositionFromComp());
     }
 }
 
@@ -239,7 +236,7 @@ void GameEngine::attackEnemies() {
     for(auto& zombie : m_zombies) {
         myVec attackDirection(sf::Mouse::getPosition().x - m_player.getPositionFromComp().getX(), sf::Mouse::getPosition().y - m_player.getPositionFromComp().getY());
         attackDirection.normalize();
-        if(m_player.isEnemyInFront(zombie.getPositionFromComp(), attackDirection, 100, 90)) {
+        if(m_player.isEnemyInFront(zombie.getPositionFromComp(), attackDirection, 110, 90)) {
             if(m_player.canHit(m_frame)) {
                 zombie.takeDamage(10);
             }

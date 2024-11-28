@@ -75,6 +75,10 @@ add_executable(${PROJECT_NAME}
         source/Collision.cpp
         ext/AStar/AStar.cpp
         header/MapConfig.h
+        header/Weapon.h
+        source/Weapon.cpp
+        header/Computer.h
+        source/Computer.cpp
 )
 
 include(cmake/CompilerFlags.cmake)
