@@ -3,6 +3,7 @@
 #include "../header/myVec.h"
 #include "../header/Components.h"
 #include <memory>
+#include <array>
 #include <SFML/Graphics.hpp>
 
 class Computer {

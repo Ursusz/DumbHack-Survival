@@ -1,7 +1,6 @@
 
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <iostream>
 #include "../header/myVec.h"
 

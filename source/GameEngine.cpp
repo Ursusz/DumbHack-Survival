@@ -1,8 +1,4 @@
-#include <utility>
-
 #include "../header/GameEngine.h"
-#include "../header/Player.h"
-#include "../header/Zombie.h"
 
 GameEngine::GameEngine(std::string  setupPath) : m_setupPath(std::move(setupPath)) {}
 
