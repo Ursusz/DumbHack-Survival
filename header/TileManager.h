@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics.hpp>
 #include <fstream>
 
 #include "../header/Computer.h"
