@@ -8,7 +8,6 @@
 #include "../header/Computer.h"
 #include "../header/Zombie.h"
 #include "../header/Player.h"
-#include "../header/myVec.h"
 #include "../header/TileManager.h"
 #include "../header/Text.h"
 #include "../header/Collision.h"

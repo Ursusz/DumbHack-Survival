@@ -4,7 +4,7 @@
 #include "../header/Components.h"
 #include <memory>
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Sprite.hpp>
+
 class Computer {
     const myVec position;
     std::shared_ptr<SpriteComponent> loadBarSprite;
@@ -15,7 +15,7 @@ class Computer {
 public:
     Computer() = default;
     explicit Computer(const myVec& position);
-    explicit Computer(const Computer& rhs);
+    Computer(const Computer& rhs);
     ~Computer();
 
     void drawLoadBars(sf::RenderTarget& target, const myVec& playerPos);
