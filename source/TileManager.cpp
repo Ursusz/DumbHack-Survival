@@ -27,19 +27,24 @@ Tile& TileManager::getTile(size_t i, size_t j) {
 }
 
 void TileManager::loadMap(const std::string &mapFile, std::vector<Computer>& objectComputers) {
-    m_textures.insert({0, "assets/woodenPlank.png"});
-    m_textures.insert({1, "assets/table.png"});
-    m_textures.insert({2, "assets/Tree.png"});
-    m_textures.insert({3, "assets/wall.png"});
-    m_textures.insert({4, "assets/computer.png"});
-    m_textures.insert({5, "assets/upper_wall.png"});
-    m_textures.insert({6, "assets/left_wall.png"});
-    m_textures.insert({7, "assets/wall_corner_left.png"});
-    m_textures.insert({8, "assets/right_wall.png"});
-    m_textures.insert({9, "assets/wall_corner_right.png"});
+    try {
+        m_textures.insert({0, "assets/woodenPlank.png"});
+        m_textures.insert({1, "assets/table.png"});
+        m_textures.insert({2, "assets/Tree.png"});
+        m_textures.insert({3, "assets/wall.png"});
+        m_textures.insert({4, "assets/computer.png"});
+        m_textures.insert({5, "assets/upper_wall.png"});
+        m_textures.insert({6, "assets/left_wall.png"});
+        m_textures.insert({7, "assets/wall_corner_left.png"});
+        m_textures.insert({8, "assets/right_wall.png"});
+        m_textures.insert({9, "assets/wall_corner_right.png"});
+
+    }catch(const textureError& err) {
+        throw;
+    }
     std::ifstream file(mapFile);
     if (!file.is_open()) {
-        std::cerr << "Could not open file " << mapFile << std::endl;
+        throw fileNotFound(mapFile);
     }
 
     for(int i = 0; i < number_of_tiles_per_window_height; i++) {

@@ -3,9 +3,10 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
-#include "../header/myVec.h"
 #include <iostream>
 #include <memory>
+#include "../header/myVec.h"
+#include "../header/Exceptions.h"
 
 class Text {
     std::shared_ptr<sf::Font> m_font;

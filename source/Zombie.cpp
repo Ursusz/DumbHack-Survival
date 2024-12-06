@@ -40,7 +40,6 @@ bool Zombie::canHit(int frame) {
     return false;
 }
 
-
 void Zombie::drawHP(sf::RenderTarget &m_window) {
     for(int i = 0; i < std::ceil((float)hitPoints/20.0f); i++) {
         hearts[i] = heartSprite->getSprite();
@@ -72,7 +71,7 @@ void Zombie::followPlayer(const myVec &playerPos) {
             direction = playerPos - this->getPositionFromComp();
         }
     }else {
-        direction = myVec(2000, 540) - this->getPositionFromComp();
+        direction = myVec(2000, 552) - this->getPositionFromComp();
     }
     ///Zombie width and height are both 48, same for player, so the distance between their middle points is 48
     ///the zombie should stop right before he hits the player (48 + 1 pixel padding) so he won't push the player
@@ -92,7 +91,7 @@ Zombie& Zombie::operator=(const Zombie &rhs) {
         return *this;
     }
     Entity::operator=(rhs);
-    heartSprite = rhs.heartSprite;
+    heartSprite = rhs.heartSprite->clone();
     lastHit = rhs.lastHit;
     m_generator = rhs.m_generator;
     next = 2;

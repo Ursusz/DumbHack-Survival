@@ -1,7 +1,9 @@
 #pragma once
 #include "../header/myVec.h"
+#include "../header/Exceptions.h"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <iostream>
+#include <memory>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -36,6 +38,10 @@ public:
 
     void setPosition(const myVec& position) {
         m_position = position;
+    }
+
+    std::shared_ptr<MotionComponent> clone() {
+        return std::make_shared<MotionComponent>(*this);
     }
 
     /// Maybe used later
@@ -78,6 +84,10 @@ public:
         isRight = value;
     }
 
+    std::shared_ptr<KeyboardComponent> clone() {
+        return std::make_shared<KeyboardComponent>(*this);
+    }
+
     friend std::ostream& operator << (std::ostream& os, const KeyboardComponent& k) {
         os << k.isUp << " " << k.isDown << " " << k.isLeft << " " << k.isRight;
         return os;
@@ -94,9 +104,8 @@ public:
     explicit SpriteComponent(const std::string& texture_path)
         :m_texturePath(texture_path)
     {
-        if(!m_texture.loadFromFile(texture_path)) {
-            std::cerr << "Failed to load sprite texture: " << texture_path << std::endl;
-        }
+        if(!m_texture.loadFromFile(texture_path))
+            throw textureError(texture_path);
         m_sprite.setTexture(m_texture);
         m_sprite.setTextureRect(sf::IntRect(0, 0, 16, 16));
         m_sprite.setScale(3.0f, 3.0f);
@@ -131,6 +140,19 @@ public:
         }
     }
 
+    std::shared_ptr<SpriteComponent> clone() const {
+        auto clonedComponent = std::make_shared<SpriteComponent>();
+        clonedComponent->m_texturePath = m_texturePath;
+
+        if (!clonedComponent->m_texture.loadFromFile(m_texturePath)) {
+            throw textureError(m_texturePath);
+        }
+
+        clonedComponent->m_sprite = m_sprite;
+        clonedComponent->m_sprite.setTexture(clonedComponent->m_texture);
+
+        return clonedComponent;
+    }
 
     sf::Sprite getSprite() const {
         return m_sprite;
@@ -149,5 +171,9 @@ public:
     }
     int getHalfHeight() const {
         return m_halfHeight;
+    }
+
+    std::shared_ptr<BoundingBoxComponent> clone() {
+        return std::make_shared<BoundingBoxComponent>(m_halfWidth, m_halfHeight);
     }
 };

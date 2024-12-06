@@ -79,6 +79,8 @@ add_executable(${PROJECT_NAME}
         source/Weapon.cpp
         header/Computer.h
         source/Computer.cpp
+        header/Exceptions.h
+        source/Exceptions.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

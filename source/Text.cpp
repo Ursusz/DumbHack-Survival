@@ -7,9 +7,8 @@ Text::Text(const std::string& font_path,
            const myVec& position)
     : m_font(std::make_shared<sf::Font>())
 {
-    if(!m_font->loadFromFile(font_path)) {
-        std::cerr << "Failed to load font" << std::endl;
-    }
+    if(!m_font->loadFromFile(font_path))
+        throw fontError(font_path);
     m_text.setFont(*m_font);
     m_text.setString(text);
     m_text.setCharacterSize(character_size);

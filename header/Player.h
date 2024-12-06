@@ -1,4 +1,5 @@
 #pragma once
+
 #include <map>
 #include <memory>
 #include <math.h>
@@ -18,7 +19,8 @@ class Player : public Entity{
     std::array<sf::Sprite, 5> hearts = {};
     int lastHit = 0;
     std::shared_ptr<Weapon> m_weapon;
-    bool lastDirection = 0;
+    bool lastDirection = false;
+    sf::VertexArray semicircle = sf::VertexArray(sf::TrianglesFan);
 public:
     Player() = default;
     Player(const myVec& position, const myVec& velocity, const std::string& texture_path, const std::string& entity_type);
@@ -34,7 +36,6 @@ public:
     void takeDamage(int damage) override;
     bool canHit(int frame) override;
 
-
     bool isEnemyInFront(const myVec& enemyPos, const myVec& playerDirection, float range, float  );
 
     void setKeyValue(int, bool); /// 0 - Up, 1 - Down, 2 - Left, 3 - Right
@@ -43,6 +44,8 @@ public:
 
     void drawWeapon(sf::RenderTarget& m_window);
     void swingWeapon();
+
+    void drawRange(sf::RenderTarget& target, float radius, float directionAngle);
 
     Player& operator=(const Player& rhs);
 };

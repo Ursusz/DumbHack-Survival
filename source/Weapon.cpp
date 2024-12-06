@@ -2,7 +2,7 @@
 
 Weapon::Weapon(const std::string &texturePath) {
     if(!m_texture.loadFromFile(texturePath)) {
-        std::cerr << "Failed to load sprite texture: " << texturePath << std::endl;
+        throw textureError(texturePath);
     }
     m_sprite.setTexture(m_texture);
     m_sprite.setTextureRect(sf::IntRect(0, 0, 16, 16));
@@ -35,7 +35,7 @@ void Weapon::swing() {
 void Weapon::updateAnim() {
     if(currentStage != -1) {
         ///the frame for weapon animation is changed every 0.15 seconds
-        if(clock.getElapsedTime().asSeconds() >= 0.15) {
+        if(clock.getElapsedTime().asSeconds() >= 0.1) {
             currentStage ++;
             if(currentStage > 2) {
                 m_sprite.setTextureRect(sf::IntRect(0, 0, 16, 16));
@@ -47,3 +47,16 @@ void Weapon::updateAnim() {
     }
 }
 
+std::shared_ptr<Weapon> Weapon::clone() {
+    auto clonedWeapon = std::make_shared<Weapon>();
+
+    if(!clonedWeapon->m_texture.loadFromFile("assets/weapon.png")) {
+        throw textureError("assets/weapon.png");
+    }
+    clonedWeapon->m_sprite = m_sprite;
+    clonedWeapon->m_sprite.setTexture(clonedWeapon->m_texture);
+    clonedWeapon->currentStage = currentStage;
+    clonedWeapon->clock = clock;
+
+    return clonedWeapon;
+}

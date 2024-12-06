@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <fstream>
 
+#include "../header/Exceptions.h"
 #include "../header/Computer.h"
 #include "../header/Tile.h"
 

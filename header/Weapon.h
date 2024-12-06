@@ -1,8 +1,9 @@
-
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <memory>
 #include "../header/myVec.h"
+#include "../header/Exceptions.h"
 
 class Weapon {
     sf::Sprite m_sprite;
@@ -16,4 +17,5 @@ public:
     void draw(sf::RenderTarget& target, const myVec& position, bool direction); /* 0 - RIGHT; 1 - LEFT */
     void swing();
     void updateAnim();
+    std::shared_ptr<Weapon> clone();
 };

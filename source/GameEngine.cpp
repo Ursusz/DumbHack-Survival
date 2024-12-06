@@ -45,34 +45,55 @@ void GameEngine::Init(const std::string& setupPath) {
     m_window.setFramerateLimit(myWindowConfig.FPS);
 
     ///tile_manager is loading the map textures and also saving here the coordinates of every computer on the map
-    m_tileManager.loadMap("Init/world.txt", objectComputers);
-
+    try {
+        m_tileManager.loadMap("Init/world.txt", objectComputers);
+    }catch(const textureError& err) {
+        std::cerr << "Tile manager error: " << err.what() << std::endl;
+        m_window.close();
+    }catch(const fileNotFound& err) {
+        std::cerr << "Tile manager error: " << err.what() << std::endl;
+        m_window.close();
+    }
     keyMap[sf::Keyboard::W] = 0;    //UP
     keyMap[sf::Keyboard::S] = 1;    //DOWN
     keyMap[sf::Keyboard::A] = 2;    //LEFT
     keyMap[sf::Keyboard::D] = 3;    //RIGHT
 
-    m_player = Player(myVec(myPlayerConfig.posX, myPlayerConfig.posY),
-                        myVec(myPlayerConfig.vecX, myPlayerConfig.vecY),
-                        "assets/Player.png",
-                        "player");
-    m_zombie = Zombie(myVec(myZombieConfig.posX, myZombieConfig.posY),
+    try {
+        m_player = Player(myVec(myPlayerConfig.posX, myPlayerConfig.posY),
+                            myVec(myPlayerConfig.vecX, myPlayerConfig.vecY),
+                            "assets/Player.png",
+                            "player");
+        m_zombie = Zombie(myVec(myZombieConfig.posX, myZombieConfig.posY),
                         myVec(myZombieConfig.vecX, myZombieConfig.vecY),
                         "assets/Zombie.png",
                         "zombie");
-    m_zombies.push_back(m_zombie);
+        m_zombies.push_back(m_zombie);
 
-    m_gameLostMsg = Text("Fonts/ARIAL.TTF",
-                        "GAME LOST",
-                        32,
-                        sf::Color::Red,
-                        myVec(960, 540));
+        m_gameLostMsg = Text("Fonts/ARIAL.TTF",
+                    "GAME LOST",
+                    32,
+                    sf::Color::Red,
+                    myVec(960, 540));
 
-    m_gameWonMsg = Text("Fonts/ARIAL.TTF",
-                        "GAME WON",
-                        32,
-                        sf::Color::Green,
-                        myVec(960, 540));
+        m_gameWonMsg = Text("Fonts/ARIAL.TTF",
+                            "GAME WON",
+                            32,
+                            sf::Color::Green,
+                            myVec(960, 540));
+    }catch(const textureError& err) {
+        std::cerr << "Texture error: " <<  err.what() << std::endl;
+        m_window.close();
+    }catch(const fontError& err) {
+        std::cerr << "Font error: " << err.what() << std::endl;
+        m_window.close();
+    }catch(const gameException& err) {
+        std::cerr << err.what() << std::endl;
+        m_window.close();
+    }catch(const std::runtime_error& err) {
+        std::cerr << "Other error: " << err.what() << std::endl;
+        m_window.close();
+    }
 }
 
 void GameEngine::run() {
@@ -114,6 +135,8 @@ void GameEngine::run() {
         m_player.draw(m_window);
         m_player.drawHP(m_window);
         m_player.drawWeapon(m_window);
+
+        m_player.drawRange(m_window, 110, atan2(sf::Mouse::getPosition().y - m_player.getPositionFromComp().getY(), sf::Mouse::getPosition().x - m_player.getPositionFromComp().getX()) * 180.0f / 3.14159265f);
 
         loadingBarComputer();
         m_window.display();
@@ -232,7 +255,7 @@ void GameEngine::attackEnemies() {
     for(auto& zombie : m_zombies) {
         myVec attackDirection(sf::Mouse::getPosition().x - m_player.getPositionFromComp().getX(), sf::Mouse::getPosition().y - m_player.getPositionFromComp().getY());
         attackDirection.normalize();
-        if(m_player.isEnemyInFront(zombie.getPositionFromComp(), attackDirection, 110, 90)) {
+        if(m_player.isEnemyInFront(zombie.getPositionFromComp(), attackDirection, 110, 45)) {
             if(m_player.canHit(m_frame)) {
                 zombie.takeDamage(10);
             }

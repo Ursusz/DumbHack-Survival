@@ -4,10 +4,14 @@
 
 Entity::Entity(const myVec &position, const myVec &velocity, const std::string& texture_path, const std::string& entity_type)
     : m_cMotion(std::make_shared<MotionComponent>(position, velocity))
-    , m_cSprite(std::make_shared<SpriteComponent>(texture_path))
     , m_cBoundingBox(std::make_shared<BoundingBoxComponent>(24, 24))
-    , m_EntityType(entity_type)
-{}
+    , m_EntityType(entity_type) {
+    try {
+        m_cSprite = std::make_shared<SpriteComponent>(texture_path);
+    }catch (const textureError& err) {
+        throw;
+    }
+}
 
 Entity::Entity(const Entity &rhs)
     : m_cMotion(rhs.m_cMotion)
@@ -73,9 +77,9 @@ Entity& Entity::operator=(const Entity &rhs) {
     if(&rhs == this) {
         return *this;
     }
-    m_cMotion = rhs.m_cMotion;
-    m_cSprite = rhs.m_cSprite;
-    m_cBoundingBox = rhs.m_cBoundingBox;
+    m_cMotion = rhs.m_cMotion->clone();
+    m_cSprite = rhs.m_cSprite->clone();
+    m_cBoundingBox = rhs.m_cBoundingBox->clone();
     m_EntityType = rhs.m_EntityType;
     current_frame = 0;
     assets_pos_x = 0;

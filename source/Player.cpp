@@ -4,14 +4,19 @@
 Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path, const std::string& entity_type)
     : Entity(position, velocity, texture_path, entity_type)
     , m_cKeyboard(std::make_shared<KeyboardComponent>())
-    , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
-    , m_weapon(std::make_shared<Weapon>("assets/weapon.png"))
-{}
+    , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png")){
+    try {
+        m_weapon = std::make_shared<Weapon>("assets/weapon.png");
+    }catch(const textureError& err) {
+        throw;
+    }
+}
 
 Player::Player(const Player &rhs)
     : Entity(rhs)
     , m_cKeyboard(rhs.m_cKeyboard)
     , m_weapon(rhs.m_weapon)
+    , semicircle(rhs.semicircle)
 {}
 
 
@@ -48,6 +53,8 @@ bool Player::canHit(int frame) {
     }
     return false;
 }
+
+
 
 bool Player::isEnemyInFront(const myVec &enemyPos, const myVec &playerDirection, float range, float angleThreshHold) {
     if(this->getPositionFromComp().distance(enemyPos) > range) return false;
@@ -107,16 +114,34 @@ void Player::swingWeapon() {
     m_weapon->swing();
 }
 
+void Player::drawRange(sf::RenderTarget &target, float radius, float directionAngle) {
+    semicircle.clear();
+    semicircle.append(sf::Vertex(sf::Vector2f(getPositionFromComp().getX(), getPositionFromComp().getY()), sf::Color(200, 200, 200, 30)));
 
-Player& Player::operator=(const Player &rhs) {
+    float startAngle = directionAngle - 45.0f;
+    float endAngle = directionAngle + 45.0f;
+
+    for (float angle = startAngle; angle <= endAngle; angle += 1.0f) {
+        float rad = angle * 3.14159265f / 180.0f;
+        sf::Vector2f point(
+            getPositionFromComp().getX() + radius * cos(rad),
+            getPositionFromComp().getY() + radius * sin(rad)
+        );
+        semicircle.append(sf::Vertex(point, sf::Color(200, 200, 200, 30)));
+    }
+
+    target.draw(semicircle);
+}
+
+Player& Player::operator=(const Player& rhs) {
     if(&rhs == this) {
         return *this;
     }
     Entity::operator=(rhs);
-    m_cKeyboard = rhs.m_cKeyboard;
-    heartSprite = rhs.heartSprite;
+    m_cKeyboard = rhs.m_cKeyboard->clone();
+    heartSprite = rhs.heartSprite->clone();
     hitPoints = 100;
     lastHit = 0;
-    m_weapon = rhs.m_weapon;
+    m_weapon = rhs.m_weapon->clone();
     return *this;
 }

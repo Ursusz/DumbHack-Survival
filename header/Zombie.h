@@ -35,5 +35,6 @@ public:
     void drawHP(sf::RenderTarget& m_window);
 
     void followPlayer(const myVec& playerPos);
+
     Zombie& operator=(const Zombie& zombie);
 };
