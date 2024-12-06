@@ -7,7 +7,7 @@ Player::Player(const myVec &position, const myVec &velocity, const std::string& 
     , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png")){
     try {
         m_weapon = std::make_shared<Weapon>("assets/weapon.png");
-    }catch(const textureError& err) {
+    }catch(const textureError&) {
         throw;
     }
 }

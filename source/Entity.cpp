@@ -8,7 +8,7 @@ Entity::Entity(const myVec &position, const myVec &velocity, const std::string& 
     , m_EntityType(entity_type) {
     try {
         m_cSprite = std::make_shared<SpriteComponent>(texture_path);
-    }catch (const textureError& err) {
+    }catch (const textureError&) {
         throw;
     }
 }

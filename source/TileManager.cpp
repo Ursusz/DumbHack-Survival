@@ -39,7 +39,7 @@ void TileManager::loadMap(const std::string &mapFile, std::vector<Computer>& obj
         m_textures.insert({8, "assets/right_wall.png"});
         m_textures.insert({9, "assets/wall_corner_right.png"});
 
-    }catch(const textureError& err) {
+    }catch(const textureError&) {
         throw;
     }
     std::ifstream file(mapFile);
