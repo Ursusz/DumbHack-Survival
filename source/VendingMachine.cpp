@@ -12,15 +12,15 @@ VendingMachine::VendingMachine(const Entity &rhs)
 int VendingMachine::takeDose() {
     if (numOfDoses > 0) {
         float elapsedTime = clock.getElapsedTime().asSeconds();
-        if (lastUsedTime == 0.0f) {
-            lastUsedTime = elapsedTime;
-            numOfDoses--;
-            return 10;
-        }
         if(elapsedTime - lastUsedTime >= 30.f && lastUsedTime != 0.0f) {
             lastUsedTime = elapsedTime;
             numOfDoses--;
             return 10; ///this vending machine gifts the player whatever juice which gives him 10 hp once every 30 seconds if hit
+        }
+        if (lastUsedTime == 0.0f) {
+            lastUsedTime = elapsedTime;
+            numOfDoses--;
+            return 10;
         }
     }
     return 0;
