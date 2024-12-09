@@ -48,7 +48,10 @@ public:
 
     void drawRange(sf::RenderTarget& target, float radius, float directionAngle);
 
+    void boostHealth(int health);
+
     void swap(Player &p1, Player &p2);
     std::shared_ptr<Entity> clone() const override;
     Player& operator=(Player rhs);
+    friend std::ostream& operator<<(std::ostream& os, const Player& player);
 };

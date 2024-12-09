@@ -60,6 +60,10 @@ void GameEngine::Init(const std::string& setupPath) {
     keyMap[sf::Keyboard::D] = 3;    //RIGHT
 
     try {
+        m_vending_machine = VendingMachine(myVec(984, 110),
+                                            myVec(0, 0),
+                                            "assets/vendingmachine.png",
+                                            "vendingmachine");
         m_player = Player(myVec(myPlayerConfig.posX, myPlayerConfig.posY),
                             myVec(myPlayerConfig.vecX, myPlayerConfig.vecY),
                             "assets/Player.png",
@@ -120,6 +124,7 @@ void GameEngine::run() {
         m_tileManager.printMap(m_window);
 
         if(m_player.isAlive() && !Computer::allComputersCompleted()) {
+            checkCollisions(m_player, m_vending_machine);
             for(auto& zombie : m_zombies) {
                 zombie.followPlayer(m_player.getPositionFromComp());
                 checkCollisions(m_player, zombie);
@@ -132,6 +137,7 @@ void GameEngine::run() {
         }else if(Computer::allComputersCompleted()) {
             m_gameWonMsg.drawText(m_window);
         }
+        m_vending_machine.draw(m_window);
         m_player.draw(m_window);
         m_player.drawHP(m_window);
         m_player.drawWeapon(m_window);
@@ -226,8 +232,17 @@ void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
             }
         }
 
+        if (e1.isType("player") && e2.isType("vendingmachine")) {
+            Player* player = dynamic_cast<Player*>(&e1);
+            VendingMachine* vendingMachine = dynamic_cast<VendingMachine*>(&e2);
+
+            if (player && vendingMachine) {
+                player->boostHealth(vendingMachine->takeDose());
+            }
+        }
+
         m_collision.setOverlap(e1, e2);
-        if((e1.isType("player") || e1.isType("zombie")) && (e2.isType("zombie") || e2.isType("tile"))) {
+        if((e1.isType("player") || e1.isType("zombie")) && (collidable.find(e2.getEntityType()) != collidable.end())) {
             if (m_collision.isHorizontalOverlap()) {
                 if (m_collision.isLeftOverlap()) {
                     e1.setPositionInComp(e1.getPositionFromComp() + myVec(m_collision.getOverlapX(), 0.0f));

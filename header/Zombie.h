@@ -41,4 +41,6 @@ public:
 
     void swap(Zombie& z1, Zombie& z2);
     Zombie& operator=(Zombie zombie);
+
+    friend std::ostream& operator<<(std::ostream& os, const Zombie& zombie);
 };

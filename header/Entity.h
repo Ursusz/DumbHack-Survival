@@ -27,6 +27,7 @@ public:
     int getHalfHeight() const;
 
     bool isType(const std::string& type) const;
+    std::string getEntityType() const;
 
     void updatePositionInComp(const myVec& position) const;
     void setPositionInComp(const myVec& position) const;
@@ -40,7 +41,7 @@ public:
     virtual bool canHit(int /*frame*/) = 0;
     virtual void takeDamage(int /*damage*/) = 0;
 
-    friend std::ostream& operator<<(std::ostream& os, const Entity& rhs);
+    friend std::ostream& operator<<(std::ostream& os, const Entity& entity);
     friend void swap(Entity& e1, Entity& e2);
     virtual std::shared_ptr<Entity> clone() const = 0;
     Entity& operator=(const Entity& rhs);

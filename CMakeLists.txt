@@ -81,6 +81,8 @@ add_executable(${PROJECT_NAME}
         source/Computer.cpp
         header/Exceptions.h
         source/Exceptions.cpp
+        header/VendingMachine.h
+        source/VendingMachine.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

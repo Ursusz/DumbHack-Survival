@@ -54,8 +54,6 @@ bool Player::canHit(int frame) {
     return false;
 }
 
-
-
 bool Player::isEnemyInFront(const myVec &enemyPos, const myVec &playerDirection, float range, float angleThreshHold) {
     if(this->getPositionFromComp().distance(enemyPos) > range) return false;
     myVec playerToEnemyVec = (this->getPositionFromComp()-enemyPos);
@@ -133,6 +131,12 @@ void Player::drawRange(sf::RenderTarget &target, float radius, float directionAn
     target.draw(semicircle);
 }
 
+void Player::boostHealth(int health) {
+    hitPoints += health;
+    if (hitPoints > 100) hitPoints = 100;
+}
+
+
 void Player::swap(Player &p1, Player &p2) {
     using std::swap;
     swap(p1.m_cKeyboard, p2.m_cKeyboard);
@@ -152,4 +156,10 @@ Player& Player::operator=(Player rhs) {
     Entity::operator=(rhs);
     swap(*this, rhs);
     return *this;
+}
+
+std::ostream& operator<<(std::ostream &os, const Player &player) {
+    os << static_cast<const Entity&>(player);
+    os << player.hitPoints << " " << player.lastHit << " " << player.lastDirection << " ";
+    return os;
 }

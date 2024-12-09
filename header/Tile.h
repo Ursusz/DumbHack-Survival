@@ -16,4 +16,6 @@ public:
     bool canHit(int) override;
 
     std::shared_ptr<Entity> clone() const override;
+
+    friend std::ostream& operator<<(std::ostream& os, const Tile& tile);
 };

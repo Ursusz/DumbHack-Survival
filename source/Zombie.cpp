@@ -1,5 +1,7 @@
 #include "../header/Zombie.h"
 
+#include "../header/Player.h"
+
 Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, const std::string& entity_type)
     : Entity(position, velocity, texture_path, entity_type)
     , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
@@ -113,4 +115,10 @@ Zombie& Zombie::operator=(Zombie rhs) {
     Entity::operator=(rhs);
     swap(*this, rhs);
     return *this;
+}
+
+std::ostream& operator<<(std::ostream &os, const Zombie &zombie) {
+    os << static_cast<const Entity&>(zombie);
+    os << zombie.hitPoints << " " << zombie.lastHit << " " << zombie.direction << " " << zombie.next << " " << zombie.isAlive << " ";
+    return os;
 }
