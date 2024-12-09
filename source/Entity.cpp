@@ -40,7 +40,7 @@ bool Entity::isType(const std::string &type) const {
     return (type == m_EntityType);
 }
 
-std::string Entity::getEntityType() const {
+const std::string& Entity::getEntityType() const {
     return m_EntityType;
 }
 

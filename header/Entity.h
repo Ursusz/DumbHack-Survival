@@ -27,7 +27,7 @@ public:
     int getHalfHeight() const;
 
     bool isType(const std::string& type) const;
-    std::string getEntityType() const;
+    const std::string& getEntityType() const;
 
     void updatePositionInComp(const myVec& position) const;
     void setPositionInComp(const myVec& position) const;
