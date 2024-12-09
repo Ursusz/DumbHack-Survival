@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "../header/Entity.h"
-#include "SFML/System/Clock.hpp"
+#include <SFML/System/Clock.hpp>
 
 class VendingMachine : public  Entity{
     int numOfDoses = 5;
