@@ -1,5 +1,6 @@
 #pragma once
 #include <ostream>
+#include <utility>
 
 class myVec{
   float m_x = 0;
@@ -34,4 +35,5 @@ public:
 
   float getX() const;
   float getY() const;
+  friend void swap(myVec& v1, myVec& v2);
 };

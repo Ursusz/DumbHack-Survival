@@ -94,3 +94,7 @@ std::ostream& operator << (std::ostream& os, const myVec& rhs) {
 
 float myVec::getX() const { return m_x; }
 float myVec::getY() const { return m_y; }
+
+void swap(myVec& v1, myVec& v2) {
+    std::swap(v1.m_x, v2.m_x);
+}

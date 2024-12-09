@@ -57,6 +57,5 @@ std::shared_ptr<Weapon> Weapon::clone() {
     clonedWeapon->m_sprite.setTexture(clonedWeapon->m_texture);
     clonedWeapon->currentStage = currentStage;
     clonedWeapon->clock = clock;
-
     return clonedWeapon;
 }

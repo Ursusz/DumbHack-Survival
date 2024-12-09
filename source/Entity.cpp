@@ -14,7 +14,7 @@ Entity::Entity(const myVec &position, const myVec &velocity, const std::string& 
 }
 
 Entity::Entity(const Entity &rhs)
-    : m_cMotion(rhs.m_cMotion)
+    : m_cMotion(std::make_shared<MotionComponent>(*rhs.m_cMotion))
     , m_cSprite(rhs.m_cSprite)
     , m_cBoundingBox(rhs.m_cBoundingBox)
     , m_EntityType(rhs.m_EntityType)
@@ -73,15 +73,20 @@ std::ostream& operator<<(std::ostream &os, const Entity &entity) {
     return os;
 }
 
-Entity& Entity::operator=(const Entity &rhs) {
-    if(&rhs == this) {
-        return *this;
-    }
-    m_cMotion = rhs.m_cMotion->clone();
-    m_cSprite = rhs.m_cSprite->clone();
-    m_cBoundingBox = rhs.m_cBoundingBox->clone();
-    m_EntityType = rhs.m_EntityType;
-    current_frame = 0;
-    assets_pos_x = 0;
+void swap(Entity &e1, Entity &e2) {
+    using std::swap;
+    swap(e1.m_cMotion, e2.m_cMotion);
+    swap(e1.m_cSprite, e2.m_cSprite);
+    swap(e1.m_cBoundingBox, e2.m_cBoundingBox);
+    swap(e1.m_EntityType, e2.m_EntityType);
+    swap(e1.current_frame, e2.current_frame);
+    swap(e1.assets_pos_x, e2.assets_pos_x);
+}
+
+Entity& Entity::operator=(const Entity& rhs) {
+    auto copy = rhs.clone();
+    ///COMPANIE IT - GITHUB PT EXEMPLU - ANGAJAT
+    using std::swap;
+    swap(*this, *copy);
     return *this;
 }

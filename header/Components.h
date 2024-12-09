@@ -40,15 +40,15 @@ public:
         m_position = position;
     }
 
-    std::shared_ptr<MotionComponent> clone() {
+    std::shared_ptr<MotionComponent> clone() const{
         return std::make_shared<MotionComponent>(*this);
     }
 
-    /// Maybe used later
-    /*
-    void updateVelocity(const myVec& velocity) {
-        m_velocity = velocity;
-    }*/
+    friend void swap(MotionComponent &m1, MotionComponent &m2) {
+        using std::swap;
+        swap(m1.m_position, m2.m_position);
+        swap(m1.m_velocity, m2.m_velocity);
+    }
 };
 
 class KeyboardComponent {
@@ -84,8 +84,15 @@ public:
         isRight = value;
     }
 
-    std::shared_ptr<KeyboardComponent> clone() {
+    std::shared_ptr<KeyboardComponent> clone() const{
         return std::make_shared<KeyboardComponent>(*this);
+    }
+
+    friend void swap(KeyboardComponent &k1, KeyboardComponent &k2) {
+        std::swap(k1.isUp, k2.isUp);
+        std::swap(k1.isDown, k2.isDown);
+        std::swap(k1.isLeft, k2.isLeft);
+        std::swap(k1.isRight, k2.isRight);
     }
 
     friend std::ostream& operator << (std::ostream& os, const KeyboardComponent& k) {
@@ -157,6 +164,14 @@ public:
     sf::Sprite getSprite() const {
         return m_sprite;
     }
+
+    friend void swap(SpriteComponent &s1, SpriteComponent &s2) {
+        using std::swap;
+        swap(s1.m_sprite, s2.m_sprite);
+        swap(s1.m_texturePath, s2.m_texturePath);
+        if(!s1.m_texture.loadFromFile(s1.m_texturePath))
+            throw textureError(s1.m_texturePath);
+    }
 };
 
 class BoundingBoxComponent {
@@ -173,7 +188,12 @@ public:
         return m_halfHeight;
     }
 
-    std::shared_ptr<BoundingBoxComponent> clone() {
+    std::shared_ptr<BoundingBoxComponent> clone() const{
         return std::make_shared<BoundingBoxComponent>(m_halfWidth, m_halfHeight);
+    }
+
+    friend void swap(BoundingBoxComponent &b1, BoundingBoxComponent &b2) {
+        std::swap(b1.m_halfWidth, b2.m_halfWidth);
+        std::swap(b1.m_halfHeight, b2.m_halfHeight);
     }
 };

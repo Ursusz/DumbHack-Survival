@@ -1,5 +1,6 @@
 #pragma once
 
+#include <utility>
 #include <map>
 #include <memory>
 #include <math.h>
@@ -47,5 +48,7 @@ public:
 
     void drawRange(sf::RenderTarget& target, float radius, float directionAngle);
 
-    Player& operator=(const Player& rhs);
+    void swap(Player &p1, Player &p2);
+    std::shared_ptr<Entity> clone() const override;
+    Player& operator=(Player rhs);
 };

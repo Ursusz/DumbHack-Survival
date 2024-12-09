@@ -14,4 +14,6 @@ public:
 
     void takeDamage(int damage) override;
     bool canHit(int) override;
+
+    std::shared_ptr<Entity> clone() const override;
 };

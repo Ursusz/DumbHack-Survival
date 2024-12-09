@@ -3,8 +3,6 @@
 Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, const std::string& entity_type)
     : Entity(position, velocity, texture_path, entity_type)
     , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
-    , hitPoints(100)
-    , isAlive(true)
 {
     m_generator.setWorldSize({23, 40});
     m_generator.setHeuristic(AStar::Heuristic::euclidean);
@@ -13,7 +11,7 @@ Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &
 
 Zombie::Zombie(const Zombie& rhs)
     : Entity(rhs)
-    , heartSprite((rhs).heartSprite)
+    , heartSprite((rhs).heartSprite->clone())
     , m_generator(rhs.m_generator)
     , hitPoints(rhs.hitPoints)
     , isAlive(rhs.isAlive)
@@ -86,17 +84,18 @@ void Zombie::followPlayer(const myVec &playerPos) {
     if(direction.getX() > 0 && std::abs(direction.getX()) > std::abs(direction.getY())) m_direction = "right";
 }
 
-Zombie& Zombie::operator=(const Zombie &rhs) {
-    if(&rhs == this) {
-        return *this;
-    }
-    Entity::operator=(rhs);
-    heartSprite = rhs.heartSprite->clone();
-    lastHit = rhs.lastHit;
-    m_generator = rhs.m_generator;
-    next = 2;
-    hitPoints = rhs.hitPoints;
-    isAlive = rhs.isAlive;
+std::shared_ptr<Entity> Zombie::clone() const {
+    return std::make_shared<Zombie>(*this);
+}
+
+void Zombie::swap(Zombie &z1, Zombie &z2) {
+    using std::swap;
+    swap(z1.heartSprite, z2.heartSprite);
+    swap(z1.lastHit, z2.lastHit);
+    swap(z1.m_generator, z2.m_generator);
+    z1.next = 2;
+    swap(z1.hitPoints, z2.hitPoints);
+    swap(z1.isAlive, z2.isAlive);
     std::ifstream in("Init/world.txt");
     for(int i = 0; i < MAP_HEIGHT; i++) {
         for(int j = 0; j < MAP_WIDTH; j++) {
@@ -107,5 +106,11 @@ Zombie& Zombie::operator=(const Zombie &rhs) {
         }
     }
     in.close();
+}
+
+
+Zombie& Zombie::operator=(Zombie rhs) {
+    Entity::operator=(rhs);
+    swap(*this, rhs);
     return *this;
 }

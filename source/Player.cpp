@@ -14,8 +14,8 @@ Player::Player(const myVec &position, const myVec &velocity, const std::string& 
 
 Player::Player(const Player &rhs)
     : Entity(rhs)
-    , m_cKeyboard(rhs.m_cKeyboard)
-    , m_weapon(rhs.m_weapon)
+    , m_cKeyboard(rhs.m_cKeyboard->clone())
+    , m_weapon(rhs.m_weapon->clone())
     , semicircle(rhs.semicircle)
 {}
 
@@ -133,15 +133,23 @@ void Player::drawRange(sf::RenderTarget &target, float radius, float directionAn
     target.draw(semicircle);
 }
 
-Player& Player::operator=(const Player& rhs) {
-    if(&rhs == this) {
-        return *this;
-    }
+void Player::swap(Player &p1, Player &p2) {
+    using std::swap;
+    swap(p1.m_cKeyboard, p2.m_cKeyboard);
+    swap(p1.heartSprite, p2.heartSprite);
+    swap(p1.hitPoints, p2.hitPoints);
+    swap(p1.lastHit, p2.lastHit);
+    swap(p1.m_weapon, p2.m_weapon);
+    swap(p1.lastDirection, p2.lastDirection);
+    swap(p1.semicircle, p2.semicircle);
+}
+
+std::shared_ptr<Entity> Player::clone() const {
+    return std::make_shared<Player>(*this);
+}
+
+Player& Player::operator=(Player rhs) {
     Entity::operator=(rhs);
-    m_cKeyboard = rhs.m_cKeyboard->clone();
-    heartSprite = rhs.heartSprite->clone();
-    hitPoints = 100;
-    lastHit = 0;
-    m_weapon = rhs.m_weapon->clone();
+    swap(*this, rhs);
     return *this;
 }

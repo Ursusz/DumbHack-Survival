@@ -72,13 +72,13 @@ void GameEngine::Init(const std::string& setupPath) {
 
         m_gameLostMsg = Text("Fonts/ARIAL.TTF",
                     "GAME LOST",
-                    32,
+                    32, ///FONT SIZE 32 PX
                     sf::Color::Red,
                     myVec(960, 540));
 
         m_gameWonMsg = Text("Fonts/ARIAL.TTF",
                             "GAME WON",
-                            32,
+                            32, ///FONT SIZE 32 PX
                             sf::Color::Green,
                             myVec(960, 540));
     }catch(const textureError& err) {

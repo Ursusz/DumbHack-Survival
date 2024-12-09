@@ -9,3 +9,7 @@ Tile::Tile(const myVec &position, const std::string& texture_path, const std::st
 void Tile::takeDamage(int /*damage*/) {}
 
 bool Tile::canHit(int) {return false;}
+
+std::shared_ptr<Entity> Tile::clone() const {
+    return std::make_shared<Tile>(*this);
+}

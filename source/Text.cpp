@@ -16,6 +16,7 @@ Text::Text(const std::string& font_path,
     m_text.setStyle(sf::Text::Bold);
     m_text.setOrigin(m_text.getLocalBounds().width/2, m_text.getLocalBounds().height/2);
     m_text.setPosition(position.getX(), position.getY());
+    m_text.setOrigin(m_text.getLocalBounds().width/2, m_text.getLocalBounds().height/2);
 }
 
 void Text::drawText(sf::RenderTarget &target) {

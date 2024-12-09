@@ -8,6 +8,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <math.h>
 #include <array>
+#include <memory>
 
 class Zombie : public Entity{
     std::shared_ptr<SpriteComponent> heartSprite;
@@ -36,5 +37,8 @@ public:
 
     void followPlayer(const myVec& playerPos);
 
-    Zombie& operator=(const Zombie& zombie);
+    std::shared_ptr<Entity> clone() const override;
+
+    void swap(Zombie& z1, Zombie& z2);
+    Zombie& operator=(Zombie zombie);
 };

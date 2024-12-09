@@ -41,5 +41,7 @@ public:
     virtual void takeDamage(int /*damage*/) = 0;
 
     friend std::ostream& operator<<(std::ostream& os, const Entity& rhs);
+    friend void swap(Entity& e1, Entity& e2);
+    virtual std::shared_ptr<Entity> clone() const = 0;
     Entity& operator=(const Entity& rhs);
 };
