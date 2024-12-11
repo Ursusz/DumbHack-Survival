@@ -12,14 +12,13 @@ public:
     VendingMachine() = default;
 
     VendingMachine(const myVec &position, const myVec &velocity, const std::string &texture_path,
-        const std::string &entity_type);
+                    bool hitAble, bool collidable, bool isDynamic);
 
     explicit VendingMachine(const Entity &rhs);
     ~VendingMachine() override = default;
 
-    int takeDose();
-
     void takeDamage(int damage) override;
     bool canHit(int) override;
+    void interactWith(Entity &other, int frame) override;
     std::shared_ptr<Entity> clone() const override;
 };

@@ -2,8 +2,8 @@
 
 #include "../header/Player.h"
 
-Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, const std::string& entity_type)
-    : Entity(position, velocity, texture_path, entity_type)
+Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, bool hitAble, bool collidable, bool isDynamic)
+    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic)
     , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
 {
     m_generator.setWorldSize({23, 40});
@@ -38,6 +38,10 @@ bool Zombie::canHit(int frame) {
         return true;
     }
     return false;
+}
+
+void Zombie::interactWith(Entity &other, int frame) {
+    if(this->canHit(frame) && other.canTakeDamage()) other.takeDamage(10);
 }
 
 void Zombie::drawHP(sf::RenderTarget &m_window) {

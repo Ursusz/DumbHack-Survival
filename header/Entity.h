@@ -9,14 +9,17 @@ class Entity {
     std::shared_ptr<MotionComponent> m_cMotion;
     std::shared_ptr<SpriteComponent> m_cSprite;
     std::shared_ptr<BoundingBoxComponent> m_cBoundingBox;
-    std::string m_EntityType;
     sf::Sprite drawingSprite;
     const int change_animation_frame = 12;
     int current_frame = 0;
     int assets_pos_x = 0;
+    bool m_hitAble = false;
+    bool m_collidable = false;
+    bool m_isDynamic = false;
 public:
     Entity() = default;
-    Entity(const myVec& position, const myVec& velocity, const std::string& texture_path, const std::string& entity_type);
+    Entity(const myVec& position, const myVec& velocity, const std::string& texture_path,
+            bool hitAble, bool collidable, bool isDynamic);
     Entity(const Entity& rhs);
     virtual ~Entity() = default;
 
@@ -26,8 +29,9 @@ public:
     int getHalfWidth() const;
     int getHalfHeight() const;
 
-    bool isType(const std::string& type) const;
-    const std::string& getEntityType() const;
+    bool canTakeDamage() const;
+    bool canCollide() const;
+    bool canMove() const;
 
     void updatePositionInComp(const myVec& position) const;
     void setPositionInComp(const myVec& position) const;
@@ -40,6 +44,7 @@ public:
 
     virtual bool canHit(int /*frame*/) = 0;
     virtual void takeDamage(int /*damage*/) = 0;
+    virtual void interactWith(Entity& other, int frame) = 0;
 
     friend std::ostream& operator<<(std::ostream& os, const Entity& entity);
     friend void swap(Entity& e1, Entity& e2);
