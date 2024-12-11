@@ -2,22 +2,22 @@
 
 #include "../header/Entity.h"
 
-Entity::Entity(const myVec &position, const myVec &velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic)
+Entity::Entity(const myVec &position, const myVec &velocity, const std::string& texture_path, const std::string& entity_type)
     : m_cMotion(std::make_shared<MotionComponent>(position, velocity))
-    , m_cSprite(std::make_shared<SpriteComponent>(texture_path))
     , m_cBoundingBox(std::make_shared<BoundingBoxComponent>(24, 24))
-    , m_hitAble(hitAble)
-    , m_collidable(collidable)
-    , m_isDynamic(isDynamic)
-{   }
+    , m_EntityType(entity_type) {
+    try {
+        m_cSprite = std::make_shared<SpriteComponent>(texture_path);
+    }catch (const textureError&) {
+        throw;
+    }
+}
 
 Entity::Entity(const Entity &rhs)
     : m_cMotion(rhs.m_cMotion ? rhs.m_cMotion->clone() : nullptr)
     , m_cSprite(rhs.m_cSprite ? rhs.m_cSprite->clone() : nullptr)
     , m_cBoundingBox(rhs.m_cBoundingBox ? rhs.m_cBoundingBox->clone() : nullptr)
-    , m_hitAble(rhs.m_hitAble)
-    , m_collidable(rhs.m_collidable)
-    , m_isDynamic(rhs.m_isDynamic)
+    , m_EntityType(rhs.m_EntityType)
 {}
 
 myVec Entity::getVelocityFromComp() const {
@@ -36,16 +36,12 @@ int Entity::getHalfHeight() const {
     return m_cBoundingBox->getHalfHeight();
 }
 
-bool Entity::canTakeDamage() const {
-    return m_hitAble;
+bool Entity::isType(const std::string &type) const {
+    return (type == m_EntityType);
 }
 
-bool Entity::canCollide() const {
-    return m_collidable;
-}
-
-bool Entity::canMove() const {
-    return m_isDynamic;
+const std::string& Entity::getEntityType() const {
+    return m_EntityType;
 }
 
 void Entity::updatePositionInComp(const myVec &position) const {
@@ -76,7 +72,7 @@ void Entity::updateSprite(const std::string &direction) const {
 }
 
 std::ostream& operator<<(std::ostream &os, const Entity &entity) {
-    os << entity.m_cMotion << " " << entity.change_animation_frame << " ";
+    os << entity.m_cMotion << " " << entity.m_EntityType << " " << entity.change_animation_frame << " ";
     return os;
 }
 
@@ -85,11 +81,9 @@ void swap(Entity &e1, Entity &e2) {
     swap(e1.m_cMotion, e2.m_cMotion);
     swap(e1.m_cSprite, e2.m_cSprite);
     swap(e1.m_cBoundingBox, e2.m_cBoundingBox);
+    swap(e1.m_EntityType, e2.m_EntityType);
     swap(e1.current_frame, e2.current_frame);
     swap(e1.assets_pos_x, e2.assets_pos_x);
-    swap(e1.m_hitAble, e2.m_hitAble);
-    swap(e1.m_collidable, e2.m_collidable);
-    swap(e1.m_isDynamic, e2.m_isDynamic);
 }
 
 Entity& Entity::operator=(const Entity& rhs) {

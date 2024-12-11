@@ -24,7 +24,7 @@ class Player : public Entity{
     sf::VertexArray semicircle = sf::VertexArray(sf::TrianglesFan);
 public:
     Player() = default;
-    Player(const myVec& position, const myVec& velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic);
+    Player(const myVec& position, const myVec& velocity, const std::string& texture_path, const std::string& entity_type);
     Player(const Player& rhs);
     ~Player() override = default;
 
@@ -36,7 +36,6 @@ public:
 
     void takeDamage(int damage) override;
     bool canHit(int frame) override;
-    void interactWith(Entity &other, int frame) override;
 
     bool isEnemyInFront(const myVec& enemyPos, const myVec& playerDirection, float range, float  );
 
@@ -48,6 +47,8 @@ public:
     void swingWeapon();
 
     void drawRange(sf::RenderTarget& target, float radius, float directionAngle);
+
+    void boostHealth(int health);
 
     void swap(Player &p1, Player &p2);
     std::shared_ptr<Entity> clone() const override;

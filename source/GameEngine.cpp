@@ -63,21 +63,15 @@ void GameEngine::Init(const std::string& setupPath) {
         m_vending_machine = VendingMachine(myVec(984, 110),
                                             myVec(0, 0),
                                             "assets/vendingmachine.png",
-                                            false,
-                                            true,
-                                            false);
+                                            "vendingmachine");
         m_player = Player(myVec(myPlayerConfig.posX, myPlayerConfig.posY),
                             myVec(myPlayerConfig.vecX, myPlayerConfig.vecY),
                             "assets/Player.png",
-                            true,
-                            true,
-                            true);
+                            "player");
         m_zombie = Zombie(myVec(myZombieConfig.posX, myZombieConfig.posY),
                         myVec(myZombieConfig.vecX, myZombieConfig.vecY),
                         "assets/Zombie.png",
-                        true,
-                        true,
-                        true);
+                        "zombie");
         m_zombies.push_back(m_zombie);
 
         m_gameLostMsg = Text("Fonts/ARIAL.TTF",
@@ -232,12 +226,23 @@ void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
         e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
         e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
         e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) {
+        if(e1.isType("player") && e2.isType("zombie")) {
+            if(e2.canHit(m_frame)) {
+                e1.takeDamage(10);
+            }
+        }
 
-        e2.interactWith(e1, m_frame);
+        if (e1.isType("player") && e2.isType("vendingmachine")) {
+            Player* player = dynamic_cast<Player*>(&e1);
+            VendingMachine* vendingMachine = dynamic_cast<VendingMachine*>(&e2);
+
+            if (player && vendingMachine) {
+                player->boostHealth(vendingMachine->takeDose());
+            }
+        }
 
         m_collision.setOverlap(e1, e2);
-
-        if(e1.canMove() && e2.canCollide()) {
+        if((e1.isType("player") || e1.isType("zombie")) && (collidable.find(e2.getEntityType()) != collidable.end())) {
             if (m_collision.isHorizontalOverlap()) {
                 if (m_collision.isLeftOverlap()) {
                     e1.setPositionInComp(e1.getPositionFromComp() + myVec(m_collision.getOverlapX(), 0.0f));
@@ -266,7 +271,9 @@ void GameEngine::attackEnemies() {
         myVec attackDirection(sf::Mouse::getPosition().x - m_player.getPositionFromComp().getX(), sf::Mouse::getPosition().y - m_player.getPositionFromComp().getY());
         attackDirection.normalize();
         if(m_player.isEnemyInFront(zombie.getPositionFromComp(), attackDirection, 110, 45)) {
-            m_player.interactWith(zombie, m_frame);
+            if(m_player.canHit(m_frame)) {
+                zombie.takeDamage(10);
+            }
         }
     }
 }

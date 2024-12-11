@@ -1,7 +1,9 @@
 #include "../header/Weapon.h"
 
 Weapon::Weapon(const std::string &texturePath) {
-    if(!m_texture.loadFromFile(texturePath)) throw textureError(texturePath);
+    if(!m_texture.loadFromFile(texturePath)) {
+        throw textureError(texturePath);
+    }
     m_sprite.setTexture(m_texture);
     m_sprite.setTextureRect(sf::IntRect(0, 0, 16, 16));
     m_sprite.setScale(1.0f, 1.0f);

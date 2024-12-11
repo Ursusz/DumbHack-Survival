@@ -27,16 +27,20 @@ Tile& TileManager::getTile(size_t i, size_t j) {
 }
 
 void TileManager::loadMap(const std::string &mapFile, std::vector<Computer>& objectComputers) {
-    m_textures.insert({0, "assets/woodenPlank.png"});
-    m_textures.insert({1, "assets/Tree.png"});
-    m_textures.insert({2, "assets/wall.png"});
-    m_textures.insert({3, "assets/computer.png"});
-    m_textures.insert({4, "assets/upper_wall.png"});
-    m_textures.insert({5, "assets/left_wall.png"});
-    m_textures.insert({6, "assets/wall_corner_left.png"});
-    m_textures.insert({7, "assets/right_wall.png"});
-    m_textures.insert({8, "assets/wall_corner_right.png"});
+    try {
+        m_textures.insert({0, "assets/woodenPlank.png"});
+        m_textures.insert({1, "assets/Tree.png"});
+        m_textures.insert({2, "assets/wall.png"});
+        m_textures.insert({3, "assets/computer.png"});
+        m_textures.insert({4, "assets/upper_wall.png"});
+        m_textures.insert({5, "assets/left_wall.png"});
+        m_textures.insert({6, "assets/wall_corner_left.png"});
+        m_textures.insert({7, "assets/right_wall.png"});
+        m_textures.insert({8, "assets/wall_corner_right.png"});
 
+    }catch(const textureError&) {
+        throw;
+    }
     std::ifstream file(mapFile);
     if (!file.is_open()) {
         throw fileNotFound(mapFile);
@@ -50,35 +54,32 @@ void TileManager::loadMap(const std::string &mapFile, std::vector<Computer>& obj
             }
             ///Every tile is 48x48 so I am placing them at 48 pixels between each of them
             ///but i want them to be placed where their origin is located (their center -> 48/2 = 24) so i am adding 24 more pixels
-            std::string tileType;
+            std::string entityType;
             switch(mapLoader[i][j]) {
-                case 0 : tileType = "floor";
+                case 0 : entityType = "floor";
                     break;
-                case 1: tileType = "tree";
+                case 1: entityType = "tree";
                     break;
-                case 2: tileType = "wall";
+                case 2: entityType = "wall";
                     break;
-                case 3: tileType = "computer";
+                case 3: entityType = "computer";
                     break;
-                case 4: tileType = "wall";
+                case 4: entityType = "wall";
                     break;
-                case 5 : tileType = "wall";
+                case 5 : entityType = "wall";
                     break;
-                case 6 : tileType = "wall";
+                case 6 : entityType = "wall";
                     break;
-                case 7 : tileType = "wall";
+                case 7 : entityType = "wall";
                     break;
-                case 8 : tileType = "wall";
+                case 8 : entityType = "wall";
                     break;
-                default: tileType = "nothing";
+                default: entityType = "nothing";
                     break;
             }
             map[i][j] = Tile(myVec(j * 48 + 24, i * 48 + 24),
                             m_textures.at(mapLoader[i][j]),
-                            tileType,
-                            false,
-                            tileType != "floor",
-                            false);
+                            entityType);
         }
     }
     file.close();

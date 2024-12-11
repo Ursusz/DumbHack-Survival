@@ -24,7 +24,7 @@ class Zombie : public Entity{
     bool isAlive = true;
 public:
     Zombie() = default;
-    Zombie(const myVec& position, const myVec& velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic);
+    Zombie(const myVec& position, const myVec& velocity, const std::string& texture_path, const std::string& entity_type);
     Zombie(const Zombie& rhs);
     ~Zombie() override = default;
 
@@ -32,7 +32,6 @@ public:
 
     void takeDamage(int damage) override;
     bool canHit(int) override;
-    void interactWith(Entity &other, int frame) override;
 
     void drawHP(sf::RenderTarget& m_window);
 

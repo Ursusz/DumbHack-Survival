@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <fstream>
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -18,6 +19,8 @@ class GameEngine {
     struct WindowSetup {int width=1920, height=1080, FPS=60; bool fullscreen=false;} myWindowConfig;
     struct PlayerSetup {float posX=0, posY=0, vecX=0, vecY=0; } myPlayerConfig;
     struct ZombieSetup {float posX=0, posY=0, vecX=0, vecY=0; } myZombieConfig;
+
+    std::unordered_set<std::string> collidable  = {"wall", "vendingmachine", "computer", "tree", "zombie"};
 
     float newWidth = 0, newHeight = 0, windowAspectRatio = 0, mapAspectRatio = 0;
 
