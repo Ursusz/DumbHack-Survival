@@ -1,16 +1,13 @@
 #include "../header/Player.h"
 
 
-Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path, const std::string& entity_type)
-    : Entity(position, velocity, texture_path, entity_type)
+Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic)
+    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic)
     , m_cKeyboard(std::make_shared<KeyboardComponent>())
-    , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png")){
-    try {
-        m_weapon = std::make_shared<Weapon>("assets/weapon.png");
-    }catch(const textureError&) {
-        throw;
-    }
-}
+    , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
+    , m_weapon(std::make_shared<Weapon>("assets/weapon.png"))
+
+{}
 
 Player::Player(const Player &rhs)
     : Entity(rhs)
@@ -42,7 +39,9 @@ bool Player::isAlive() const {
 
 void Player::takeDamage(int damage) {
     if(hitPoints > 0) {
-        hitPoints -= damage;
+        if (hitPoints - damage <= 100)
+            //this prevents the healing from vending machine to give the player more than 100hp which causes the program to crash
+            hitPoints -= damage;
     }
 }
 
@@ -53,6 +52,13 @@ bool Player::canHit(int frame) {
     }
     return false;
 }
+
+void Player::interactWith(Entity &other, int frame) {
+    if(this->canHit(frame) && other.canTakeDamage()) {
+        other.takeDamage(10);
+    }
+}
+
 
 bool Player::isEnemyInFront(const myVec &enemyPos, const myVec &playerDirection, float range, float angleThreshHold) {
     if(this->getPositionFromComp().distance(enemyPos) > range) return false;
@@ -130,12 +136,6 @@ void Player::drawRange(sf::RenderTarget &target, float radius, float directionAn
 
     target.draw(semicircle);
 }
-
-void Player::boostHealth(int health) {
-    hitPoints += health;
-    if (hitPoints > 100) hitPoints = 100;
-}
-
 
 void Player::swap(Player &p1, Player &p2) {
     using std::swap;
