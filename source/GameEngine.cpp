@@ -83,7 +83,7 @@ void GameEngine::Init(const std::string& setupPath) {
         m_treasure = Treasure::instance(myVec(120, 120),
                                         myVec(0, 0),
                                         "assets/Treasure.png",
-                                        false,
+                                        true,
                                         true,
                                         false,
                                         true);
@@ -158,6 +158,7 @@ void GameEngine::run() {
             m_gameWonMsg.drawText(m_window);
         }
         m_vending_machine.draw(m_window);
+        m_treasure->draw(m_window, m_frame);
         m_player.draw(m_window);
         m_player.drawHP(m_window);
         m_player.drawWeapon(m_window);

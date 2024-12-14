@@ -36,7 +36,8 @@ class GameEngine {
     Zombie m_zombie;
     std::vector<Zombie> m_zombies;
     TileManager m_tileManager;
-    std::shared_ptr<Treasure> m_treasure;
+
+    Treasure* m_treasure;
 
     std::map<sf::Keyboard::Key, int> keyMap;
     std::string m_setupPath;

@@ -9,19 +9,16 @@ Treasure::Treasure(const myVec &position, const myVec &velocity, const std::stri
     , m_isAvailable(isAvailable)
 {}
 
-std::shared_ptr<Treasure> Treasure::instance(const myVec &position, const myVec &velocity, const std::string &texture_path,
+Treasure* Treasure::instance(const myVec &position, const myVec &velocity, const std::string &texture_path,
                                 bool hitAble, bool collidable, bool isDynamic, bool isAvailable) {
     if(uniqueInstance == nullptr) {
-        uniqueInstance = std::make_shared<Treasure>(position, velocity, texture_path, hitAble, collidable, isDynamic, isAvailable);
+        uniqueInstance = new Treasure(position, velocity, texture_path, hitAble, collidable, isDynamic, isAvailable);
     }
-    return uniqueInstance;
+    return std::move(uniqueInstance);
 }
 
-std::shared_ptr<Treasure> Treasure::uniqueInstance = nullptr;
+Treasure* Treasure::uniqueInstance = nullptr;
 
-bool Treasure::is_available() const {
-    return m_isAvailable;
-}
 
 void Treasure::draw(sf::RenderTarget &target, int frame) {
     if(is_available() && frame > SPAWN_TIME) {
@@ -40,8 +37,21 @@ void Treasure::takeDamage(int damage) {
     }
     if(hitPoints <= 0) {
         m_isAvailable = false;
+        deleteInstance();
     }
 }
+
+bool Treasure::is_available() const {
+    return m_isAvailable;
+}
+
+void Treasure::deleteInstance() {
+    if(uniqueInstance != nullptr) {
+        delete uniqueInstance;
+        uniqueInstance = nullptr;
+    }
+}
+
 
 void Treasure::interactWith(Entity &other, int frame) {
     if(this->is_available() && frame > SPAWN_TIME) {
@@ -49,7 +59,7 @@ void Treasure::interactWith(Entity &other, int frame) {
             this->takeDamage(100);
             std::random_device rd;
             std::default_random_engine rng(rd());
-            std::uniform_int_distribution<int> uniform_dist(0, 1);
+            std::uniform_int_distribution<int> uniform_dist(0, 2);
             int bonus = uniform_dist(rng);
             switch (bonus) {
                 case 0:
@@ -63,8 +73,4 @@ void Treasure::interactWith(Entity &other, int frame) {
             }
         }
     }
-}
-
-std::shared_ptr<Entity> Treasure::clone() const {
-    throw std::logic_error("Clone not allowed for Singleton");
 }
