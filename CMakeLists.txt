@@ -83,8 +83,8 @@ add_executable(${PROJECT_NAME}
         source/Exceptions.cpp
         header/VendingMachine.h
         source/VendingMachine.cpp
-        header/Treasure.h
-        source/Treasure.cpp
+#        header/Treasure.h
+#        source/Treasure.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

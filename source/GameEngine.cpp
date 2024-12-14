@@ -80,13 +80,13 @@ void GameEngine::Init(const std::string& setupPath) {
                         true);
         m_zombies.push_back(m_zombie);\
 
-        m_treasure = Treasure::instance(myVec(120, 120),
-                                        myVec(0, 0),
-                                        "assets/Treasure.png",
-                                        false,
-                                        true,
-                                        false,
-                                        true);
+        // m_treasure = Treasure::instance(myVec(120, 120),
+        //                                 myVec(0, 0),
+        //                                 "assets/Treasure.png",
+        //                                 false,
+        //                                 true,
+        //                                 false,
+        //                                 true);
 
         m_gameLostMsg = Text("Fonts/ARIAL.TTF",
                     "GAME LOST",
@@ -143,7 +143,7 @@ void GameEngine::run() {
         if(m_player.isAlive() && !Computer::allComputersCompleted()) {
 
             checkCollisions(m_player, m_vending_machine);
-            checkCollisions(m_player, *m_treasure);
+            // checkCollisions(m_player, *m_treasure);
 
             for(auto& zombie : m_zombies) {
                 zombie.followPlayer(m_player.getPositionFromComp());
@@ -290,7 +290,7 @@ void GameEngine::attackEnemies() {
     }
 }
 
-bool GameEngine::entitiesAreColliding(Entity &e1, Entity &e2) const {
+bool GameEngine::entitiesAreColliding(const Entity &e1, const Entity &e2) const {
     if(e2.getPositionFromComp().getX() - e2.getHalfWidth() < e1.getPositionFromComp().getX() + e1.getHalfWidth() &&
         e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
         e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
