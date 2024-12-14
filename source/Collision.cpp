@@ -1,11 +1,13 @@
 #include "../header/Collision.h"
 
 void Collision::setOverlap(const Entity& e1, const Entity& e2) {
-    deltaX = e1.getPositionFromComp().getX() - e2.getPositionFromComp().getX();
-    deltaY = e1.getPositionFromComp().getY() - e2.getPositionFromComp().getY();
+    if(e1.canCollide() && e2.canCollide()) {
+        deltaX = e1.getPositionFromComp().getX() - e2.getPositionFromComp().getX();
+        deltaY = e1.getPositionFromComp().getY() - e2.getPositionFromComp().getY();
 
-    overlapX = (e1.getHalfWidth() + e2.getHalfWidth()) - std::abs(deltaX);
-    overlapY = (e1.getHalfHeight() + e2.getHalfHeight()) - std::abs(deltaY);
+        overlapX = (e1.getHalfWidth() + e2.getHalfWidth()) - std::abs(deltaX);
+        overlapY = (e1.getHalfHeight() + e2.getHalfHeight()) - std::abs(deltaY);
+    }
 }
 
 bool Collision::isHorizontalOverlap() const {

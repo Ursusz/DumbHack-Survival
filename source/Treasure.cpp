@@ -2,6 +2,9 @@
 
 #include "../header/Player.h"
 
+Treasure::~Treasure() {
+    deleteInstance();
+}
 
 Treasure::Treasure(const myVec &position, const myVec &velocity, const std::string &texture_path,
                    bool hitAble, bool collidable, bool isDynamic, bool isAvailable = true)
@@ -14,7 +17,7 @@ Treasure* Treasure::instance(const myVec &position, const myVec &velocity, const
     if(uniqueInstance == nullptr) {
         uniqueInstance = new Treasure(position, velocity, texture_path, hitAble, collidable, isDynamic, isAvailable);
     }
-    return std::move(uniqueInstance);
+    return uniqueInstance;
 }
 
 Treasure* Treasure::uniqueInstance = nullptr;
@@ -32,12 +35,12 @@ bool Treasure::canHit(int) {
 
 void Treasure::takeDamage(int damage) {
     if(hitPoints > 0) {
-        if (hitPoints - damage <= 100)
+        if (hitPoints - damage <= 100) {
             hitPoints -= damage;
-    }
-    if(hitPoints <= 0) {
+        }
+    }else{
+        Entity::stopCollission();
         m_isAvailable = false;
-        deleteInstance();
     }
 }
 
@@ -52,18 +55,17 @@ void Treasure::deleteInstance() {
     }
 }
 
-
 void Treasure::interactWith(Entity &other, int frame) {
-    if(this->is_available() && frame > SPAWN_TIME) {
+    if(uniqueInstance && this->is_available() && frame > SPAWN_TIME) {
         if(auto playerptr = dynamic_cast<Player*> (&other)) {
             this->takeDamage(100);
             std::random_device rd;
             std::default_random_engine rng(rd());
-            std::uniform_int_distribution<int> uniform_dist(0, 2);
+            std::uniform_int_distribution<int> uniform_dist(0, 1);
             int bonus = uniform_dist(rng);
             switch (bonus) {
                 case 0:
-                    playerptr->takeBonus(100, "damage");
+                    playerptr->takeBonus(10, "damage");
                     break;
                 case 1:
                     playerptr->takeBonus(5, "hit_cooldown_reduction");
@@ -73,4 +75,8 @@ void Treasure::interactWith(Entity &other, int frame) {
             }
         }
     }
+}
+
+bool Treasure::hasInstance() {
+    return uniqueInstance != nullptr;
 }

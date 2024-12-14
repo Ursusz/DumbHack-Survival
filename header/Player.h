@@ -4,6 +4,7 @@
 #include <map>
 #include <memory>
 #include <math.h>
+#include <SFML/Audio/Sound.hpp>
 #include "../header/Components.h"
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -11,6 +12,7 @@
 #include <array>
 #include "../header/Entity.h"
 #include "../header/Weapon.h"
+#include <SFML/Audio/SoundBuffer.hpp>
 
 class Player : public Entity{
     std::shared_ptr<KeyboardComponent> m_cKeyboard;
@@ -24,7 +26,10 @@ class Player : public Entity{
     sf::VertexArray semicircle = sf::VertexArray(sf::TrianglesFan);
     bool canHit(int frame) override;
     int hitCooldown = 30;
-    int damage = 10;
+    int player_damage = 10;
+
+    sf::SoundBuffer swingBuffer;
+    sf::Sound swingSound;
 public:
     Player() = default;
     Player(const myVec& position, const myVec& velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic);
@@ -48,7 +53,6 @@ public:
     void drawHP(sf::RenderTarget& m_window);
 
     void drawWeapon(sf::RenderTarget& m_window);
-    void swingWeapon();
 
     void drawRange(sf::RenderTarget& target, float radius, float directionAngle);
 

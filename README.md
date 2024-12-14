@@ -2,8 +2,11 @@
 #### DumbHack :: Survival este un joc de supraviețuire captivant în care personajul principal, un student ambițios, își propune să își demonstreze abilitățile la un maraton de programare. Totuși, ca o ironie a sorții, acesta întârzie la competiție. Între timp, situația se schimbă dramatic: un virus cibernetic scapă de sub control și transformă toți ceilalți participanți într-o armată de zombi, determinați să oprească pe oricine le stă în cale. Eroul nostru trebuie acum să lupte împotriva acestor zombi și, în același timp, să găsească o cale de a neutraliza virusul, restabilind ordinea în competiție. Va reuși el să supraviețuiască și să readucă lucrurile la normal?
 
 ## Assets
-Toate assets-urile din acest proiect sunt create de mine, folosind [acest tool](https://www.pixilart.com/).
+#### <b>Aproape</b> toate assets-urile <b>vizuale</b> din acest proiect sunt create de mine, folosind [acest tool](https://www.pixilart.com/), mai puțin : [acesta](assets/Treasure.png) (Treasure.png) care a fost luat de [aici](https://skalding.itch.io/chest-16x16-open-and-closed).
 
+#### Efectele audio din joc au fost luate de aici: 
+  -> Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=31697">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=31697">Pixabay</a> (main music)  
+  -> [swingSound](https://mixkit.co/free-sound-effects/hit/) (Impact of a strong punch)
 ## Fonts
 Font-ul textului din proiect a fost downloadat de [aici](https://font.download/font/arial).
 

@@ -44,6 +44,11 @@ bool Entity::canCollide() const {
     return m_collidable;
 }
 
+void Entity::stopCollission() {
+    m_collidable = false;
+}
+
+
 bool Entity::canMove() const {
     return m_isDynamic;
 }

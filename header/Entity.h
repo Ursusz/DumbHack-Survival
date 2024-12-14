@@ -33,6 +33,7 @@ public:
 
     bool canTakeDamage() const;
     bool canCollide() const;
+    void stopCollission();
     bool canMove() const;
 
     void updatePositionInComp(const myVec& position) const;

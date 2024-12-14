@@ -9,6 +9,8 @@
 #include <math.h>
 #include <array>
 #include <memory>
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 
 class Zombie : public Entity{
     std::shared_ptr<SpriteComponent> heartSprite;
@@ -22,6 +24,9 @@ class Zombie : public Entity{
     int obstacleReader = 0;
     int hitPoints = 100;
     bool isAlive = true;
+
+    std::shared_ptr<sf::SoundBuffer> hitBuffer;
+    sf::Sound hitSound;
 
     bool canHit(int) override;
 public:
@@ -39,9 +44,11 @@ public:
 
     void followPlayer(const myVec& playerPos);
 
+    bool is_alive() const;
+
     std::shared_ptr<Entity> clone() const override;
 
-    void swap(Zombie& z1, Zombie& z2);
+    void swap(Zombie& z1, Zombie& z2) noexcept;
     Zombie& operator=(Zombie zombie);
 
     friend std::ostream& operator<<(std::ostream& os, const Zombie& zombie);

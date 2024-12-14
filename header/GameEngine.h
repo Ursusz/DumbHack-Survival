@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <unordered_set>
+#include <SFML/Audio/Music.hpp>
 
 #include "../header/Computer.h"
 #include "../header/Zombie.h"
@@ -14,6 +15,7 @@
 #include "../header/MapConfig.h"
 #include "../header/VendingMachine.h"
 #include "../header/Treasure.h"
+#include "../header/ZombieWaveManager.h"
 
 class GameEngine {
     struct WindowSetup {int width=1920, height=1080, FPS=60; bool fullscreen=false;} myWindowConfig;
@@ -35,9 +37,10 @@ class GameEngine {
     Player m_player;
     Zombie m_zombie;
     std::vector<Zombie> m_zombies;
+    ZombieWaveManager m_zombieWaveManager;
     TileManager m_tileManager;
 
-    Treasure* m_treasure;
+    Treasure* m_treasure = nullptr;
 
     std::map<sf::Keyboard::Key, int> keyMap;
     std::string m_setupPath;
@@ -45,16 +48,17 @@ class GameEngine {
     int m_frame = 0;
     std::vector<Computer> objectComputers;
 
+    sf::Music m_music;
+
     void Init(const std::string& setupPath);
 
     void listenEvents();
     void handleEvents() const;
     void checkPlayerOutOfBounds();
-    void checkCollisions(Entity& e1, Entity& e2);
     void loadingBarComputer();
-    void attackEnemies();
     bool entitiesAreColliding(const Entity& e1, const Entity& e2) const;
 public:
+    void checkCollisions(Entity& e1, Entity& e2);
     explicit GameEngine(std::string  setupPath);
     ~GameEngine() = default;
 

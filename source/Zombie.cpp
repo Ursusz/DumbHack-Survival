@@ -5,10 +5,16 @@
 Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, bool hitAble, bool collidable, bool isDynamic)
     : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic)
     , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
+    , hitBuffer(std::make_shared<sf::SoundBuffer>())
 {
     m_generator.setWorldSize({23, 40});
     m_generator.setHeuristic(AStar::Heuristic::euclidean);
     m_generator.setDiagonalMovement(true);
+    if(!hitBuffer->loadFromFile("assets/zombiePunch.ogg")) {
+        throw std::runtime_error("Error loading zombiePunch.ogg");
+    }
+    hitSound.setBuffer(*hitBuffer);
+    hitSound.setVolume(2.0f);
 }
 
 Zombie::Zombie(const Zombie& rhs)
@@ -17,7 +23,12 @@ Zombie::Zombie(const Zombie& rhs)
     , m_generator(rhs.m_generator)
     , hitPoints(rhs.hitPoints)
     , isAlive(rhs.isAlive)
-{}
+    , hitBuffer(rhs.hitBuffer)
+{
+    hitSound.setBuffer(*hitBuffer);
+    hitSound.setVolume(2.0f);
+}
+
 
 std::string &Zombie::getDirection() {
     return m_direction;
@@ -35,10 +46,8 @@ void Zombie::takeDamage(int damage) {
 bool Zombie::canHit(int frame) {
     if((lastHit == 0 || frame - lastHit > 180) && isAlive) {
         lastHit = frame;
+        hitSound.play();
         return true;
-    }
-    if(!isAlive) {
-        return false;
     }
     return false;
 }
@@ -102,11 +111,16 @@ void Zombie::followPlayer(const myVec &playerPos) {
     if(direction.getX() > 0 && std::abs(direction.getX()) > std::abs(direction.getY())) m_direction = "right";
 }
 
+bool Zombie::is_alive() const {
+    return isAlive;
+}
+
+
 std::shared_ptr<Entity> Zombie::clone() const {
     return std::make_shared<Zombie>(*this);
 }
 
-void Zombie::swap(Zombie &z1, Zombie &z2) {
+void Zombie::swap(Zombie &z1, Zombie &z2) noexcept{
     using std::swap;
     swap(z1.heartSprite, z2.heartSprite);
     swap(z1.lastHit, z2.lastHit);
@@ -124,8 +138,10 @@ void Zombie::swap(Zombie &z1, Zombie &z2) {
         }
     }
     in.close();
+    swap(z1.hitBuffer, z2.hitBuffer);
+    z1.hitSound.setBuffer(*z1.hitBuffer);
+    z1.hitSound.setVolume(2.0f);
 }
-
 
 Zombie& Zombie::operator=(Zombie rhs) {
     Entity::operator=(rhs);

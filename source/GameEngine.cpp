@@ -72,15 +72,8 @@ void GameEngine::Init(const std::string& setupPath) {
                             true,
                             true,
                             true);
-        m_zombie = Zombie(myVec(myZombieConfig.posX, myZombieConfig.posY),
-                        myVec(myZombieConfig.vecX, myZombieConfig.vecY),
-                        "assets/Zombie.png",
-                        true,
-                        true,
-                        true);
-        m_zombies.push_back(m_zombie);\
 
-        m_treasure = Treasure::instance(myVec(120, 120),
+        m_treasure = Treasure::instance(myVec(120, 552),
                                         myVec(0, 0),
                                         "assets/Treasure.png",
                                         true,
@@ -99,6 +92,14 @@ void GameEngine::Init(const std::string& setupPath) {
                             32, ///FONT SIZE 32 PX
                             sf::Color::Green,
                             myVec(960, 540));
+
+       if(!m_music.openFromFile("assets/music.ogg")) {
+           throw std::runtime_error("Failed to load music");
+       }
+        m_music.setVolume(5.0f);
+        m_music.setLoop(true);
+        m_music.play();
+        m_zombieWaveManager.startNextWave();
     }catch(const textureError& err) {
         std::cerr << "Texture error: " <<  err.what() << std::endl;
         m_window.close();
@@ -119,21 +120,28 @@ void GameEngine::Init(const std::string& setupPath) {
 
 void GameEngine::run() {
     Init(m_setupPath);
-
     while(m_window.isOpen()) {
         listenEvents();
         if(m_player.isAlive() && !Computer::allComputersCompleted()) {
             handleEvents();
             checkPlayerOutOfBounds();
+            if(m_zombieWaveManager.isWaveFinished()) {
+                m_zombieWaveManager.startNextWave();
+            }else {
+                m_zombieWaveManager.spawnZombies();
+            }
         }
 
         for(size_t i = 0; i < MAP_HEIGHT; i++) {
             for(size_t j = 0; j < MAP_WIDTH; j++) {
                 checkCollisions(m_player, m_tileManager.getTile(i, j));
-                for(auto& zombie : m_zombies) {
-                    checkCollisions(zombie, m_tileManager.getTile(i, j));
+                for(auto& zombie : m_zombieWaveManager.getZombies()) {
+                    checkCollisions(*zombie, m_tileManager.getTile(i, j));
                 }
             }
+        }
+        if(Treasure::hasInstance()) {
+            checkCollisions(m_player, *m_treasure);
         }
 
         m_window.clear(sf::Color::Black);
@@ -143,22 +151,18 @@ void GameEngine::run() {
         if(m_player.isAlive() && !Computer::allComputersCompleted()) {
 
             checkCollisions(m_player, m_vending_machine);
-            checkCollisions(m_player, *m_treasure);
 
-            for(auto& zombie : m_zombies) {
-                zombie.followPlayer(m_player.getPositionFromComp());
-                checkCollisions(m_player, zombie);
-                zombie.updateSprite(zombie.getDirection());
-                zombie.draw(m_window);
-                zombie.drawHP(m_window);
-            }
+            m_zombieWaveManager.updateZombies(m_player, [this](Entity& e1, Entity& e2) {
+                this->checkCollisions(e1, e2);
+            });
+            m_zombieWaveManager.drawZombies(m_window);
         }else if(!m_player.isAlive()) {
             m_gameLostMsg.drawText(m_window);
         }else if(Computer::allComputersCompleted()) {
             m_gameWonMsg.drawText(m_window);
         }
         m_vending_machine.draw(m_window);
-        m_treasure->draw(m_window, m_frame);
+        if(m_treasure) m_treasure->draw(m_window, m_frame);
         m_player.draw(m_window);
         m_player.drawHP(m_window);
         m_player.drawWeapon(m_window);
@@ -169,9 +173,7 @@ void GameEngine::run() {
         m_window.display();
 
         m_player.changeAnimation();
-        for(auto& zombie : m_zombies) {
-            zombie.changeAnimation();
-        }
+        m_zombieWaveManager.updateZombiesAnimations();
         m_frame++;
     }
 }
@@ -195,8 +197,7 @@ void GameEngine::listenEvents() {
             }
         }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            m_player.swingWeapon();
-            attackEnemies();
+            m_zombieWaveManager.damageZombies(m_player, m_frame);
         }
         if(event.type == sf::Event::KeyReleased) {
             if (keyMap.contains(event.key.code)) {
@@ -250,7 +251,6 @@ void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
     if (entitiesAreColliding(e1, e2)) {
 
         e2.interactWith(e1, m_frame);
-
         m_collision.setOverlap(e1, e2);
 
         if(e1.canMove() && e2.canCollide()) {
@@ -277,25 +277,13 @@ void GameEngine::loadingBarComputer() {
     }
 }
 
-void GameEngine::attackEnemies() {
-    for(auto& zombie : m_zombies) {
-        myVec attackDirection(sf::Mouse::getPosition().x - m_player.getPositionFromComp().getX(), sf::Mouse::getPosition().y - m_player.getPositionFromComp().getY());
-        try {
-            attackDirection.normalize();
-        }catch(const divideByZero& err) {
-            std::cerr << "Division error: " << err.what() << std::endl;
-        }
-        if(m_player.isEnemyInFront(zombie.getPositionFromComp(), attackDirection, 110, 45)) {
-            m_player.interactWith(zombie, m_frame);
-        }
-    }
-}
-
 bool GameEngine::entitiesAreColliding(const Entity &e1, const Entity &e2) const {
-    if(e2.getPositionFromComp().getX() - e2.getHalfWidth() < e1.getPositionFromComp().getX() + e1.getHalfWidth() &&
-        e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
-        e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
-        e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) return true;
+    if(e1.canCollide() && e2.canCollide()) {
+        if(e2.getPositionFromComp().getX() - e2.getHalfWidth() < e1.getPositionFromComp().getX() + e1.getHalfWidth() &&
+            e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
+            e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
+            e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) return true;
 
+    }
     return false;
 }

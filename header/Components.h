@@ -181,9 +181,11 @@ public:
     BoundingBoxComponent() = default;
     BoundingBoxComponent(int halfWidth, int halfHeight) : m_halfWidth(halfWidth), m_halfHeight(halfHeight) {}
     ~BoundingBoxComponent() = default;
+    [[nodiscard]]
     int getHalfWidth() const {
         return m_halfWidth;
     }
+    [[nodiscard]]
     int getHalfHeight() const {
         return m_halfHeight;
     }

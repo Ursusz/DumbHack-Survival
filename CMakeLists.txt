@@ -85,6 +85,8 @@ add_executable(${PROJECT_NAME}
         source/VendingMachine.cpp
         header/Treasure.h
         source/Treasure.cpp
+        header/ZombieWaveManager.h
+        source/ZombieWaveManager.cpp
 )
 
 include(cmake/CompilerFlags.cmake)
@@ -99,7 +101,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/inc
 add_library(AStarLib STATIC ext/AStar/AStar.cpp)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/AStar)
 target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-window sfml-system Threads::Threads)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-window sfml-system Threads::Threads sfml-audio)
 target_link_libraries(${PROJECT_NAME} PRIVATE AStarLib)
 #target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE header)
 #target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE source)

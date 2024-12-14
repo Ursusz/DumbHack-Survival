@@ -5,15 +5,20 @@ Player::Player(const myVec &position, const myVec &velocity, const std::string& 
     : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic)
     , m_cKeyboard(std::make_shared<KeyboardComponent>())
     , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
-    , m_weapon(std::make_shared<Weapon>("assets/weapon.png"))
-
-{}
+    , m_weapon(std::make_shared<Weapon>("assets/weapon.png")) {
+    if(!swingBuffer.loadFromFile("assets/swingSound.ogg")) {
+        throw std::runtime_error("Error loading swingSound");
+    }
+    swingSound.setBuffer(swingBuffer);
+    swingSound.setVolume(1.0f);
+}
 
 Player::Player(const Player &rhs)
     : Entity(rhs)
     , m_cKeyboard(rhs.m_cKeyboard->clone())
     , m_weapon(rhs.m_weapon->clone())
     , semicircle(rhs.semicircle)
+    , swingBuffer(rhs.swingBuffer)
 {}
 
 
@@ -39,15 +44,18 @@ bool Player::isAlive() const {
 
 void Player::takeDamage(int damage) {
     if(hitPoints > 0) {
-        if (hitPoints - damage <= 100)
+        if (hitPoints - damage <= 100) {
             //this prevents the healing from vending machine to give the player more than 100hp which causes the program to crash
             hitPoints -= damage;
+        }
     }
 }
 
 bool Player::canHit(int frame) {
     if(lastHit == 0 || frame - lastHit > hitCooldown) {
         lastHit = frame;
+        swingSound.play();
+        m_weapon->swing();
         return true;
     }
     return false;
@@ -55,7 +63,7 @@ bool Player::canHit(int frame) {
 
 void Player::interactWith(Entity &other, int frame) {
     if(this->canHit(frame) && other.canTakeDamage()) {
-        other.takeDamage(damage);
+        other.takeDamage(player_damage);
     }
 }
 
@@ -118,10 +126,6 @@ void Player::drawWeapon(sf::RenderTarget &m_window) {
     m_weapon->draw(m_window, this->getPositionFromComp(), lastDirection);
 }
 
-void Player::swingWeapon() {
-    m_weapon->swing();
-}
-
 void Player::drawRange(sf::RenderTarget &target, float radius, float directionAngle) {
     semicircle.clear();
     semicircle.append(sf::Vertex(sf::Vector2f(getPositionFromComp().getX(), getPositionFromComp().getY()), sf::Color(200, 200, 200, 30)));
@@ -150,6 +154,9 @@ void Player::swap(Player &p1, Player &p2) {
     swap(p1.m_weapon, p2.m_weapon);
     swap(p1.lastDirection, p2.lastDirection);
     swap(p1.semicircle, p2.semicircle);
+    swap(p1.swingBuffer, p2.swingBuffer);
+    p1.swingSound.setBuffer(p1.swingBuffer);
+    p1.swingSound.setVolume(1.0f);
 }
 
 std::shared_ptr<Entity> Player::clone() const {
@@ -169,6 +176,6 @@ std::ostream& operator<<(std::ostream &os, const Player &player) {
 }
 
 void Player::takeBonus(int bonus, const std::string &option) {
-    if(option == "damage")  damage += bonus;
+    if(option == "damage")  player_damage += bonus;
     if(option == "hit_cooldown_reduction") hitCooldown -= bonus;
 }
