@@ -80,13 +80,13 @@ void GameEngine::Init(const std::string& setupPath) {
                         true);
         m_zombies.push_back(m_zombie);\
 
-        // m_treasure = Treasure::instance(myVec(120, 120),
-        //                                 myVec(0, 0),
-        //                                 "assets/Treasure.png",
-        //                                 false,
-        //                                 true,
-        //                                 false,
-        //                                 true);
+        m_treasure = Treasure::instance(myVec(120, 120),
+                                        myVec(0, 0),
+                                        "assets/Treasure.png",
+                                        false,
+                                        true,
+                                        false,
+                                        true);
 
         m_gameLostMsg = Text("Fonts/ARIAL.TTF",
                     "GAME LOST",
