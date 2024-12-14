@@ -143,7 +143,7 @@ void GameEngine::run() {
         if(m_player.isAlive() && !Computer::allComputersCompleted()) {
 
             checkCollisions(m_player, m_vending_machine);
-            // checkCollisions(m_player, *m_treasure);
+            checkCollisions(m_player, *m_treasure);
 
             for(auto& zombie : m_zombies) {
                 zombie.followPlayer(m_player.getPositionFromComp());
