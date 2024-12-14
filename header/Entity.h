@@ -16,6 +16,8 @@ class Entity {
     bool m_hitAble = false;
     bool m_collidable = false;
     bool m_isDynamic = false;
+protected:
+    virtual bool canHit(int /*frame*/) = 0;
 public:
     Entity() = default;
     Entity(const myVec& position, const myVec& velocity, const std::string& texture_path,
@@ -42,7 +44,6 @@ public:
 
     void draw(sf::RenderTarget& target);
 
-    virtual bool canHit(int /*frame*/) = 0;
     virtual void takeDamage(int /*damage*/) = 0;
     virtual void interactWith(Entity& other, int frame) = 0;
 

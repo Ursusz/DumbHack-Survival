@@ -11,10 +11,7 @@ void Tile::takeDamage(int /*damage*/) {}
 
 bool Tile::canHit(int /*frame*/) {return false;}
 
-void Tile::interactWith(Entity &other, int frame) {
-    (void)other;
-    (void)frame;
-}
+void Tile::interactWith(Entity & /*other*/, int /*frame*/) {}
 
 std::shared_ptr<Entity> Tile::clone() const {
     return std::make_shared<Tile>(*this);

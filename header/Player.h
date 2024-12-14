@@ -22,6 +22,9 @@ class Player : public Entity{
     std::shared_ptr<Weapon> m_weapon;
     bool lastDirection = false;
     sf::VertexArray semicircle = sf::VertexArray(sf::TrianglesFan);
+    bool canHit(int frame) override;
+    int hitCooldown = 30;
+    int damage = 10;
 public:
     Player() = default;
     Player(const myVec& position, const myVec& velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic);
@@ -35,7 +38,7 @@ public:
     bool isAlive() const;
 
     void takeDamage(int damage) override;
-    bool canHit(int frame) override;
+
     void interactWith(Entity &other, int frame) override;
 
     bool isEnemyInFront(const myVec& enemyPos, const myVec& playerDirection, float range, float  );
@@ -53,4 +56,6 @@ public:
     std::shared_ptr<Entity> clone() const override;
     Player& operator=(Player rhs);
     friend std::ostream& operator<<(std::ostream& os, const Player& player);
+
+    void takeBonus(int bonus, const std::string& option);
 };

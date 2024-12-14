@@ -33,15 +33,20 @@ void Zombie::takeDamage(int damage) {
 }
 
 bool Zombie::canHit(int frame) {
-    if(lastHit == 0 || frame - lastHit > 180) {
+    if((lastHit == 0 || frame - lastHit > 180) && isAlive) {
         lastHit = frame;
         return true;
+    }
+    if(!isAlive) {
+        return false;
     }
     return false;
 }
 
 void Zombie::interactWith(Entity &other, int frame) {
-    if(this->canHit(frame) && other.canTakeDamage()) other.takeDamage(10);
+    if(this->canHit(frame) && other.canTakeDamage()) {
+        other.takeDamage(10);
+    }
 }
 
 void Zombie::drawHP(sf::RenderTarget &m_window) {
@@ -75,12 +80,19 @@ void Zombie::followPlayer(const myVec &playerPos) {
             direction = playerPos - this->getPositionFromComp();
         }
     }else {
-        direction = myVec(2000, 552) - this->getPositionFromComp();
+        direction = myVec(2000, 540) - this->getPositionFromComp();
+        ///2000 its out of bounds (right side of the screen, since the game is 1920px wide
+        /// and 540 is the middle of the screen in height (1080 / 2)
     }
     ///Zombie width and height are both 48, same for player, so the distance between their middle points is 48
     ///the zombie should stop right before he hits the player (48 + 1 pixel padding) so he won't push the player
     if(direction.length() > 49) {
-        direction.normalize();
+        try {
+            direction.normalize();
+        }catch(const divideByZero& err) {
+            std::cerr << "Division error: " << err.what() << std::endl;
+        }
+
         direction *= 1.5f;
         this->updatePositionInComp(direction);
     }

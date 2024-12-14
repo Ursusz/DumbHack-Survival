@@ -11,13 +11,13 @@
 class Tile : public Entity{
 protected:
     std::string mutable tileType;
+    bool canHit(int) override;
 public:
     Tile() = default;
     Tile(const myVec& position, const std::string& texture_path, std::string& tileType, bool hitAble, bool collidable, bool isDynamic);
     ~Tile() override = default;
 
     void takeDamage(int damage) override;
-    bool canHit(int) override;
     void interactWith(Entity &other, int frame) override;
 
     std::shared_ptr<Entity> clone() const override;

@@ -13,6 +13,7 @@
 #include "../header/Collision.h"
 #include "../header/MapConfig.h"
 #include "../header/VendingMachine.h"
+#include "../header/Treasure.h"
 
 class GameEngine {
     struct WindowSetup {int width=1920, height=1080, FPS=60; bool fullscreen=false;} myWindowConfig;
@@ -35,6 +36,7 @@ class GameEngine {
     Zombie m_zombie;
     std::vector<Zombie> m_zombies;
     TileManager m_tileManager;
+    std::shared_ptr<Treasure> m_treasure;
 
     std::map<sf::Keyboard::Key, int> keyMap;
     std::string m_setupPath;
@@ -50,6 +52,7 @@ class GameEngine {
     void checkCollisions(Entity& e1, Entity& e2);
     void loadingBarComputer();
     void attackEnemies();
+    bool entitiesAreColliding(Entity& e1, Entity& e2) const;
 public:
     explicit GameEngine(std::string  setupPath);
     ~GameEngine() = default;

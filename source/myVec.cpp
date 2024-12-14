@@ -75,8 +75,7 @@ float myVec::length() const {
 bool myVec::normalize() {
     const float len = length();
     if(len == 0.0f) {
-        std::cerr << "Vec2 normalize() called with zero length" << std::endl;
-        return false;
+        throw divideByZero(*this);
     }
     m_x /= len;
     m_y /= len;
@@ -95,6 +94,12 @@ std::ostream& operator << (std::ostream& os, const myVec& rhs) {
 float myVec::getX() const { return m_x; }
 float myVec::getY() const { return m_y; }
 
-void swap(myVec& v1, myVec& v2) {
+std::string myVec::myVec_to_string() const {
+    std::ostringstream oss;
+    oss << *this;
+    return oss.str();
+}
+
+void swap(myVec& v1, myVec& v2) noexcept{
     std::swap(v1.m_x, v2.m_x);
 }

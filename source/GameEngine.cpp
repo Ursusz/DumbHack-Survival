@@ -78,7 +78,15 @@ void GameEngine::Init(const std::string& setupPath) {
                         true,
                         true,
                         true);
-        m_zombies.push_back(m_zombie);
+        m_zombies.push_back(m_zombie);\
+
+        m_treasure = Treasure::instance(myVec(120, 120),
+                                        myVec(0, 0),
+                                        "assets/Treasure.png",
+                                        false,
+                                        true,
+                                        false,
+                                        true);
 
         m_gameLostMsg = Text("Fonts/ARIAL.TTF",
                     "GAME LOST",
@@ -101,7 +109,10 @@ void GameEngine::Init(const std::string& setupPath) {
         std::cerr << err.what() << std::endl;
         m_window.close();
     }catch(const std::runtime_error& err) {
-        std::cerr << "Other error: " << err.what() << std::endl;
+        std::cerr << "Other runtime error: " << err.what() << std::endl;
+        m_window.close();
+    }catch(const std::exception& err) {
+        std::cerr << "Other exception: " << err.what() << std::endl;
         m_window.close();
     }
 }
@@ -130,7 +141,10 @@ void GameEngine::run() {
         m_tileManager.printMap(m_window);
 
         if(m_player.isAlive() && !Computer::allComputersCompleted()) {
+
             checkCollisions(m_player, m_vending_machine);
+            checkCollisions(m_player, *m_treasure);
+
             for(auto& zombie : m_zombies) {
                 zombie.followPlayer(m_player.getPositionFromComp());
                 checkCollisions(m_player, zombie);
@@ -176,7 +190,7 @@ void GameEngine::listenEvents() {
                 m_window.close();
             }
             if(event.key.code == sf::Keyboard::R) {
-                run();
+                // run(); /// Trebuie sa gasesc o metoda pentru a da restart corect la joc
             }
         }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -213,7 +227,11 @@ void GameEngine::handleEvents() const {
     }
 
     if(direction.getX() != 0.0f && direction.getY() != 0.0f) {
-        direction.normalize();
+        try {
+            direction.normalize();
+        }catch(const divideByZero& err) {
+            std::cerr << "Division error: " << err.what() << std::endl;
+        }
         direction *= 5.0f;
     }
     m_player.updatePositionInComp(direction);
@@ -228,10 +246,7 @@ void GameEngine::checkPlayerOutOfBounds() {
 }
 
 void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
-    if (e2.getPositionFromComp().getX() - e2.getHalfWidth() < e1.getPositionFromComp().getX() + e1.getHalfWidth() &&
-        e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
-        e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
-        e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) {
+    if (entitiesAreColliding(e1, e2)) {
 
         e2.interactWith(e1, m_frame);
 
@@ -264,9 +279,22 @@ void GameEngine::loadingBarComputer() {
 void GameEngine::attackEnemies() {
     for(auto& zombie : m_zombies) {
         myVec attackDirection(sf::Mouse::getPosition().x - m_player.getPositionFromComp().getX(), sf::Mouse::getPosition().y - m_player.getPositionFromComp().getY());
-        attackDirection.normalize();
+        try {
+            attackDirection.normalize();
+        }catch(const divideByZero& err) {
+            std::cerr << "Division error: " << err.what() << std::endl;
+        }
         if(m_player.isEnemyInFront(zombie.getPositionFromComp(), attackDirection, 110, 45)) {
             m_player.interactWith(zombie, m_frame);
         }
     }
+}
+
+bool GameEngine::entitiesAreColliding(Entity &e1, Entity &e2) const {
+    if(e2.getPositionFromComp().getX() - e2.getHalfWidth() < e1.getPositionFromComp().getX() + e1.getHalfWidth() &&
+        e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
+        e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
+        e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) return true;
+
+    return false;
 }

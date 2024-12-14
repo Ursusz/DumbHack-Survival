@@ -9,3 +9,5 @@ fontError::fontError(const std::string &font_path)
 textureError::textureError(const std::string &texture_path)
     : gameException("Failed to load texture: " + texture_path) {}
 
+divideByZero::divideByZero(const myVec &vec)
+    : gameException("Vec2 normalize() called with zero length: " + vec.myVec_to_string()) {}

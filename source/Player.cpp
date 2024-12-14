@@ -46,7 +46,7 @@ void Player::takeDamage(int damage) {
 }
 
 bool Player::canHit(int frame) {
-    if(lastHit == 0 || frame - lastHit > 30) {
+    if(lastHit == 0 || frame - lastHit > hitCooldown) {
         lastHit = frame;
         return true;
     }
@@ -55,7 +55,7 @@ bool Player::canHit(int frame) {
 
 void Player::interactWith(Entity &other, int frame) {
     if(this->canHit(frame) && other.canTakeDamage()) {
-        other.takeDamage(10);
+        other.takeDamage(damage);
     }
 }
 
@@ -63,7 +63,11 @@ void Player::interactWith(Entity &other, int frame) {
 bool Player::isEnemyInFront(const myVec &enemyPos, const myVec &playerDirection, float range, float angleThreshHold) {
     if(this->getPositionFromComp().distance(enemyPos) > range) return false;
     myVec playerToEnemyVec = (this->getPositionFromComp()-enemyPos);
-    playerToEnemyVec.normalize();
+    try {
+        playerToEnemyVec.normalize();
+    }catch(const divideByZero& err) {
+        std::cerr << "Division error: " << err.what() << std::endl;
+    }
 
     float dotProduct = playerToEnemyVec.getX() * playerDirection.getX() + playerToEnemyVec.getY() * playerDirection.getY();
 
@@ -162,4 +166,9 @@ std::ostream& operator<<(std::ostream &os, const Player &player) {
     os << static_cast<const Entity&>(player);
     os << player.hitPoints << " " << player.lastHit << " " << player.lastDirection << " ";
     return os;
+}
+
+void Player::takeBonus(int bonus, const std::string &option) {
+    if(option == "damage")  damage += bonus;
+    if(option == "hit_cooldown_reduction") hitCooldown -= bonus;
 }

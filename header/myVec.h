@@ -1,6 +1,9 @@
 #pragma once
 #include <ostream>
 #include <utility>
+#include <sstream>
+#include <string>
+#include "../header/Exceptions.h"
 
 class myVec{
   float m_x = 0;
@@ -27,13 +30,20 @@ public:
 
   friend std::ostream& operator << (std::ostream& os, const myVec& rhs);
 
+  [[nodiscard]]
   float length() const;
+
   bool normalize();
 
-  //NOTE : maybe used later
+  [[nodiscard]]
   float distance(const myVec& rhs) const;
 
+  [[nodiscard]]
   float getX() const;
+  [[nodiscard]]
   float getY() const;
-  friend void swap(myVec& v1, myVec& v2);
+
+  std::string myVec_to_string() const;
+
+  friend void swap(myVec& v1, myVec& v2) noexcept;
 };
