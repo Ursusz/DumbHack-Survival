@@ -1,6 +1,6 @@
 #pragma once
-#include <map>
 #include <SFML/Graphics.hpp>
+#include <map>
 #include <fstream>
 
 #include "../header/Exceptions.h"

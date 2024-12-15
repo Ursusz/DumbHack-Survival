@@ -1,16 +1,16 @@
 #pragma once
 
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics/Texture.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 #include <utility>
 #include <map>
 #include <memory>
 #include <math.h>
-#include <SFML/Audio/SoundBuffer.hpp>
-#include <SFML/Audio/Sound.hpp>
-#include "../header/Components.h"
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
 #include <array>
+#include "../header/Components.h"
 #include "../header/Entity.h"
 #include "../header/Weapon.h"
 

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../header/Entity.h"
-#include <memory>
 #include <SFML/Graphics/RenderTarget.hpp>
+#include <memory>
 #include <random>
+#include "../header/Entity.h"
 
 class Treasure : public Entity {
     static Treasure* uniqueInstance;

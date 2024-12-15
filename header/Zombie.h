@@ -1,16 +1,16 @@
 #pragma once
 
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
+#include <math.h>
+#include <AStar.h>
+#include <memory>
+#include <fstream>
+#include <array>
 #include "../header/Entity.h"
 #include "../header/Components.h"
 #include "../header/MapConfig.h"
-#include <AStar.h>
-#include <fstream>
-#include <SFML/Graphics/RenderTarget.hpp>
-#include <math.h>
-#include <array>
-#include <memory>
-#include <SFML/Audio/SoundBuffer.hpp>
-#include <SFML/Audio/Sound.hpp>
 
 class Zombie : public Entity{
     std::shared_ptr<SpriteComponent> heartSprite;

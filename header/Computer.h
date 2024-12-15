@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../header/myVec.h"
-#include "../header/Components.h"
+#include <SFML/Graphics.hpp>
 #include <memory>
 #include <array>
-#include <SFML/Graphics.hpp>
+#include "../header/myVec.h"
+#include "../header/Components.h"
 
 class Computer {
     const myVec position;

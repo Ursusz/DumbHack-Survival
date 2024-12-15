@@ -1,10 +1,10 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio/Music.hpp>
 #include <fstream>
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include <unordered_set>
-#include <SFML/Audio/Music.hpp>
 
 #include "../header/Computer.h"
 #include "../header/Zombie.h"

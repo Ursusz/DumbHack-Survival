@@ -1,8 +1,8 @@
 #pragma once
 
+#include <SFML/Graphics/RenderTarget.hpp>
 #include <memory>
 #include <vector>
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <random>
 #include <functional>
 
