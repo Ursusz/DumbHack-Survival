@@ -93,6 +93,12 @@ void GameEngine::Init(const std::string& setupPath) {
                             sf::Color::Green,
                             myVec(960, 540));
 
+        m_trap = Trap(myVec(504, 792),
+                    "assets/Trap.png",
+                    false,
+                    true,
+                    false);
+
        if(!m_music.openFromFile("assets/music.ogg")) {
            throw std::runtime_error("Failed to load music");
        }
@@ -151,6 +157,7 @@ void GameEngine::run() {
         if(m_player.isAlive() && !Computer::allComputersCompleted()) {
 
             checkCollisions(m_player, m_vending_machine);
+            checkCollisions(m_player, m_trap);
 
             m_zombieWaveManager.updateZombies(m_player, [this](Entity& e1, Entity& e2) {
                 this->checkCollisions(e1, e2);
@@ -164,6 +171,7 @@ void GameEngine::run() {
         m_vending_machine.draw(m_window);
         m_vending_machine.drawTexts(m_window);
         if(m_treasure) m_treasure->draw(m_window, m_frame);
+        m_trap.draw(m_window, m_frame);
         m_player.draw(m_window);
         m_player.drawHP(m_window);
         m_player.drawWeapon(m_window);

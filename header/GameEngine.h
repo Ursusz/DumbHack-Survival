@@ -14,6 +14,7 @@
 #include "../header/VendingMachine.h"
 #include "../header/Treasure.h"
 #include "../header/ZombieWaveManager.h"
+#include "../header/Trap.h"
 
 /*
  ####################################################################
@@ -61,6 +62,8 @@ class GameEngine {
     std::vector<Computer> objectComputers;
 
     sf::Music m_music;
+
+    Trap m_trap;
 
     void Init(const std::string& setupPath);
 

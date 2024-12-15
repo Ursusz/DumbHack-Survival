@@ -89,6 +89,8 @@ add_executable(${PROJECT_NAME}
         source/ZombieWaveManager.cpp
         header/ObstacleManager.h
         source/ObstacleManager.cpp
+        header/Trap.h
+        source/Trap.cpp
 )
 
 include(cmake/CompilerFlags.cmake)
