@@ -33,16 +33,29 @@ VendingMachine::VendingMachine(const Entity &rhs)
 
 void VendingMachine::drawTexts(sf::RenderTarget& target) {
     dosesLeft.setString("Doses left in Vending Machine: " + std::to_string(numOfDoses));
-    float remainingTime = 30.0f - clock.getElapsedTime().asSeconds();
-    if(remainingTime < 0.0f) {remainingTime = 0.0f;}
+
+    float elapsedTimeSinceLastUse = clock.getElapsedTime().asSeconds() - lastUsedTime;
+    if (elapsedTimeSinceLastUse > 30.0f) {
+        elapsedTimeSinceLastUse = 30.0f;
+    }
+
+    float remainingTime = 30.0f - elapsedTimeSinceLastUse;
+
+    if (remainingTime < 0.0f) {
+        remainingTime = 0.0f;
+    }
+
     std::ostringstream oss;
     oss << "Time left until the next dose: " << std::fixed << std::setprecision(1) << remainingTime;
     leftTimeToNextDose.setString(oss.str());
+
     dosesLeft.updateTextPosition(getPositionFromComp() - myVec(0, 40));
     leftTimeToNextDose.updateTextPosition(getPositionFromComp() - myVec(10, 55));
+
     dosesLeft.drawText(target);
     leftTimeToNextDose.drawText(target);
 }
+
 
 
 void VendingMachine::takeDamage(int /*damage*/) {}
@@ -51,7 +64,7 @@ bool VendingMachine::canHit(int frame) {
     (void)frame;
     if (numOfDoses > 0) {
         float elapsedTime = clock.getElapsedTime().asSeconds();
-        if((elapsedTime - lastUsedTime >= 30.f && lastUsedTime != 0.0f) || lastUsedTime == 0.0f) {
+        if ((elapsedTime - lastUsedTime >= 29.9f && lastUsedTime != 0.0f) || lastUsedTime == 0.0f) {
             lastUsedTime = elapsedTime;
             return true;
         }
@@ -59,12 +72,12 @@ bool VendingMachine::canHit(int frame) {
     return false;
 }
 
+
 void VendingMachine::interactWith(Entity &other, int frame) {
     if(this->canHit(frame) && other.canTakeDamage()) {
-        clock.restart();
         numOfDoses--;
         drinkSound.play();
-        other.takeDamage(-20);
+        other.takeDamage(-40);
     }
 }
 
