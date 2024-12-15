@@ -162,6 +162,7 @@ void GameEngine::run() {
             m_gameWonMsg.drawText(m_window);
         }
         m_vending_machine.draw(m_window);
+        m_vending_machine.drawTexts(m_window);
         if(m_treasure) m_treasure->draw(m_window, m_frame);
         m_player.draw(m_window);
         m_player.drawHP(m_window);

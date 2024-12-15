@@ -9,7 +9,15 @@
 #include "../header/Components.h"
 #include "../header/Entity.h"
 #include "../header/Weapon.h"
+#include "../header/Text.h"
 
+/*
+ ####################################################################
+ #     X11 library on Linux has a defined macro named Status too    #
+ #    and it collides with Status from sf::Audio::SoundSource.hpp   #
+ #   so it must be undefined before including sfml audio libraries  #
+ ####################################################################
+ */
 #ifdef Status
 #undef Status
 #endif
@@ -32,10 +40,15 @@ class Player : public Entity{
     sf::VertexArray semicircle = sf::VertexArray(sf::TrianglesFan);
     bool canHit(int frame) override;
     int hitCooldown = 30;
-    int player_damage = 10;
+    int player_damage = 15;
 
     sf::SoundBuffer swingBuffer;
     sf::Sound swingSound;
+    sf::SoundBuffer unlockSoundBuffer;
+    sf::Sound unlockSound;
+
+    Text unlockPower;
+    sf::Clock unlockPowerClock;
 public:
     Player() = default;
     Player(const myVec& position, const myVec& velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic);

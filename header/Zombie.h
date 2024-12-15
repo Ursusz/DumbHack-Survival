@@ -10,6 +10,13 @@
 #include "../header/Components.h"
 #include "../header/MapConfig.h"
 
+/*
+ ####################################################################
+ #     X11 library on Linux has a defined macro named Status too    #
+ #    and it collides with Status from sf::Audio::SoundSource.hpp   #
+ #   so it must be undefined before including sfml audio libraries  #
+ ####################################################################
+ */
 #ifdef Status
 #undef Status
 #endif
@@ -51,6 +58,7 @@ public:
     void followPlayer(const myVec& playerPos);
 
     bool is_alive() const;
+    void setObstacles(const std::vector<sf::Vector2i>& obs);
 
     std::shared_ptr<Entity> clone() const override;
 

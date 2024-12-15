@@ -1,11 +1,14 @@
 #include "../header/ZombieWaveManager.h"
 
+ObstacleManager& ZombieWaveManager::obstacle_manager = ObstacleManager::getInstance();
+
 ZombieWaveManager::ZombieWaveManager()
     : currentWave(0)
     , zombiesPerWave(5)
     , spawnedZombies(0)
-    , killedZombies(0)
-{}
+    , killedZombies(0) {
+    obstacle_manager.loadObstaclesWithBuffer("Init/world.txt", 23, 40);
+}
 
 void ZombieWaveManager::startNextWave() {
     currentWave++;
@@ -18,8 +21,8 @@ void ZombieWaveManager::startNextWave() {
 void ZombieWaveManager::spawnZombies() {
     std::random_device rd;
     std::default_random_engine rng(rd());
-    std::uniform_real_distribution<float> uniform_distX(24, 1896);
-    std::uniform_real_distribution<float> uniform_distY(24, 1056);
+    std::uniform_real_distribution<float> uniform_distX(72, 1848);
+    std::uniform_real_distribution<float> uniform_distY(72, 1008);
     while(spawnedZombies < zombiesPerWave) {
         float spawnPosX = uniform_distX(rng);
         float spawnPosY = uniform_distY(rng);
@@ -29,6 +32,7 @@ void ZombieWaveManager::spawnZombies() {
                                                         true,
                                                         true,
                                                         true));
+        zombie->setObstacles(obstacle_manager.getObstacles());
         zombies.push_back(zombie);
         spawnedZombies++;
     }
@@ -37,10 +41,10 @@ void ZombieWaveManager::spawnZombies() {
 void ZombieWaveManager::updateZombies(Player& player, std::function<void(Entity&, Entity&)> collissionFunc) {
     for(auto& zombie : zombies) {
         zombie->followPlayer(player.getPositionFromComp());
+        collissionFunc(player, *zombie);
     }
     for(auto& zombie : zombies) {
         if(zombie->is_alive()) {
-            collissionFunc(player, *zombie);
             zombie->updateSprite(zombie->getDirection());
         }else {
             killedZombies++;

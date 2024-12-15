@@ -11,6 +11,16 @@ Player::Player(const myVec &position, const myVec &velocity, const std::string& 
     }
     swingSound.setBuffer(swingBuffer);
     swingSound.setVolume(1.0f);
+    if(!unlockSoundBuffer.loadFromFile("assets/TreasureUnlock.ogg")) {
+        throw std::runtime_error("Error loading unlockSound");
+    }
+    unlockSound.setBuffer(unlockSoundBuffer);
+    unlockSound.setVolume(5.0f);
+    unlockPower = Text("Fonts/ARIAL.TTF",
+                    "",
+                    16, ///FONT SIZE 16 PX
+                    sf::Color::Magenta,
+                    myVec(position.getX(), position.getY()));
 }
 
 Player::Player(const Player &rhs)
@@ -105,6 +115,11 @@ void Player::setKeyValue(int key, bool toggle) {
 }
 
 void Player::drawHP(sf::RenderTarget &m_window) {
+    unlockPower.updateTextPosition(getPositionFromComp() - myVec(unlockPower.getHalfWidth(), 100));
+    unlockPower.drawText(m_window);
+    if (unlockPowerClock.getElapsedTime().asSeconds() > 2.0f) {
+        unlockPower.setString("");
+    }
     for(int i = 0; i < std::ceil((float)hitPoints/20.0f); i++) {
         hearts[i] = heartSprite->getSprite();
         hearts[i].setOrigin(8, 8);
@@ -155,8 +170,12 @@ void Player::swap(Player &p1, Player &p2) {
     swap(p1.lastDirection, p2.lastDirection);
     swap(p1.semicircle, p2.semicircle);
     swap(p1.swingBuffer, p2.swingBuffer);
+    swap(p1.unlockSoundBuffer, p2.unlockSoundBuffer);
+    swap(p1.unlockPower, p2.unlockPower);
     p1.swingSound.setBuffer(p1.swingBuffer);
     p1.swingSound.setVolume(1.0f);
+    p1.unlockSound.setBuffer(p1.unlockSoundBuffer);
+    p1.unlockSound.setVolume(5.0f);
 }
 
 std::shared_ptr<Entity> Player::clone() const {
@@ -176,6 +195,14 @@ std::ostream& operator<<(std::ostream &os, const Player &player) {
 }
 
 void Player::takeBonus(int bonus, const std::string &option) {
-    if(option == "damage")  player_damage += bonus;
-    if(option == "hit_cooldown_reduction") hitCooldown -= bonus;
+    unlockSound.play();
+    if(option == "damage") {
+        player_damage += bonus;
+        unlockPower.setString("Achieved bonus: damage " + std::to_string(bonus));
+    }
+    if(option == "hit_cooldown_reduction") {
+        hitCooldown -= bonus;
+        unlockPower.setString("Achieved bonus: hit cooldown reduction " + std::to_string(bonus));
+    }
+    unlockPowerClock.restart();
 }

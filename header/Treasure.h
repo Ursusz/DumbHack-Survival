@@ -4,6 +4,7 @@
 #include <random>
 
 #include "../header/Entity.h"
+#include "../header/Text.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 

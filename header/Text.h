@@ -23,6 +23,9 @@ public:
     Text(const Text& rhs) = default;
     ~Text() = default;
 
+    void setString(const std::string& text);
+    void updateTextPosition(const myVec& position);
+    int getHalfWidth() const;
     void drawText(sf::RenderTarget& target);
     Text& operator=(const Text& rhs);
 };

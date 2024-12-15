@@ -15,6 +15,13 @@
 #include "../header/Treasure.h"
 #include "../header/ZombieWaveManager.h"
 
+/*
+ ####################################################################
+ #     X11 library on Linux has a defined macro named Status too    #
+ #    and it collides with Status from sf::Audio::SoundSource.hpp   #
+ #   so it must be undefined before including sfml audio libraries  #
+ ####################################################################
+ */
 #ifdef Status
 #undef Status
 #endif

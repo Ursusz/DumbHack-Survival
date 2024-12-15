@@ -63,6 +63,7 @@ void Treasure::interactWith(Entity &other, int frame) {
             std::default_random_engine rng(rd());
             std::uniform_int_distribution<int> uniform_dist(0, 1);
             int bonus = uniform_dist(rng);
+
             switch (bonus) {
                 case 0:
                     playerptr->takeBonus(10, "damage");

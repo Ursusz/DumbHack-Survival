@@ -10,6 +10,7 @@ Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &
     m_generator.setWorldSize({23, 40});
     m_generator.setHeuristic(AStar::Heuristic::euclidean);
     m_generator.setDiagonalMovement(true);
+
     if(!hitBuffer->loadFromFile("assets/zombiePunch.ogg")) {
         throw std::runtime_error("Error loading zombiePunch.ogg");
     }
@@ -51,6 +52,7 @@ bool Zombie::canHit(int frame) {
     }
     return false;
 }
+
 
 void Zombie::interactWith(Entity &other, int frame) {
     if(this->canHit(frame) && other.canTakeDamage()) {
@@ -115,6 +117,11 @@ bool Zombie::is_alive() const {
     return isAlive;
 }
 
+void Zombie::setObstacles(const std::vector<sf::Vector2i> &obs) {
+    for(const auto& obstacle : obs) {
+        m_generator.addCollision(AStar::Vec2i(obstacle.x, obstacle.y));
+    }
+}
 
 std::shared_ptr<Entity> Zombie::clone() const {
     return std::make_shared<Zombie>(*this);
@@ -128,16 +135,6 @@ void Zombie::swap(Zombie &z1, Zombie &z2) noexcept{
     z1.next = 2;
     swap(z1.hitPoints, z2.hitPoints);
     swap(z1.isAlive, z2.isAlive);
-    std::ifstream in("Init/world.txt");
-    for(int i = 0; i < MAP_HEIGHT; i++) {
-        for(int j = 0; j < MAP_WIDTH; j++) {
-            in >> obstacleReader;
-            if(obstacleReader != 0) {
-                m_generator.addCollision({i, j});
-            }
-        }
-    }
-    in.close();
     swap(z1.hitBuffer, z2.hitBuffer);
     z1.hitSound.setBuffer(*z1.hitBuffer);
     z1.hitSound.setVolume(2.0f);

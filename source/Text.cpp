@@ -19,6 +19,19 @@ Text::Text(const std::string& font_path,
     m_text.setOrigin(m_text.getLocalBounds().width/2, m_text.getLocalBounds().height/2);
 }
 
+void Text::setString(const std::string &text) {
+    m_text.setString(text);
+}
+
+void Text::updateTextPosition(const myVec &position) {
+    m_text.setPosition(sf::Vector2f(position.getX(), position.getY()));
+}
+
+int Text::getHalfWidth() const {
+    return m_text.getGlobalBounds().width/2;
+}
+
+
 void Text::drawText(sf::RenderTarget &target) {
     m_text.setPosition(m_text.getPosition());
     target.draw(m_text);
