@@ -9,8 +9,8 @@
 #include <math.h>
 #include <array>
 #include <memory>
-#include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 class Zombie : public Entity{
     std::shared_ptr<SpriteComponent> heartSprite;

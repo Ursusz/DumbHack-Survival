@@ -4,6 +4,7 @@
 #include <map>
 #include <memory>
 #include <math.h>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include "../header/Components.h"
 #include <SFML/Graphics/RenderTarget.hpp>
@@ -12,7 +13,6 @@
 #include <array>
 #include "../header/Entity.h"
 #include "../header/Weapon.h"
-#include <SFML/Audio/SoundBuffer.hpp>
 
 class Player : public Entity{
     std::shared_ptr<KeyboardComponent> m_cKeyboard;
