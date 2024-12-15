@@ -1,10 +1,12 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <memory>
 #include <array>
+
 #include "../header/myVec.h"
 #include "../header/Components.h"
+
+#include <SFML/Graphics.hpp>
 
 class Computer {
     const myVec position;

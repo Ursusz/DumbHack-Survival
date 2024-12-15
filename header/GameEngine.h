@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio/Music.hpp>
 #include <fstream>
 #include <iostream>
 #include <unordered_set>
@@ -16,6 +14,9 @@
 #include "../header/VendingMachine.h"
 #include "../header/Treasure.h"
 #include "../header/ZombieWaveManager.h"
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio/Music.hpp>
 
 class GameEngine {
     struct WindowSetup {int width=1920, height=1080, FPS=60; bool fullscreen=false;} myWindowConfig;

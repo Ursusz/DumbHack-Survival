@@ -1,11 +1,12 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <map>
 #include <fstream>
 
 #include "../header/Exceptions.h"
 #include "../header/Computer.h"
 #include "../header/Tile.h"
+
+#include <SFML/Graphics.hpp>
 
 class TileManager{
     int number_of_tiles_per_window_width = 40;

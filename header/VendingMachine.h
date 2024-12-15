@@ -1,8 +1,9 @@
 #pragma once
 
+#include "../header/Entity.h"
+
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/System/Clock.hpp>
-#include "../header/Entity.h"
 
 class VendingMachine : public  Entity{
     int numOfDoses = 5;

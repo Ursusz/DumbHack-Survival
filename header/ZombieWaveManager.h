@@ -1,6 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <memory>
 #include <vector>
 #include <random>
@@ -9,6 +8,8 @@
 #include "../header/myVec.h"
 #include "../header/Zombie.h"
 #include "../header/Player.h"
+
+#include <SFML/Graphics/RenderTarget.hpp>
 
 class ZombieWaveManager {
     int currentWave;

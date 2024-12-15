@@ -1,12 +1,14 @@
 #pragma once
+#include <iostream>
+#include <memory>
+
+#include "../header/myVec.h"
+#include "../header/Exceptions.h"
+
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/WindowStyle.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>
-#include <iostream>
-#include <memory>
-#include "../header/myVec.h"
-#include "../header/Exceptions.h"
 
 class Text {
     std::shared_ptr<sf::Font> m_font;

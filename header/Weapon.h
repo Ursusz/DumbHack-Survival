@@ -1,9 +1,11 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <memory>
+
 #include "../header/myVec.h"
 #include "../header/Exceptions.h"
+
+#include <SFML/Graphics.hpp>
 
 class Weapon {
     sf::Sprite m_sprite;

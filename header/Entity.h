@@ -1,9 +1,11 @@
 #pragma once
 
-#include <SFML/Graphics/RenderTarget.hpp>
 #include <memory>
 #include <utility>
+
 #include "../header/Components.h"
+
+#include <SFML/Graphics/RenderTarget.hpp>
 
 class Entity {
     std::shared_ptr<MotionComponent> m_cMotion;

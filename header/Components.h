@@ -1,10 +1,10 @@
 #pragma once
-#include <SFML/Graphics/RectangleShape.hpp>
 #include <iostream>
 #include <memory>
 #include "../header/myVec.h"
 #include "../header/Exceptions.h"
 
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 

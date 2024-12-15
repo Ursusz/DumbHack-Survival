@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <string>
+
 #include "../header/myVec.h"
 
 class gameException : public std::runtime_error {
