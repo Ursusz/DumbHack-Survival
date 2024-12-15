@@ -10,6 +10,10 @@
 #include "../header/Components.h"
 #include "../header/MapConfig.h"
 
+#ifdef Status
+#undef Status
+#endif
+
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Graphics/RenderTarget.hpp>

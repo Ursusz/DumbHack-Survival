@@ -10,6 +10,10 @@
 #include "../header/Entity.h"
 #include "../header/Weapon.h"
 
+#ifdef Status
+#undef Status
+#endif
+
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>

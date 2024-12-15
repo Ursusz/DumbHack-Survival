@@ -15,6 +15,10 @@
 #include "../header/Treasure.h"
 #include "../header/ZombieWaveManager.h"
 
+#ifdef Status
+#undef Status
+#endif
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/Music.hpp>
 
