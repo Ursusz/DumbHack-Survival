@@ -90,10 +90,6 @@ void Zombie::followPlayer(const myVec &playerPos) {
         }else {
             direction = playerPos - this->getPositionFromComp();
         }
-    }else {
-        direction = myVec(2000, 540) - this->getPositionFromComp();
-        ///2000 its out of bounds (right side of the screen, since the game is 1920px wide
-        /// and 540 is the middle of the screen in height (1080 / 2)
     }
     ///Zombie width and height are both 48, same for player, so the distance between their middle points is 48
     ///the zombie should stop right before he hits the player (48 + 1 pixel padding) so he won't push the player
