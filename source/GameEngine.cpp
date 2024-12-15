@@ -102,7 +102,7 @@ void GameEngine::Init(const std::string& setupPath) {
        if(!m_music.openFromFile("assets/music.ogg")) {
            throw std::runtime_error("Failed to load music");
        }
-        m_music.setVolume(5.0f);
+        m_music.setVolume(40.0f);
         m_music.setLoop(true);
         m_music.play();
         m_zombieWaveManager.startNextWave();

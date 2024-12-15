@@ -19,7 +19,7 @@ VendingMachine::VendingMachine(const myVec &position, const myVec &velocity, con
         throw std::runtime_error("Error loading DrinkSoda.ogg");
     }
     drinkSound.setBuffer(drinkBuffer);
-    drinkSound.setVolume(5.0f);
+    drinkSound.setVolume(25.0f);
 }
 
 VendingMachine::VendingMachine(const Entity &rhs)
@@ -28,7 +28,7 @@ VendingMachine::VendingMachine(const Entity &rhs)
         throw std::runtime_error("Error loading DrinkSoda.ogg");
     }
     drinkSound.setBuffer(drinkBuffer);
-    drinkSound.setVolume(5.0f);
+    drinkSound.setVolume(25.0f);
 }
 
 void VendingMachine::drawTexts(sf::RenderTarget& target) {
@@ -93,6 +93,6 @@ VendingMachine &VendingMachine::operator=(const VendingMachine &rhs){
     leftTimeToNextDose = rhs.leftTimeToNextDose;
     drinkBuffer = rhs.drinkBuffer;
     drinkSound.setBuffer(drinkBuffer);
-    drinkSound.setVolume(5.0f);
+    drinkSound.setVolume(25.0f);
     return *this;
 }

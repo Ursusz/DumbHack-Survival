@@ -15,7 +15,7 @@ Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &
         throw std::runtime_error("Error loading zombiePunch.ogg");
     }
     hitSound.setBuffer(*hitBuffer);
-    hitSound.setVolume(2.0f);
+    hitSound.setVolume(15.0f);
 }
 
 Zombie::Zombie(const Zombie& rhs)
@@ -27,7 +27,7 @@ Zombie::Zombie(const Zombie& rhs)
     , hitBuffer(rhs.hitBuffer)
 {
     hitSound.setBuffer(*hitBuffer);
-    hitSound.setVolume(2.0f);
+    hitSound.setVolume(15.0f);
 }
 
 
@@ -133,7 +133,7 @@ void Zombie::swap(Zombie &z1, Zombie &z2) noexcept{
     swap(z1.isAlive, z2.isAlive);
     swap(z1.hitBuffer, z2.hitBuffer);
     z1.hitSound.setBuffer(*z1.hitBuffer);
-    z1.hitSound.setVolume(2.0f);
+    z1.hitSound.setVolume(15.0f);
 }
 
 Zombie& Zombie::operator=(Zombie rhs) {

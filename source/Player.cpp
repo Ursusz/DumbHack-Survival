@@ -10,12 +10,12 @@ Player::Player(const myVec &position, const myVec &velocity, const std::string& 
         throw std::runtime_error("Error loading swingSound");
     }
     swingSound.setBuffer(swingBuffer);
-    swingSound.setVolume(1.0f);
+    swingSound.setVolume(15.0f);
     if(!unlockSoundBuffer.loadFromFile("assets/TreasureUnlock.ogg")) {
         throw std::runtime_error("Error loading unlockSound");
     }
     unlockSound.setBuffer(unlockSoundBuffer);
-    unlockSound.setVolume(5.0f);
+    unlockSound.setVolume(15.0f);
     unlockPower = Text("Fonts/ARIAL.TTF",
                     "",
                     16, ///FONT SIZE 16 PX
@@ -173,9 +173,9 @@ void Player::swap(Player &p1, Player &p2) {
     swap(p1.unlockSoundBuffer, p2.unlockSoundBuffer);
     swap(p1.unlockPower, p2.unlockPower);
     p1.swingSound.setBuffer(p1.swingBuffer);
-    p1.swingSound.setVolume(1.0f);
+    p1.swingSound.setVolume(15.0f);
     p1.unlockSound.setBuffer(p1.unlockSoundBuffer);
-    p1.unlockSound.setVolume(5.0f);
+    p1.unlockSound.setVolume(15.0f);
 }
 
 std::shared_ptr<Entity> Player::clone() const {
