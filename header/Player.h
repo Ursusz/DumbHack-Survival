@@ -18,9 +18,9 @@
  #   so it must be undefined before including sfml audio libraries  #
  ####################################################################
  */
-#ifdef Status
-#undef Status
-#endif
+// #ifdef Status
+// #undef Status
+// #endif
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
