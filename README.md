@@ -6,7 +6,11 @@
 
 #### Efectele audio din joc au fost luate de aici: 
   -> Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=31697">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=31697">Pixabay</a> (main music)  
-  -> [swingSound](https://mixkit.co/free-sound-effects/hit/) (Impact of a strong punch)
+  -> [swingSound](https://mixkit.co/free-sound-effects/hit/) (Impact of a strong punch)  
+  -> [zombiePunc](https://mixkit.co/free-sound-effects/blow/) (Impact of a blow)  
+  -> [TreasureUnlock](https://mixkit.co/free-sound-effects/arcade/) (Retro arcade casino notification)  
+  -> [DrinkSoda](https://mixkit.co/free-sound-effects/drink/) (Sip of water)  
+
 ## Fonts
 Font-ul textului din proiect a fost downloadat de [aici](https://font.download/font/arial).
 
@@ -16,34 +20,6 @@ Font-ul textului din proiect a fost downloadat de [aici](https://font.download/f
   1. **[a-star](https://github.com/daancode/a-star)** - [Licența MIT](https://github.com/daancode/a-star?tab=MIT-1-ov-file)
     
   > De menționat faptul că am adus modificări proprii asupra sursei externe, pentru a putea fi implementată în cadrul acestui proiect.
-
-## Tema 2
-
-#### Cerințe
-- [x] separarea codului din clase în `.h` (sau `.hpp`) și `.cpp`
-- [x] moșteniri:
-  - minim o clasă de bază și **3 clase derivate** din aceeași ierarhie
-  - ierarhia trebuie să fie cu bază proprie, nu derivată dintr-o clasă predefinită
-  - [x] funcții virtuale (pure) apelate prin pointeri de bază din clasa care conține atributul de tip pointer de bază
-    - minim o funcție virtuală va fi **specifică temei** (e.g. nu simple citiri/afișări)
-    - constructori virtuali (clone): sunt necesari, dar nu se consideră funcții specifice temei
-    - afișare virtuală, interfață non-virtuală
-  - [x] apelarea constructorului din clasa de bază din constructori din derivate
-  - [x] clasă cu atribut de tip pointer la o clasă de bază cu derivate; aici apelați funcțiile virtuale prin pointer de bază, eventual prin interfața non-virtuală din bază
-    - [x] suprascris cc/op= pentru copieri/atribuiri corecte, copy and swap
-    - [x] `dynamic_cast`/`std::dynamic_pointer_cast` pentru downcast cu sens
-    - [x] smart pointers (recomandat, opțional)
-- [x] excepții
-  - [x] ierarhie proprie cu baza `std::exception` sau derivată din `std::exception`; minim **3** clase pentru erori specifice
-  - [x] utilizare cu sens: de exemplu, `throw` în constructor (sau funcție care întoarce un obiect), `try`/`catch` în `main`
-  - această ierarhie va fi complet independentă de ierarhia cu funcții virtuale
-- [x] funcții și atribute `static`
-- [x] STL
-- [x] cât mai multe `const`
-- [x] funcții *de nivel înalt*, de eliminat cât mai mulți getters/setters/funcții low-level
-- [ ] la sfârșit: commit separat cu adăugarea unei noi clase derivate fără a modifica restul codului, **pe lângă cele 3 derivate deja adăugate** din aceeași ierarhie
-  - noua derivată nu poate fi una existentă care a fost ștearsă și adăugată din nou
-- [ ] tag de `git`: de exemplu `v0.2`
 
 ## Tema 3
 
