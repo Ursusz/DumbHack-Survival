@@ -17,9 +17,9 @@
  #   so it must be undefined before including sfml audio libraries  #
  ####################################################################
  */
-// #ifdef Status
-// #undef Status
-// #endif
+#ifdef Status
+#undef Status
+#endif
 
 #include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Audio/Sound.hpp>
