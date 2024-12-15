@@ -37,6 +37,8 @@ void Trap::draw(sf::RenderTarget &target, int frame) {
 Trap& Trap::operator=(const Trap &other) {
     if (this != &other) {
         Entity::operator=(other);
+        damage = other.damage;
+        isSet = other.isSet;
         this->tileType = other.tileType;
     }
     return *this;
