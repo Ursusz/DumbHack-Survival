@@ -2,8 +2,8 @@
 
 #include "../header/Player.h"
 
-Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, bool hitAble, bool collidable, bool isDynamic)
-    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic)
+Zombie::Zombie(const myVec &position, const myVec &velocity, const std::string &texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority)
+    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic, drawPriority)
     , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
     , hitBuffer(std::make_shared<sf::SoundBuffer>())
 {

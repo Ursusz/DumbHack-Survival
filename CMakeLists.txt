@@ -71,8 +71,8 @@ add_executable(${PROJECT_NAME}
         source/Entity.cpp
         source/Text.cpp
         header/Text.h
-        header/Collision.h
-        source/Collision.cpp
+        header/ComputeCollision.h
+        source/ComputeCollision.cpp
         ext/AStar/AStar.cpp
         header/MapConfig.h
         header/Weapon.h
@@ -91,6 +91,10 @@ add_executable(${PROJECT_NAME}
         source/ObstacleManager.cpp
         header/Trap.h
         source/Trap.cpp
+        source/RenderClass.cpp
+        header/RenderClass.h
+        header/CollissionManager.h
+        source/CollissionManager.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

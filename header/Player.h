@@ -49,9 +49,14 @@ class Player : public Entity{
 
     Text unlockPower;
     sf::Clock unlockPowerClock;
+    void drawHP(sf::RenderTarget& m_window);
+
+    void drawWeapon(sf::RenderTarget& m_window);
+
+    void drawRange(sf::RenderTarget& target, float radius, float directionAngle);
 public:
     Player() = default;
-    Player(const myVec& position, const myVec& velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic);
+    Player(const myVec& position, const myVec& velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority);
     Player(const Player& rhs);
     ~Player() override = default;
 
@@ -69,11 +74,7 @@ public:
 
     void setKeyValue(int, bool); /// 0 - Up, 1 - Down, 2 - Left, 3 - Right
 
-    void drawHP(sf::RenderTarget& m_window);
-
-    void drawWeapon(sf::RenderTarget& m_window);
-
-    void drawRange(sf::RenderTarget& target, float radius, float directionAngle);
+    void draw(sf::RenderTarget &target) override;
 
     void swap(Player &p1, Player &p2);
     std::shared_ptr<Entity> clone() const override;

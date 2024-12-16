@@ -18,12 +18,13 @@ class Entity {
     bool m_hitAble = false;
     bool m_collidable = false;
     bool m_isDynamic = false;
+    int drawPriority;
 protected:
     virtual bool canHit(int /*frame*/) = 0;
 public:
     Entity() = default;
     Entity(const myVec& position, const myVec& velocity, const std::string& texture_path,
-            bool hitAble, bool collidable, bool isDynamic);
+            bool hitAble, bool collidable, bool isDynamic, int drawPriority);
     Entity(const Entity& rhs);
     virtual ~Entity() = default;
 
@@ -32,6 +33,7 @@ public:
 
     int getHalfWidth() const;
     int getHalfHeight() const;
+    int getDrawPriority() const;
 
     bool canTakeDamage() const;
     bool canCollide() const;
@@ -45,7 +47,7 @@ public:
 
     void changeAnimation();
 
-    void draw(sf::RenderTarget& target);
+    virtual void draw(sf::RenderTarget& target);
 
     virtual void takeDamage(int /*damage*/) = 0;
     virtual void interactWith(Entity& other, int frame) = 0;

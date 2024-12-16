@@ -1,8 +1,8 @@
 #include "../header/Player.h"
 
 
-Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic)
-    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic)
+Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority)
+    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic, drawPriority)
     , m_cKeyboard(std::make_shared<KeyboardComponent>())
     , heartSprite(std::make_shared<SpriteComponent>("assets/heart.png"))
     , m_weapon(std::make_shared<Weapon>("assets/weapon.png")) {
@@ -113,6 +113,14 @@ void Player::setKeyValue(int key, bool toggle) {
         default: break;
     }
 }
+
+void Player::draw(sf::RenderTarget &target) {
+    Entity::draw(target);
+    drawHP(target);
+    drawWeapon(target);
+    drawRange(target, 110, atan2(sf::Mouse::getPosition().y - getPositionFromComp().getY(), sf::Mouse::getPosition().x - getPositionFromComp().getX()) * 180.0f / 3.14159265f);
+}
+
 
 void Player::drawHP(sf::RenderTarget &m_window) {
     unlockPower.updateTextPosition(getPositionFromComp() - myVec(unlockPower.getHalfWidth(), 100));

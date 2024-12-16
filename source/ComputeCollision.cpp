@@ -1,6 +1,6 @@
-#include "../header/Collision.h"
+#include "../header/ComputeCollision.h"
 
-void Collision::setOverlap(const Entity& e1, const Entity& e2) {
+void ComputeCollision::setOverlap(const Entity& e1, const Entity& e2) {
     if(e1.canCollide() && e2.canCollide()) {
         deltaX = e1.getPositionFromComp().getX() - e2.getPositionFromComp().getX();
         deltaY = e1.getPositionFromComp().getY() - e2.getPositionFromComp().getY();
@@ -10,22 +10,22 @@ void Collision::setOverlap(const Entity& e1, const Entity& e2) {
     }
 }
 
-bool Collision::isHorizontalOverlap() const {
+bool ComputeCollision::isHorizontalOverlap() const {
     return overlapX < overlapY;
 }
 
-bool Collision::isLeftOverlap() const {
+bool ComputeCollision::isLeftOverlap() const {
     return deltaX > 0.0f;
 }
 
-bool Collision::isTopOverlap() const {
+bool ComputeCollision::isTopOverlap() const {
     return deltaY > 0.0f;
 }
 
-float Collision::getOverlapX() const {
+float ComputeCollision::getOverlapX() const {
     return overlapX;
 }
 
-float Collision::getOverlapY() const {
+float ComputeCollision::getOverlapY() const {
     return overlapY;
 }

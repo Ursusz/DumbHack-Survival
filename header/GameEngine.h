@@ -9,12 +9,13 @@
 #include "../header/Player.h"
 #include "../header/TileManager.h"
 #include "../header/Text.h"
-#include "../header/Collision.h"
 #include "../header/MapConfig.h"
 #include "../header/VendingMachine.h"
 #include "../header/Treasure.h"
 #include "../header/ZombieWaveManager.h"
 #include "../header/Trap.h"
+#include "../header/RenderClass.h"
+#include "../header/CollissionManager.h"
 
 /*
  ####################################################################
@@ -37,7 +38,8 @@ class GameEngine {
 
     float newWidth = 0, newHeight = 0, windowAspectRatio = 0, mapAspectRatio = 0;
 
-    Collision m_collision;
+    RenderClass m_render;
+    CollissionManager m_collission_manager;
 
     sf::RenderWindow m_window;
     sf::VideoMode m_desktopMode;
@@ -71,9 +73,7 @@ class GameEngine {
     void handleEvents() const;
     void checkPlayerOutOfBounds();
     void loadingBarComputer();
-    bool entitiesAreColliding(const Entity& e1, const Entity& e2) const;
 public:
-    void checkCollisions(Entity& e1, Entity& e2);
     explicit GameEngine(std::string  setupPath);
     ~GameEngine() = default;
 

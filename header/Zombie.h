@@ -43,7 +43,7 @@ class Zombie : public Entity{
     bool canHit(int) override;
 public:
     Zombie() = default;
-    Zombie(const myVec& position, const myVec& velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic);
+    Zombie(const myVec& position, const myVec& velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority);
     Zombie(const Zombie& rhs);
     ~Zombie() override = default;
 

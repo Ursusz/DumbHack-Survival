@@ -28,16 +28,18 @@ class VendingMachine : public  Entity{
     Text leftTimeToNextDose;
     sf::SoundBuffer drinkBuffer;
     sf::Sound drinkSound;
+
+    void drawTexts(sf::RenderTarget& target);
 public:
     VendingMachine() = default;
 
     VendingMachine(const myVec &position, const myVec &velocity, const std::string &texture_path,
-                    bool hitAble, bool collidable, bool isDynamic);
+                    bool hitAble, bool collidable, bool isDynamic, int drawPriority);
 
     explicit VendingMachine(const Entity &rhs);
     ~VendingMachine() override = default;
 
-    void drawTexts(sf::RenderTarget& target);
+    void draw(sf::RenderTarget &target) override;
 
     void takeDamage(int damage) override;
     void interactWith(Entity &other, int frame) override;

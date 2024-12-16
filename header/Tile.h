@@ -14,7 +14,7 @@ protected:
     bool canHit(int) override;
 public:
     Tile() = default;
-    Tile(const myVec& position, const std::string& texture_path, std::string& tileType, bool hitAble, bool collidable, bool isDynamic);
+    Tile(const myVec& position, const std::string& texture_path, std::string& tileType, bool hitAble, bool collidable, bool isDynamic, int drawPriority);
     ~Tile() override = default;
 
     void takeDamage(int damage) override;

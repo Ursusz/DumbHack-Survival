@@ -3,8 +3,8 @@
 #include <iomanip>
 
 VendingMachine::VendingMachine(const myVec &position, const myVec &velocity, const std::string &texture_path,
-                               bool hitAble, bool collidable, bool isDynamic)
-    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic)
+                               bool hitAble, bool collidable, bool isDynamic, int drawPriority)
+    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic, drawPriority)
     , dosesLeft("Fonts/ARIAL.TTF",
                 "Doses left in Vending Machine: ",
                 12, ///FONT SIZE 12 PX
@@ -30,6 +30,12 @@ VendingMachine::VendingMachine(const Entity &rhs)
     drinkSound.setBuffer(drinkBuffer);
     drinkSound.setVolume(25.0f);
 }
+
+void VendingMachine::draw(sf::RenderTarget &target) {
+    Entity::draw(target);
+    drawTexts(target);
+}
+
 
 void VendingMachine::drawTexts(sf::RenderTarget& target) {
     dosesLeft.setString("Doses left in Vending Machine: " + std::to_string(numOfDoses));

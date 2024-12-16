@@ -1,6 +1,6 @@
 #include "../header/GameEngine.h"
 
-GameEngine::GameEngine(std::string  setupPath) : m_setupPath(std::move(setupPath)) {}
+GameEngine::GameEngine(std::string  setupPath) : m_render(), m_setupPath(std::move(setupPath)) {}
 
 void GameEngine::Init(const std::string& setupPath) {
     std::ifstream input(setupPath);
@@ -47,6 +47,11 @@ void GameEngine::Init(const std::string& setupPath) {
     ///tile_manager is loading the map textures and also saving here the coordinates of every computer on the map
     try {
         m_tileManager.loadMap("Init/world.txt", objectComputers);
+        for(size_t i = 0; i < MAP_HEIGHT; i++) {
+            for(size_t j = 0; j < MAP_WIDTH; j++) {
+                m_collission_manager.add_entities_to_verify_collission(&m_tileManager.getTile(i, j));
+            }
+        }
     }catch(const textureError& err) {
         std::cerr << "Tile manager error: " << err.what() << std::endl;
         m_window.close();
@@ -65,13 +70,20 @@ void GameEngine::Init(const std::string& setupPath) {
                                             "assets/vendingmachine.png",
                                             false,
                                             true,
-                                            false);
+                                            false,
+                                            2);
+        m_render.addEntity(&m_vending_machine);
+        m_collission_manager.add_entities_to_verify_collission(&m_vending_machine);
+
         m_player = Player(myVec(myPlayerConfig.posX, myPlayerConfig.posY),
                             myVec(myPlayerConfig.vecX, myPlayerConfig.vecY),
                             "assets/Player.png",
                             true,
                             true,
-                            true);
+                            true,
+                            2);
+        m_render.addEntity(&m_player);
+        m_collission_manager.add_main_entities(&m_player);
 
         m_treasure = Treasure::instance(myVec(120, 552),
                                         myVec(0, 0),
@@ -79,7 +91,9 @@ void GameEngine::Init(const std::string& setupPath) {
                                         true,
                                         true,
                                         false,
-                                        true);
+                                        true,
+                                        2);
+        m_collission_manager.add_entities_to_verify_collission(m_treasure);
 
         m_gameLostMsg = Text("Fonts/ARIAL.TTF",
                     "GAME LOST",
@@ -97,7 +111,9 @@ void GameEngine::Init(const std::string& setupPath) {
                     "assets/Trap.png",
                     false,
                     true,
-                    false);
+                    false,
+                    1);
+        m_collission_manager.add_entities_to_verify_collission(&m_trap);
 
        if(!m_music.openFromFile("assets/music.ogg")) {
            throw std::runtime_error("Failed to load music");
@@ -138,29 +154,26 @@ void GameEngine::run() {
             }
         }
 
-        for(size_t i = 0; i < MAP_HEIGHT; i++) {
-            for(size_t j = 0; j < MAP_WIDTH; j++) {
-                checkCollisions(m_player, m_tileManager.getTile(i, j));
-                for(auto& zombie : m_zombieWaveManager.getZombies()) {
-                    checkCollisions(*zombie, m_tileManager.getTile(i, j));
-                }
-            }
+        m_collission_manager.clear_main_entities();
+        m_collission_manager.add_main_entities(&m_player);
+
+        for(auto& zombie : m_zombieWaveManager.getZombies()) {
+            m_collission_manager.add_main_entities(zombie.get());
         }
-        if(Treasure::hasInstance()) {
-            checkCollisions(m_player, *m_treasure);
-        }
+        m_collission_manager.verifyAllCollissions(m_frame);
+
 
         m_window.clear(sf::Color::Black);
 
+        //################### Printing everything
         m_tileManager.printMap(m_window);
+        m_render.drawAll(m_window);
+        m_treasure->draw(m_window, m_frame);
+        m_trap.draw(m_window, m_frame);
 
         if(m_player.isAlive() && !Computer::allComputersCompleted()) {
-
-            checkCollisions(m_player, m_vending_machine);
-            checkCollisions(m_player, m_trap);
-
             m_zombieWaveManager.updateZombies(m_player, [this](Entity& e1, Entity& e2) {
-                this->checkCollisions(e1, e2);
+                this->m_collission_manager.checkCollisions(e1, e2, m_frame);
             });
             m_zombieWaveManager.drawZombies(m_window);
         }else if(!m_player.isAlive()) {
@@ -168,15 +181,6 @@ void GameEngine::run() {
         }else if(Computer::allComputersCompleted()) {
             m_gameWonMsg.drawText(m_window);
         }
-        m_vending_machine.draw(m_window);
-        m_vending_machine.drawTexts(m_window);
-        if(m_treasure) m_treasure->draw(m_window, m_frame);
-        m_trap.draw(m_window, m_frame);
-        m_player.draw(m_window);
-        m_player.drawHP(m_window);
-        m_player.drawWeapon(m_window);
-
-        m_player.drawRange(m_window, 110, atan2(sf::Mouse::getPosition().y - m_player.getPositionFromComp().getY(), sf::Mouse::getPosition().x - m_player.getPositionFromComp().getX()) * 180.0f / 3.14159265f);
 
         loadingBarComputer();
         m_window.display();
@@ -201,9 +205,9 @@ void GameEngine::listenEvents() {
             if(event.key.code == sf::Keyboard::Escape) {
                 m_window.close();
             }
-            if(event.key.code == sf::Keyboard::R) {
-                // run(); /// Trebuie sa gasesc o metoda pentru a da restart corect la joc
-            }
+            // if(event.key.code == sf::Keyboard::R) {
+            //     run(); /// Trebuie sa gasesc o metoda pentru a da restart corect la joc
+            // }
         }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             m_zombieWaveManager.damageZombies(m_player, m_frame);
@@ -256,43 +260,8 @@ void GameEngine::checkPlayerOutOfBounds() {
     if(m_player.getPositionFromComp().getY() > m_window.getSize().y - 16)   m_player.setPositionInComp(myVec(m_player.getPositionFromComp().getX(), m_window.getSize().y - 16));
 }
 
-void GameEngine::checkCollisions(Entity& e1, Entity& e2) {
-    if (entitiesAreColliding(e1, e2)) {
-
-        e2.interactWith(e1, m_frame);
-        m_collision.setOverlap(e1, e2);
-
-        if(e1.canMove() && e2.canCollide()) {
-            if (m_collision.isHorizontalOverlap()) {
-                if (m_collision.isLeftOverlap()) {
-                    e1.setPositionInComp(e1.getPositionFromComp() + myVec(m_collision.getOverlapX(), 0.0f));
-                } else {
-                    e1.setPositionInComp(e1.getPositionFromComp() - myVec(m_collision.getOverlapX(), 0.0f));
-                }
-            } else {
-                if (m_collision.isTopOverlap()) {
-                    e1.setPositionInComp(e1.getPositionFromComp() + myVec(0.0f, m_collision.getOverlapY()));
-                } else {
-                    e1.setPositionInComp(e1.getPositionFromComp() - myVec(0.0f, m_collision.getOverlapY()));
-                }
-            }
-        }
-    }
-}
-
 void GameEngine::loadingBarComputer() {
     for(auto& computer : objectComputers) {
         computer.drawLoadBars(m_window, m_player.getPositionFromComp());
     }
-}
-
-bool GameEngine::entitiesAreColliding(const Entity &e1, const Entity &e2) const {
-    if(e1.canCollide() && e2.canCollide()) {
-        if(e2.getPositionFromComp().getX() - e2.getHalfWidth() < e1.getPositionFromComp().getX() + e1.getHalfWidth() &&
-            e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
-            e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
-            e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) return true;
-
-    }
-    return false;
 }

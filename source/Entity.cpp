@@ -2,13 +2,14 @@
 
 #include "../header/Entity.h"
 
-Entity::Entity(const myVec &position, const myVec &velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic)
+Entity::Entity(const myVec &position, const myVec &velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority)
     : m_cMotion(std::make_shared<MotionComponent>(position, velocity))
     , m_cSprite(std::make_shared<SpriteComponent>(texture_path))
     , m_cBoundingBox(std::make_shared<BoundingBoxComponent>(24, 24))
     , m_hitAble(hitAble)
     , m_collidable(collidable)
     , m_isDynamic(isDynamic)
+    , drawPriority(drawPriority)
 {   }
 
 Entity::Entity(const Entity &rhs)
@@ -18,6 +19,7 @@ Entity::Entity(const Entity &rhs)
     , m_hitAble(rhs.m_hitAble)
     , m_collidable(rhs.m_collidable)
     , m_isDynamic(rhs.m_isDynamic)
+    , drawPriority(rhs.drawPriority)
 {}
 
 myVec Entity::getVelocityFromComp() const {
@@ -34,6 +36,10 @@ int Entity::getHalfWidth() const {
 
 int Entity::getHalfHeight() const {
     return m_cBoundingBox->getHalfHeight();
+}
+
+int Entity::getDrawPriority() const {
+    return drawPriority;
 }
 
 bool Entity::canTakeDamage() const {
@@ -95,6 +101,7 @@ void swap(Entity &e1, Entity &e2) {
     swap(e1.m_hitAble, e2.m_hitAble);
     swap(e1.m_collidable, e2.m_collidable);
     swap(e1.m_isDynamic, e2.m_isDynamic);
+    swap(e1.drawPriority, e2.drawPriority);
 }
 
 Entity& Entity::operator=(const Entity& rhs) {

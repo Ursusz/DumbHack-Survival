@@ -31,7 +31,8 @@ void ZombieWaveManager::spawnZombies() {
                                                         "assets/Zombie.png",
                                                         true,
                                                         true,
-                                                        true));
+                                                        true,
+                                                        3));
         zombie->setObstacles(obstacle_manager.getObstacles());
         zombies.push_back(zombie);
         spawnedZombies++;

@@ -2,8 +2,8 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
-Tile::Tile(const myVec &position, const std::string& texture_path, std::string& tileType, bool hitAble, bool collidable, bool isDynamic)
-    : Entity(position, myVec(0, 0), texture_path, hitAble, collidable, isDynamic)
+Tile::Tile(const myVec &position, const std::string& texture_path, std::string& tileType, bool hitAble, bool collidable, bool isDynamic, int drawPriority)
+    : Entity(position, myVec(0, 0), texture_path, hitAble, collidable, isDynamic, drawPriority)
     , tileType(tileType)
 {}
 

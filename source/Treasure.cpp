@@ -7,21 +7,20 @@ Treasure::~Treasure() {
 }
 
 Treasure::Treasure(const myVec &position, const myVec &velocity, const std::string &texture_path,
-                   bool hitAble, bool collidable, bool isDynamic, bool isAvailable = true)
-    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic)
+                   bool hitAble, bool collidable, bool isDynamic, bool isAvailable, int drawPriority)
+    : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic, drawPriority)
     , m_isAvailable(isAvailable)
 {}
 
 Treasure* Treasure::instance(const myVec &position, const myVec &velocity, const std::string &texture_path,
-                                bool hitAble, bool collidable, bool isDynamic, bool isAvailable) {
+                                bool hitAble, bool collidable, bool isDynamic, bool isAvailable, int drawPriority) {
     if(uniqueInstance == nullptr) {
-        uniqueInstance = new Treasure(position, velocity, texture_path, hitAble, collidable, isDynamic, isAvailable);
+        uniqueInstance = new Treasure(position, velocity, texture_path, hitAble, collidable, isDynamic, isAvailable, drawPriority);
     }
     return uniqueInstance;
 }
 
 Treasure* Treasure::uniqueInstance = nullptr;
-
 
 void Treasure::draw(sf::RenderTarget &target, int frame) {
     if(is_available() && frame > SPAWN_TIME) {

@@ -78,7 +78,8 @@ void TileManager::loadMap(const std::string &mapFile, std::vector<Computer>& obj
                             tileType,
                             false,
                             tileType != "floor",
-                            false);
+                            false,
+                            1);
         }
     }
     file.close();

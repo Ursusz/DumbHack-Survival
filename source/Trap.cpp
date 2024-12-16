@@ -4,8 +4,8 @@
 
 std::string Trap::thisTileType = "trap";
 
-Trap::Trap(const myVec &position, const std::string &texture_path, bool hitAble, bool collidable, bool isDynamic)
-    : Tile(position, texture_path, thisTileType, hitAble, collidable, isDynamic) {}
+Trap::Trap(const myVec &position, const std::string &texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority)
+    : Tile(position, texture_path, thisTileType, hitAble, collidable, isDynamic, drawPriority) {}
 
 
 bool Trap::canHit(int frame) {
