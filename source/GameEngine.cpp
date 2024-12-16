@@ -25,7 +25,6 @@ void GameEngine::Init(const std::string& setupPath) {
         }
     }
 
-
     m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::None : sf::Style::Default);
     windowAspectRatio = static_cast<float>(m_window.getSize().x) / static_cast<float>(m_window.getSize().y);
     mapAspectRatio = 1920.f / 1080.f;
@@ -94,6 +93,16 @@ void GameEngine::Init(const std::string& setupPath) {
                                         true,
                                         2);
         m_collission_manager.add_entities_to_verify_collission(m_treasure);
+
+        m_joke = AnimatedTile(myVec(1848, 452),
+                                        "assets/Treasure.png",
+                                        false,
+                                        true,
+                                        false,
+                                        2,
+                                        "assets/Kiss.ogg");
+        m_render.addEntity(&m_joke);
+        m_collission_manager.add_entities_to_verify_collission(&m_joke);
 
         m_gameLostMsg = Text("Fonts/ARIAL.TTF",
                     "GAME LOST",

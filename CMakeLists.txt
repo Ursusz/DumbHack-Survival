@@ -95,6 +95,8 @@ add_executable(${PROJECT_NAME}
         header/RenderClass.h
         header/CollissionManager.h
         source/CollissionManager.cpp
+        source/AnimatedTile.cpp
+        header/AnimatedTile.h
 )
 
 include(cmake/CompilerFlags.cmake)

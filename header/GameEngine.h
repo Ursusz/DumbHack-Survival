@@ -16,6 +16,7 @@
 #include "../header/Trap.h"
 #include "../header/RenderClass.h"
 #include "../header/CollissionManager.h"
+#include "../header/AnimatedTile.h"
 
 /*
  ####################################################################
@@ -50,12 +51,11 @@ class GameEngine {
 
     VendingMachine m_vending_machine;
     Player m_player;
-    Zombie m_zombie;
-    std::vector<Zombie> m_zombies;
     ZombieWaveManager m_zombieWaveManager;
     TileManager m_tileManager;
 
     Treasure* m_treasure = nullptr;
+    AnimatedTile m_joke;
 
     std::map<sf::Keyboard::Key, int> keyMap;
     std::string m_setupPath;
