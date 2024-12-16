@@ -5,7 +5,7 @@ void RenderClass::addEntity(Entity* entity) {
     entities.push_back(entity);
 
     std::sort(entities.begin(), entities.end(),
-        [](Entity* e1, Entity* e2) {
+        [](const Entity* e1, const Entity* e2) {
             return e1->getDrawPriority() < e2->getDrawPriority();
         });
 }

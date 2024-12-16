@@ -76,7 +76,3 @@ void Treasure::interactWith(Entity &other, int frame) {
         }
     }
 }
-
-bool Treasure::hasInstance() {
-    return uniqueInstance != nullptr;
-}

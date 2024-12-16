@@ -38,6 +38,4 @@ public:
     void draw(sf::RenderTarget& target, int frame);
 
     void interactWith(Entity& other, int frame) override;
-
-    static bool hasInstance();
 };

@@ -1,6 +1,6 @@
 #include "../header/CollissionManager.h"
 
-bool CollissionManager::entitiesAreColliding(Entity &e1, Entity &e2) {
+bool CollissionManager::entitiesAreColliding(const Entity &e1, const Entity &e2) {
     if(e1.canCollide() && e2.canCollide()) {
         if(e2.getPositionFromComp().getX() - e2.getHalfWidth() < e1.getPositionFromComp().getX() + e1.getHalfWidth() &&
             e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
@@ -43,10 +43,6 @@ void CollissionManager::add_main_entities(Entity *entity) {
 
 void CollissionManager::add_entities_to_verify_collission(Entity *entity) {
     entities_to_verify_collission.push_back(entity);
-}
-
-void CollissionManager::add_entities_to_tiles(Entity *entity) {
-    tiles.push_back(entity);
 }
 
 void CollissionManager::verifyAllCollissions(int frame) {

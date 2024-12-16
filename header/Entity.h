@@ -18,7 +18,7 @@ class Entity {
     bool m_hitAble = false;
     bool m_collidable = false;
     bool m_isDynamic = false;
-    int drawPriority;
+    int drawPriority = 0;
 protected:
     virtual bool canHit(int /*frame*/) = 0;
 public:
