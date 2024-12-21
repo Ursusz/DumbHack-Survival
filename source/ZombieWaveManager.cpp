@@ -4,7 +4,7 @@ ObstacleManager& ZombieWaveManager::obstacle_manager = ObstacleManager::getInsta
 
 ZombieWaveManager::ZombieWaveManager()
     : currentWave(0)
-    , zombiesPerWave(5)
+    , zombiesPerWave(2)
     , spawnedZombies(0)
     , killedZombies(0) {
     obstacle_manager.loadObstaclesWithBuffer("Init/world.txt", 23, 40);

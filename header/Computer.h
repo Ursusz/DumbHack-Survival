@@ -6,7 +6,7 @@
 #include "../header/myVec.h"
 #include "../header/Components.h"
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderTarget.hpp>
 
 class Computer {
     const myVec position;

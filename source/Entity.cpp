@@ -54,6 +54,9 @@ void Entity::stopCollission() {
     m_collidable = false;
 }
 
+void Entity::startCollission() {
+    m_collidable = true;
+}
 
 bool Entity::canMove() const {
     return m_isDynamic;

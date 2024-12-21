@@ -97,6 +97,8 @@ add_executable(${PROJECT_NAME}
         source/CollissionManager.cpp
         source/AnimatedTile.cpp
         header/AnimatedTile.h
+        source/EntityManager.cpp
+        header/EntityManager.h
 )
 
 include(cmake/CompilerFlags.cmake)
@@ -113,8 +115,7 @@ target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/AStar)
 target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
 target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-window sfml-system sfml-audio Threads::Threads)
 target_link_libraries(${PROJECT_NAME} PRIVATE AStarLib)
-#target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE header)
-#target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE source)
+
 if(APPLE)
 elseif(UNIX)
     target_link_libraries(${PROJECT_NAME} PRIVATE X11)

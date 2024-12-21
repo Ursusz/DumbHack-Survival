@@ -30,7 +30,6 @@ Zombie::Zombie(const Zombie& rhs)
     hitSound.setVolume(15.0f);
 }
 
-
 std::string &Zombie::getDirection() {
     return m_direction;
 }
@@ -70,7 +69,9 @@ void Zombie::drawHP(sf::RenderTarget &m_window) {
         if(hitPoints%20 != 0) {
             hearts[hitPoints/20].setTextureRect(sf::IntRect(17, 0, 16, 16));
         }
-        m_window.draw(hearts[i]);
+        if(i < std::ceil((float)hitPoints/20.0f)) {
+            m_window.draw(hearts[i]);
+        }
     }
 }
 

@@ -18,7 +18,7 @@ Computer::~Computer() {
 
 
 void Computer::drawLoadBars(sf::RenderTarget &target, const myVec& playerPos) {
-    if(playerPos.distance(position) < 150) {
+    if(position.distance(playerPos) < 150) {
         frameCounterInsideComputerRange++;
     }
     for(int i = 0; i < 12; i++) {

@@ -11,6 +11,8 @@ class CollissionManager : ComputeCollision{
     std::vector<Entity*> entities_to_verify_collission;
     bool entitiesAreColliding(const Entity& e1, const Entity& e2);
 public:
+    CollissionManager() = default;
+    ~CollissionManager();
     void checkCollisions(Entity& e1, Entity& e2, int frame);
     void add_main_entities(Entity* entity);
     void add_entities_to_verify_collission(Entity* entity);

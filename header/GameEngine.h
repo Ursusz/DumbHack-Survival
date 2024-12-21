@@ -4,19 +4,9 @@
 #include <iostream>
 #include <unordered_set>
 
-#include "../header/Computer.h"
-#include "../header/Zombie.h"
-#include "../header/Player.h"
-#include "../header/TileManager.h"
 #include "../header/Text.h"
 #include "../header/MapConfig.h"
-#include "../header/VendingMachine.h"
-#include "../header/Treasure.h"
-#include "../header/ZombieWaveManager.h"
-#include "../header/Trap.h"
-#include "../header/RenderClass.h"
-#include "../header/CollissionManager.h"
-#include "../header/AnimatedTile.h"
+#include "../header/EntityManager.h"
 
 /*
  ####################################################################
@@ -34,13 +24,10 @@
 
 class GameEngine {
     struct WindowSetup {int width=1920, height=1080, FPS=60; bool fullscreen=false;} myWindowConfig;
-    struct PlayerSetup {float posX=0, posY=0, vecX=0, vecY=0; } myPlayerConfig;
-    struct ZombieSetup {float posX=0, posY=0, vecX=0, vecY=0; } myZombieConfig;
 
     float newWidth = 0, newHeight = 0, windowAspectRatio = 0, mapAspectRatio = 0;
 
-    RenderClass m_render;
-    CollissionManager m_collission_manager;
+    EntityManager* entityManager = nullptr;
 
     sf::RenderWindow m_window;
     sf::VideoMode m_desktopMode;
@@ -49,30 +36,16 @@ class GameEngine {
     Text m_gameLostMsg;
     Text m_gameWonMsg;
 
-    VendingMachine m_vending_machine;
-    Player m_player;
-    ZombieWaveManager m_zombieWaveManager;
-    TileManager m_tileManager;
-
-    Treasure* m_treasure = nullptr;
-    AnimatedTile m_joke;
-
     std::map<sf::Keyboard::Key, int> keyMap;
     std::string m_setupPath;
 
     int m_frame = 0;
-    std::vector<Computer> objectComputers;
 
     sf::Music m_music;
-
-    Trap m_trap;
 
     void Init(const std::string& setupPath);
 
     void listenEvents();
-    void handleEvents() const;
-    void checkPlayerOutOfBounds();
-    void loadingBarComputer();
 public:
     explicit GameEngine(std::string  setupPath);
     ~GameEngine() = default;

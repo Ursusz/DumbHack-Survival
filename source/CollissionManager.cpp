@@ -1,16 +1,20 @@
 #include "../header/CollissionManager.h"
 
+CollissionManager::~CollissionManager() {
+    main_entities.clear();
+    entities_to_verify_collission.clear();
+}
+
 bool CollissionManager::entitiesAreColliding(const Entity &e1, const Entity &e2) {
     if(e1.canCollide() && e2.canCollide()) {
         if(e2.getPositionFromComp().getX() - e2.getHalfWidth() < e1.getPositionFromComp().getX() + e1.getHalfWidth() &&
             e2.getPositionFromComp().getX() + e2.getHalfWidth() > e1.getPositionFromComp().getX() - e1.getHalfWidth() &&
             e2.getPositionFromComp().getY() - e2.getHalfHeight() < e1.getPositionFromComp().getY() + e1.getHalfHeight() &&
-            e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight()) return true;
-
+            e2.getPositionFromComp().getY() + e2.getHalfHeight() > e1.getPositionFromComp().getY() - e1.getHalfHeight())
+            return true;
     }
     return false;
 }
-
 
 void CollissionManager::checkCollisions(Entity &e1, Entity &e2, int frame) {
     if (entitiesAreColliding(e1, e2)) {

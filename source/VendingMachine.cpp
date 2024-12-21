@@ -22,8 +22,11 @@ VendingMachine::VendingMachine(const myVec &position, const myVec &velocity, con
     drinkSound.setVolume(25.0f);
 }
 
-VendingMachine::VendingMachine(const Entity &rhs)
-    : Entity(rhs) {
+VendingMachine::VendingMachine(const VendingMachine &rhs)
+    : Entity(rhs)
+    , dosesLeft(rhs.dosesLeft)
+    , leftTimeToNextDose(rhs.leftTimeToNextDose)
+    {
     if(!drinkBuffer.loadFromFile("assets/DrinkSoda.ogg")) {
         throw std::runtime_error("Error loading DrinkSoda.ogg");
     }
@@ -35,7 +38,6 @@ void VendingMachine::draw(sf::RenderTarget &target) {
     Entity::draw(target);
     drawTexts(target);
 }
-
 
 void VendingMachine::drawTexts(sf::RenderTarget& target) {
     dosesLeft.setString("Doses left in Vending Machine: " + std::to_string(numOfDoses));

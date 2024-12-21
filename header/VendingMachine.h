@@ -36,7 +36,7 @@ public:
     VendingMachine(const myVec &position, const myVec &velocity, const std::string &texture_path,
                     bool hitAble, bool collidable, bool isDynamic, int drawPriority);
 
-    explicit VendingMachine(const Entity &rhs);
+    explicit VendingMachine(const VendingMachine &rhs);
     ~VendingMachine() override = default;
 
     void draw(sf::RenderTarget &target) override;

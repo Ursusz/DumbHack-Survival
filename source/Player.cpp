@@ -31,7 +31,6 @@ Player::Player(const Player &rhs)
     , swingBuffer(rhs.swingBuffer)
 {}
 
-
 bool Player::isKeyUp() const {
     return m_cKeyboard->up();
 }
@@ -57,6 +56,8 @@ void Player::takeDamage(int damage) {
         if (hitPoints - damage <= 100) {
             //this prevents the healing from vending machine to give the player more than 100hp which causes the program to crash
             hitPoints -= damage;
+        }else {
+            hitPoints = 100;
         }
     }
 }
@@ -77,7 +78,6 @@ void Player::interactWith(Entity &other, int frame) {
     }
 }
 
-
 bool Player::isEnemyInFront(const myVec &enemyPos, const myVec &playerDirection, float range, float angleThreshHold) {
     if(this->getPositionFromComp().distance(enemyPos) > range) return false;
     myVec playerToEnemyVec = (this->getPositionFromComp()-enemyPos);
@@ -89,7 +89,7 @@ bool Player::isEnemyInFront(const myVec &enemyPos, const myVec &playerDirection,
 
     float dotProduct = playerToEnemyVec.getX() * playerDirection.getX() + playerToEnemyVec.getY() * playerDirection.getY();
 
-    float cosAngle = std::cos(angleThreshHold) * (3.14159f / 180.0f);
+    float cosAngle = std::cos(angleThreshHold * (3.14159f / 180.0f));
     return dotProduct <= cosAngle;
 }
 

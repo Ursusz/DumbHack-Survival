@@ -30,6 +30,7 @@ void Trap::interactWith(Entity &other, int frame) {
 void Trap::draw(sf::RenderTarget &target, int frame) {
     if(frame > 600 && isSet) {
         Entity::draw(target);
+        startCollission();
     }
 }
 
