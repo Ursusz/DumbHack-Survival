@@ -97,6 +97,14 @@ void EntityManager::initEntities() {
                                                     1),
                                                     false);
 
+    addEntity(std::make_unique<SpecialTreasureRemastered>(myVec(1848, 656),
+                                                            "assets/SpecialTreasureRemastered.png",
+                                                            false,
+                                                            true,
+                                                            false,
+                                                            2),
+                                                            false);
+
     addEntity(std::make_unique<SpecialTrap>(myVec(1512, 216),
         "assets/SpecialTrap.png",
         false,

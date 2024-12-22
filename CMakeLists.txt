@@ -101,6 +101,8 @@ add_executable(${PROJECT_NAME}
         header/EntityManager.h
         source/SpecialTrap.cpp
         header/SpecialTrap.h
+        header/SpecialTreasureRemastered.h
+        source/SpecialTreasureRemastered.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

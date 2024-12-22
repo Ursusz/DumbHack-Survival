@@ -23,14 +23,11 @@ class SpecialTrap : public Trap{
 public:
     SpecialTrap() = default;
     SpecialTrap(const myVec& position, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority, const std::string& sound_buffer_path);
-    ~SpecialTrap() = default;
+    ~SpecialTrap() override = default;
 
     bool canHit(int /*frame*/) override;
     void takeDamage(int /*damage*/) override;
     void interactWith(Entity &other, int frame) override;
-
-    using Entity::draw;
-    void draw(sf::RenderTarget& target, int frame);
 
     SpecialTrap& operator=(const SpecialTrap& other);
 };

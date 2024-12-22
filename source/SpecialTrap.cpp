@@ -27,13 +27,6 @@ void SpecialTrap::interactWith(Entity &other, int frame) {
     }
 }
 
-void SpecialTrap::draw(sf::RenderTarget &target, int frame) {
-    if(frame > 600 && isSet) {
-        Entity::draw(target);
-        startCollission();
-    }
-}
-
 SpecialTrap& SpecialTrap::operator=(const SpecialTrap &other) {
     if(this != &other) {
         Trap::operator=(other);

@@ -14,6 +14,7 @@
 #include "../header/AnimatedTile.h"
 #include "../header/Trap.h"
 #include "../header/SpecialTrap.h"
+#include "../header/SpecialTreasureRemastered.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
