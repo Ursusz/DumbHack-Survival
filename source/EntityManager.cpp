@@ -96,6 +96,15 @@ void EntityManager::initEntities() {
                                                     false,
                                                     1),
                                                     false);
+
+    addEntity(std::make_unique<SpecialTrap>(myVec(1512, 216),
+        "assets/SpecialTrap.png",
+        false,
+        false,
+        false,
+        1,
+        "assets/SpecialTrapSound.ogg"),
+        false);
 }
 
 

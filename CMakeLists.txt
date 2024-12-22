@@ -99,6 +99,8 @@ add_executable(${PROJECT_NAME}
         header/AnimatedTile.h
         source/EntityManager.cpp
         header/EntityManager.h
+        source/SpecialTrap.cpp
+        header/SpecialTrap.h
 )
 
 include(cmake/CompilerFlags.cmake)

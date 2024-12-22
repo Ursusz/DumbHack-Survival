@@ -13,6 +13,7 @@
 #include "../header/Treasure.h"
 #include "../header/AnimatedTile.h"
 #include "../header/Trap.h"
+#include "../header/SpecialTrap.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
