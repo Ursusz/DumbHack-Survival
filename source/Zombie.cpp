@@ -35,11 +35,17 @@ std::string &Zombie::getDirection() {
 }
 
 void Zombie::takeDamage(int damage) {
-    if(hitPoints >= 0) {
-        hitPoints -= damage;
-    }
-    if(hitPoints <= 0) {
-        isAlive = false;
+    if(hitPoints > 0) {
+        if (hitPoints - damage <= 100) {
+            //this prevents the healing from vending machine to give the zombie more than 100hp which causes the program to crash
+            if(hitPoints - damage < 0) {
+                hitPoints = 0;
+            }else {
+                hitPoints -= damage;
+            }
+        }else {
+            hitPoints = 100;
+        }
     }
 }
 

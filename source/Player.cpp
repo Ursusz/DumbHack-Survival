@@ -55,7 +55,11 @@ void Player::takeDamage(int damage) {
     if(hitPoints > 0) {
         if (hitPoints - damage <= 100) {
             //this prevents the healing from vending machine to give the player more than 100hp which causes the program to crash
-            hitPoints -= damage;
+            if(hitPoints - damage < 0) {
+                hitPoints = 0;
+            }else {
+                hitPoints -= damage;
+            }
         }else {
             hitPoints = 100;
         }

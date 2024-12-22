@@ -2,7 +2,7 @@
 
 Computer::Computer(const myVec &position)
     : position(position)
-    , loadBarSprite(std::make_shared<SpriteComponent>("assets/loadBar.png")){
+    , loadBarSprite("assets/loadBar.png"){
     computersCount++;
 }
 
@@ -22,7 +22,7 @@ void Computer::drawLoadBars(sf::RenderTarget &target, const myVec& playerPos) {
         frameCounterInsideComputerRange++;
     }
     for(int i = 0; i < 12; i++) {
-        loadBars[i] = loadBarSprite->getSprite();
+        loadBars[i] = loadBarSprite.getSprite();
         loadBars[i].setOrigin(8, 8);
         loadBars[i].setScale(1, 1);
         loadBars[i].setPosition(position.getX() - 34 + i * 6,  position.getY() - 35);

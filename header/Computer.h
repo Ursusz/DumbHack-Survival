@@ -10,7 +10,7 @@
 
 class Computer {
     const myVec position;
-    std::shared_ptr<SpriteComponent> loadBarSprite;
+    SpriteComponent loadBarSprite;
     std::array<sf::Sprite, 12> loadBars;
     int frameCounterInsideComputerRange = 0;
     static int computersCount;
