@@ -105,6 +105,7 @@ add_executable(${PROJECT_NAME}
         source/SpecialTreasureRemastered.cpp
         header/ZombieBuilder.h
         source/ZombieBuilder.cpp
+        header/Singleton.h
 )
 
 include(cmake/CompilerFlags.cmake)
