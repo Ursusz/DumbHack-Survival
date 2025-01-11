@@ -22,18 +22,14 @@ void EntityManager::drawComputerLoadBars(sf::RenderTarget& target) {
 }
 
 void EntityManager::initEntities() {
-    try {
-        tileManager.loadMap("Init/world.txt", objectComputers);
-        for(size_t i = 0; i < MAP_HEIGHT; i++) {
-            for(size_t j = 0; j < MAP_WIDTH; j++) {
-                collisionManager.add_entities_to_verify_collission(&tileManager.getTile(i, j));
-            }
+
+    tileManager.loadMap("Init/world.txt", objectComputers);
+    for(size_t i = 0; i < MAP_HEIGHT; i++) {
+        for(size_t j = 0; j < MAP_WIDTH; j++) {
+            collisionManager.add_entities_to_verify_collission(&tileManager.getTile(i, j));
         }
-    }catch(const textureError& err) {
-        std::cerr << "Tile manager error: " << err.what() << std::endl;
-    }catch(const fileNotFound& err) {
-        std::cerr << "Tile manager error: " << err.what() << std::endl;
     }
+
     m_player = Player(myVec(1889, 552),
                         myVec(5, 5),
                         "assets/Player.png",
