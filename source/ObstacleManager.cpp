@@ -2,10 +2,10 @@
 
 #include "../header/ObstacleManager.h"
 
-ObstacleManager& ObstacleManager::getInstance() {
-    static ObstacleManager instance;
-    return instance;
-}
+// ObstacleManager& ObstacleManager::getInstance() {
+//     static ObstacleManager instance;
+//     return instance;
+// }
 
 void ObstacleManager::loadObstaclesWithBuffer(const std::string& filePath, int mapHeight, int mapWidth) {
     std::ifstream in(filePath);

@@ -6,12 +6,18 @@ ZombieWaveManager::ZombieWaveManager()
     : currentWave(0)
     , zombiesPerWave(2)
     , spawnedZombies(0)
-    , killedZombies(0) {
+    , killedZombies(0)
+    , scoreText("Fonts/ARIAL.TTF",
+                "Score: " + std::to_string(score),
+                24,
+                sf::Color::White,
+                myVec(100, 456)){
     obstacle_manager.loadObstaclesWithBuffer("Init/world.txt", 23, 40);
 }
 
 void ZombieWaveManager::startNextWave() {
     currentWave++;
+    killedZombies = 0;
     zombiesPerWave = 2 + currentWave;
     spawnedZombies = 0;
     killedZombies = 0;
@@ -26,15 +32,16 @@ void ZombieWaveManager::spawnZombies() {
     while(spawnedZombies < zombiesPerWave) {
         float spawnPosX = uniform_distX(rng);
         float spawnPosY = uniform_distY(rng);
-        auto zombie = std::make_shared<Zombie>(Zombie(myVec(spawnPosX, spawnPosY),
-                                                        myVec(2, 2),
-                                                        "assets/Zombie.png",
-                                                        true,
-                                                        true,
-                                                        true,
-                                                        3));
-        zombie->setObstacles(obstacle_manager.getObstacles());
+        auto zombie = zombieBuilder.setPosition(myVec(spawnPosX, spawnPosY))
+                                                    .setVelocity(myVec(2, 2))
+                                                    .setTexturePath("assets/Zombie.png")
+                                                    .setHitable(true)
+                                                    .setCollidable(true)
+                                                    .setIsDynamic(true)
+                                                    .setDrawPriority(3)
+                                                    .build();
         zombies.push_back(zombie);
+        zombie->setObstacles(obstacle_manager.getObstacles());
         spawnedZombies++;
     }
 }
@@ -49,6 +56,8 @@ void ZombieWaveManager::updateZombies(Player& player, std::function<void(Entity&
             zombie->updateSprite(zombie->getDirection());
         }else {
             killedZombies++;
+            score += 50;
+            scoreText.setString("Score: " + std::to_string(score));
         }
     }
     zombies.erase(std::remove_if(zombies.begin(), zombies.end(),
@@ -65,6 +74,7 @@ void ZombieWaveManager::drawZombies(sf::RenderTarget& target) {
         zombie->draw(target);
         zombie->drawHP(target);
     }
+    scoreText.drawText(target);
 }
 
 void ZombieWaveManager::updateZombiesAnimations() {

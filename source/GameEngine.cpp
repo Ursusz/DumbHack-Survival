@@ -41,8 +41,7 @@ void GameEngine::Init(const std::string& setupPath) {
     keyMap[sf::Keyboard::D] = 3;    //RIGHT
 
     try {
-        entityManager = EntityManager::instance();
-        entityManager->initEntities();
+        entityManager.initEntities();
 
         m_gameLostMsg = Text("Fonts/ARIAL.TTF",
                     "GAME LOST",
@@ -84,20 +83,20 @@ void GameEngine::run() {
     Init(m_setupPath);
     while(m_window.isOpen()) {
         listenEvents();
-        if(entityManager->isGameStillPlayable()) {
-            entityManager->handlePlayerEvents();
-            entityManager->checkPlayerOutOfBound(m_window);
-            entityManager->computeZombieWaves();
+        if(entityManager.isGameStillPlayable()) {
+            entityManager.handlePlayerEvents();
+            entityManager.checkPlayerOutOfBound(m_window);
+            entityManager.computeZombieWaves();
         }
 
-        entityManager->resetMainEntitiesForCollissions(m_frame);
+        entityManager.resetMainEntitiesForCollissions(m_frame);
 
         m_window.clear(sf::Color::Black);
 
         //################### Printing everything
-        entityManager->drawEntities(m_window, m_frame);
+        entityManager.drawEntities(m_window, m_frame);
 
-        switch (entityManager->verifyPlayerExistance_and_ComputersCompletion(m_window, m_frame)) {
+        switch (entityManager.verifyPlayerExistance_and_ComputersCompletion(m_window, m_frame)) {
             case 0 : m_gameLostMsg.drawText(m_window);
                 break;
             case 1 : m_gameWonMsg.drawText(m_window);
@@ -108,7 +107,7 @@ void GameEngine::run() {
 
         m_window.display();
 
-        entityManager->updateAnimations();
+        entityManager.updateAnimations();
         m_frame++;
     }
 }
@@ -122,7 +121,7 @@ void GameEngine::listenEvents() {
 
         if(event.type == sf::Event::KeyPressed) {
             if (keyMap.contains(event.key.code)) {
-                entityManager->togglePlayerKey(keyMap.at(event.key.code), true);
+                entityManager.togglePlayerKey(keyMap.at(event.key.code), true);
             }
             if(event.key.code == sf::Keyboard::Escape) {
                 m_window.close();
@@ -132,11 +131,11 @@ void GameEngine::listenEvents() {
             // }
         }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            entityManager->attackZombies(m_frame);
+            entityManager.attackZombies(m_frame);
         }
         if(event.type == sf::Event::KeyReleased) {
             if (keyMap.contains(event.key.code)) {
-                entityManager->togglePlayerKey(keyMap.at(event.key.code), false);
+                entityManager.togglePlayerKey(keyMap.at(event.key.code), false);
             }
         }
     }

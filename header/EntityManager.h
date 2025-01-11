@@ -15,16 +15,14 @@
 #include "../header/Trap.h"
 #include "../header/SpecialTrap.h"
 #include "../header/SpecialTreasureRemastered.h"
+#include "../header/Singleton.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
-class EntityManager {
-    static EntityManager* uniqueInstance;
+class EntityManager : public Singleton<EntityManager>{
     std::vector<std::unique_ptr<Entity>> entities;
-    EntityManager() = default;
     EntityManager(const EntityManager&) = delete;
     EntityManager& operator=(const EntityManager& rhs) = delete;
-    ~EntityManager();
 
     Player m_player;
     ZombieWaveManager zombieWaveManager;
@@ -35,10 +33,11 @@ class EntityManager {
     std::vector<Computer> objectComputers;
 
     void addEntity(std::unique_ptr<Entity> entity, bool isMainEntity);
+protected:
+    EntityManager() = default;
+    ~EntityManager();
 public:
     void drawComputerLoadBars(sf::RenderTarget& target);
-    static EntityManager* instance();
-    void deleteInstance();
     void initEntities();
     void computeZombieWaves();
     void togglePlayerKey(int key, bool value);

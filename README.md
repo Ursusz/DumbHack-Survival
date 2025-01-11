@@ -7,9 +7,11 @@
 #### Efectele audio din joc au fost luate de aici: 
   -> Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=31697">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=31697">Pixabay</a> (main music)  
   -> [swingSound](https://mixkit.co/free-sound-effects/hit/) (Impact of a strong punch)  
-  -> [zombiePunc](https://mixkit.co/free-sound-effects/blow/) (Impact of a blow)  
+  -> [zombiePunch](https://mixkit.co/free-sound-effects/blow/) (Impact of a blow)  
   -> [TreasureUnlock](https://mixkit.co/free-sound-effects/arcade/) (Retro arcade casino notification)  
   -> [DrinkSoda](https://mixkit.co/free-sound-effects/drink/) (Sip of water)  
+  -> [Kiss](https://mixkit.co/free-sound-effects/kiss/) (Cartoon friendly kiss)
+  -> [SpecialTrapSound](https://mixkit.co/free-sound-effects/hurt/) (Ow exclamation of pain)
 
 ## Fonts
 Font-ul textului din proiect a fost downloadat de [aici](https://font.download/font/arial).
@@ -20,15 +22,6 @@ Font-ul textului din proiect a fost downloadat de [aici](https://font.download/f
   1. **[a-star](https://github.com/daancode/a-star)** - [Licența MIT](https://github.com/daancode/a-star?tab=MIT-1-ov-file)
     
   > De menționat faptul că am adus modificări proprii asupra sursei externe, pentru a putea fi implementată în cadrul acestui proiect.
-
-## Tema 3
-
-#### Cerințe
-- [ ] 2 șabloane de proiectare (design patterns)
-- [ ] o clasă șablon cu sens; minim **2 instanțieri**
-  - [ ] preferabil și o funcție șablon (template) cu sens; minim 2 instanțieri
-<!-- - [ ] o specializare pe funcție/clasă șablon -->
-- [ ] tag de `git`: de exemplu `v0.3` sau `v1.0`
 
 ## Instrucțiuni de compilare
 

@@ -52,8 +52,8 @@ endif()
 # NOTE: update executable name in .github/workflows/cmake.yml:25 when changing name here
 add_executable(${PROJECT_NAME}
         main.cpp
-    generated/src/Helper.cpp
-    env_fixes.h
+        generated/src/Helper.cpp
+        env_fixes.h
         header/myVec.h
         source/myVec.cpp
         header/Components.h
@@ -103,6 +103,8 @@ add_executable(${PROJECT_NAME}
         header/SpecialTrap.h
         header/SpecialTreasureRemastered.h
         source/SpecialTreasureRemastered.cpp
+        header/ZombieBuilder.h
+        source/ZombieBuilder.cpp
 )
 
 include(cmake/CompilerFlags.cmake)

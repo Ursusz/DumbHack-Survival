@@ -2,24 +2,7 @@
 
 EntityManager::~EntityManager() {
     entities.clear();
-    deleteInstance();
 }
-
-EntityManager *EntityManager::instance() {
-    if(uniqueInstance == nullptr) {
-        uniqueInstance = new EntityManager();
-    }
-    return uniqueInstance;
-}
-
-void EntityManager::deleteInstance() {
-    if(uniqueInstance != nullptr) {
-        delete uniqueInstance;
-        uniqueInstance = nullptr;
-    }
-}
-
-EntityManager* EntityManager::uniqueInstance = nullptr;
 
 void EntityManager::addEntity(std::unique_ptr<Entity> entity, bool isMainEntity) {
     Entity* entityPtr = entity.get();

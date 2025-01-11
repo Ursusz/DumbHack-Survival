@@ -27,7 +27,7 @@ class GameEngine {
 
     float newWidth = 0, newHeight = 0, windowAspectRatio = 0, mapAspectRatio = 0;
 
-    EntityManager* entityManager = nullptr;
+    EntityManager& entityManager = EntityManager::getInstance();
 
     sf::RenderWindow m_window;
     sf::VideoMode m_desktopMode;

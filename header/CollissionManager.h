@@ -9,6 +9,7 @@ class CollissionManager : ComputeCollision{
     ComputeCollision m_collision;
     std::vector<Entity*> main_entities;
     std::vector<Entity*> entities_to_verify_collission;
+
     bool entitiesAreColliding(const Entity& e1, const Entity& e2);
 public:
     CollissionManager() = default;

@@ -9,6 +9,8 @@
 #include "../header/Zombie.h"
 #include "../header/Player.h"
 #include "../header/ObstacleManager.h"
+#include "../header/ZombieBuilder.h"
+#include "../header/Text.h"
 
 #include <SFML/Graphics/RenderTarget.hpp>
 
@@ -19,6 +21,9 @@ class ZombieWaveManager {
     int killedZombies;
     std::vector<std::shared_ptr<Zombie>> zombies;
     static ObstacleManager& obstacle_manager;
+    ZombieBuilder zombieBuilder;
+    int score = 0;
+    Text scoreText;
 public:
     ZombieWaveManager();
 
