@@ -1,37 +1,37 @@
 #include "../header/ZombieBuilder.h"
 
-ZombieBuilder &ZombieBuilder::setPosition(const myVec &position) {
-    this->position = position;
+ZombieBuilder &ZombieBuilder::setPosition(const myVec &newPosition) {
+    this->position = newPosition;
     return *this;
 }
 
-ZombieBuilder &ZombieBuilder::setVelocity(const myVec &velocity) {
-    this->velocity = velocity;
+ZombieBuilder &ZombieBuilder::setVelocity(const myVec &newVelocity) {
+    this->velocity = newVelocity;
     return *this;
 }
 
-ZombieBuilder &ZombieBuilder::setTexturePath(const std::string &texture_path) {
-    this->texture_path = texture_path;
+ZombieBuilder &ZombieBuilder::setTexturePath(const std::string &new_texture_path) {
+    this->texture_path = new_texture_path;
     return *this;
 }
 
-ZombieBuilder &ZombieBuilder::setHitable(bool hitable) {
-    this->hitable = hitable;
+ZombieBuilder &ZombieBuilder::setHitable(bool newHhitable) {
+    this->hitable = newHhitable;
     return *this;
 }
 
-ZombieBuilder &ZombieBuilder::setCollidable(bool collidable) {
-    this->collidable = collidable;
+ZombieBuilder &ZombieBuilder::setCollidable(bool newCollidable) {
+    this->collidable = newCollidable;
     return *this;
 }
 
-ZombieBuilder &ZombieBuilder::setIsDynamic(bool isDynamic) {
-    this->isDynamic = isDynamic;
+ZombieBuilder &ZombieBuilder::setIsDynamic(bool newisDynamic) {
+    this->isDynamic = newisDynamic;
     return *this;
 }
 
-ZombieBuilder &ZombieBuilder::setDrawPriority(int drawPriority) {
-    this->drawPriority = drawPriority;
+ZombieBuilder &ZombieBuilder::setDrawPriority(int newDrawPriority) {
+    this->drawPriority = newDrawPriority;
     return *this;
 }
 
