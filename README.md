@@ -1,6 +1,7 @@
 # DumbHack :: Survival
 #### DumbHack :: Survival este un joc de supraviețuire captivant în care personajul principal, un student ambițios, își propune să își demonstreze abilitățile la un maraton de programare. Totuși, ca o ironie a sorții, acesta întârzie la competiție. Între timp, situația se schimbă dramatic: un virus cibernetic scapă de sub control și transformă toți ceilalți participanți într-o armată de zombi, determinați să oprească pe oricine le stă în cale. Eroul nostru trebuie acum să lupte împotriva acestor zombi și, în același timp, să găsească o cale de a neutraliza virusul, restabilind ordinea în competiție. Va reuși el să supraviețuiască și să readucă lucrurile la normal?
 
+Pentru a vizualiza un demo al jocului puteti apăsa pe următoarea imagine.
 [![DumbHack Survival](https://img.youtube.com/vi/rFHtNtfOw5g/maxresdefault.jpg)](https://www.youtube.com/watch?v=rFHtNtfOw5g&ab_channel=UrsuAlexandruPetrut)
 
 
