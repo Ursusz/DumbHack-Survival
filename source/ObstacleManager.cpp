@@ -2,10 +2,7 @@
 
 #include "../header/ObstacleManager.h"
 
-// ObstacleManager& ObstacleManager::getInstance() {
-//     static ObstacleManager instance;
-//     return instance;
-// }
+#include <iostream>
 
 void ObstacleManager::loadObstaclesWithBuffer(const std::string& filePath, int mapHeight, int mapWidth) {
     std::ifstream in(filePath);
@@ -34,7 +31,7 @@ void ObstacleManager::loadObstaclesWithBuffer(const std::string& filePath, int m
                     if (bufferTile.x >= 0 && bufferTile.x < mapHeight &&
                         bufferTile.y >= 0 && bufferTile.y < mapWidth) {
                         obstacles.push_back(bufferTile);
-                        }
+                    }
                 }
             }
         }
