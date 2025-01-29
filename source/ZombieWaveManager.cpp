@@ -13,7 +13,7 @@ ZombieWaveManager::ZombieWaveManager()
                 sf::Color::White,
                 myVec(100, 456))
     , highScoreText("Fonts/ARIAL.TTF",
-                    "HighScore: " + std::to_string(highScore),
+                    "HighScore: 0",
                     24,
                     sf::Color::Red,
                     myVec(120, 648))
