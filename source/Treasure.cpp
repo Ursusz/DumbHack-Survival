@@ -2,10 +2,6 @@
 
 #include "../header/Player.h"
 
-Treasure::~Treasure() {
-    deleteInstance();
-}
-
 Treasure::Treasure(const myVec &position, const myVec &velocity, const std::string &texture_path,
                    bool hitAble, bool collidable, bool isDynamic, bool isAvailable, int drawPriority)
     : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic, drawPriority)
@@ -45,13 +41,6 @@ void Treasure::takeDamage(int damage) {
 
 bool Treasure::is_available() const {
     return m_isAvailable;
-}
-
-void Treasure::deleteInstance() {
-    if(uniqueInstance != nullptr) {
-        delete uniqueInstance;
-        uniqueInstance = nullptr;
-    }
 }
 
 void Treasure::interactWith(Entity &other, int frame) {

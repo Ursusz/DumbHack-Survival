@@ -5,7 +5,7 @@
 #include "../header/ComputeCollision.h"
 #include "../header/Entity.h"
 
-class CollissionManager : ComputeCollision{
+class CollissionManager{
     ComputeCollision m_collision;
     std::vector<Entity*> main_entities;
     std::vector<Entity*> entities_to_verify_collission;

@@ -88,6 +88,7 @@ void Zombie::followPlayer(const myVec &playerPos) {
             auto path = m_generator.findPath({(int)playerPos.getY()/48, (int)playerPos.getX()/48},
                             {(int)this->getPositionFromComp().getY()/48, (int)this->getPositionFromComp().getX()/48});
             if(this->getPositionFromComp()/48 != playerPos/48 && (int)path.size() > next) {
+                //since every tile in the game is 48x48, here we are dividing the coordinates by 48 so we can get the location of the 23x40 matrix which is mapping the obstacles
                 int currentTileX = (int)this->getPositionFromComp().getX() / 48;
                 int currentTileY =(int) this->getPositionFromComp().getY() / 48;
                 if(currentTileX != path.at(next).y || currentTileY != path.at(next).x) {

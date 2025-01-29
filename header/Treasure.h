@@ -21,7 +21,7 @@ class Treasure : public Entity {
 
     Treasure(const Treasure& rhs) = delete;
 
-    ~Treasure() override;
+    ~Treasure() = default;
 
     std::shared_ptr<Entity> clone() const override { return nullptr; }
 

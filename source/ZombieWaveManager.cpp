@@ -11,9 +11,29 @@ ZombieWaveManager::ZombieWaveManager()
                 "Score: " + std::to_string(score),
                 24,
                 sf::Color::White,
-                myVec(100, 456)){
+                myVec(100, 456))
+    , highScoreText("Fonts/ARIAL.TTF",
+                    "HighScore: " + std::to_string(highScore),
+                    24,
+                    sf::Color::Red,
+                    myVec(120, 648))
+    , file("Init/highScore.txt", std::ios::in | std::ios::out)
+{
     obstacle_manager.loadObstaclesWithBuffer("Init/world.txt", 23, 40);
+    if(!file.is_open()) {
+        std::cerr << "Error opening file : highScore.txt" << std::endl;
+    }else {
+        file >> highScore;
+    }
 }
+
+ZombieWaveManager::~ZombieWaveManager() {
+    file.close();
+    file.open("Init/highScore.txt", std::ios::out | std::ios::trunc);
+    file << highScore;
+    file.close();
+}
+
 
 void ZombieWaveManager::startNextWave() {
     currentWave++;
@@ -57,7 +77,11 @@ void ZombieWaveManager::updateZombies(Player& player, std::function<void(Entity&
         }else {
             killedZombies++;
             score += 50;
+            if(score > highScore) {
+                highScore = score;
+            }
             scoreText.setString("Score: " + std::to_string(score));
+            highScoreText.setString("HighScore: " + std::to_string(highScore));
         }
     }
     zombies.erase(std::remove_if(zombies.begin(), zombies.end(),
@@ -75,6 +99,7 @@ void ZombieWaveManager::drawZombies(sf::RenderTarget& target) {
         zombie->drawHP(target);
     }
     scoreText.drawText(target);
+    highScoreText.drawText(target);
 }
 
 void ZombieWaveManager::updateZombiesAnimations() {

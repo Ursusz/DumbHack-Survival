@@ -4,6 +4,7 @@
 #include <vector>
 #include <random>
 #include <functional>
+#include <fstream>
 
 #include "../header/myVec.h"
 #include "../header/Zombie.h"
@@ -24,8 +25,12 @@ class ZombieWaveManager {
     ZombieBuilder zombieBuilder;
     int score = 0;
     Text scoreText;
+    Text highScoreText;
+    std::fstream file;
+    int highScore = 0;
 public:
     ZombieWaveManager();
+    ~ZombieWaveManager();
 
     void startNextWave();
     void spawnZombies();
