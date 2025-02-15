@@ -13,7 +13,7 @@
   -> [zombiePunch](https://mixkit.co/free-sound-effects/blow/) (Impact of a blow)  
   -> [TreasureUnlock](https://mixkit.co/free-sound-effects/arcade/) (Retro arcade casino notification)  
   -> [DrinkSoda](https://mixkit.co/free-sound-effects/drink/) (Sip of water)  
-  -> [Kiss](https://mixkit.co/free-sound-effects/kiss/) (Cartoon friendly kiss)
+  -> [Kiss](https://mixkit.co/free-sound-effects/kiss/) (Cartoon friendly kiss)  
   -> [SpecialTrapSound](https://mixkit.co/free-sound-effects/hurt/) (Ow exclamation of pain)
 
 ## Fonts
