@@ -39,7 +39,13 @@ FetchContent_Declare(
         GIT_TAG v3.11.2
 )
 
-FetchContent_MakeAvailable(SFML cpr nlohmann_json)
+FetchContent_Declare(
+        curl
+        GIT_REPOSITORY https://github.com/curl/curl.git
+        GIT_TAG curl-8_15_0
+)
+
+FetchContent_MakeAvailable(SFML cpr nlohmann_json curl)
 
 ###############################################################################
 
