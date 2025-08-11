@@ -141,9 +141,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         cpr::cpr
         AStarLib
         nlohmann_json::nlohmann_json
+        CURL::libcurl
 )
-
-
 if(APPLE)
 elseif(UNIX)
     target_link_libraries(${PROJECT_NAME} PRIVATE X11)
