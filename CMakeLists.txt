@@ -45,10 +45,10 @@ FetchContent_Declare(
         GIT_TAG curl-8_15_0
 )
 
-FetchContent_MakeAvailable(SFML cpr nlohmann_json curl)
 
 set(CURL_DISABLE_LIBPSL ON CACHE BOOL "" FORCE)
 
+FetchContent_MakeAvailable(SFML cpr nlohmann_json curl)
 
 ###############################################################################
 
