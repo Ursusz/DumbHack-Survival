@@ -47,6 +47,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(SFML cpr nlohmann_json curl)
 
+set(CURL_DISABLE_LIBPSL ON CACHE BOOL "" FORCE)
+
+
 ###############################################################################
 
 # external dependencies with find_package
