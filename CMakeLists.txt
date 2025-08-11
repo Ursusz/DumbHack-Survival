@@ -51,7 +51,7 @@ FetchContent_MakeAvailable(SFML cpr nlohmann_json curl)
 
 # external dependencies with find_package
 
-find_package(CURL REQUIRED)
+#find_package(CURL REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(Threads REQUIRED)
 
@@ -147,7 +147,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         cpr::cpr
         AStarLib
         nlohmann_json::nlohmann_json
-        CURL::libcurl
+        libcurl
 )
 if(APPLE)
 elseif(UNIX)
