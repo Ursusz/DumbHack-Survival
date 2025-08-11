@@ -51,7 +51,7 @@ void Zombie::takeDamage(int damage) {
 }
 
 bool Zombie::canHit(int frame) {
-    if((lastHit == 0 || frame - lastHit > 180) && isAlive) {
+    if((lastHit == 0 || frame - lastHit > 60) && isAlive) {
         lastHit = frame;
         hitSound.play();
         return true;
@@ -129,6 +129,10 @@ void Zombie::setObstacles(const std::vector<sf::Vector2i> &obs) {
     }
 }
 
+void Zombie::reset() {
+}
+
+
 std::shared_ptr<Entity> Zombie::clone() const {
     return std::make_shared<Zombie>(*this);
 }
@@ -138,7 +142,7 @@ void Zombie::swap(Zombie &z1, Zombie &z2) noexcept{
     swap(z1.heartSprite, z2.heartSprite);
     swap(z1.lastHit, z2.lastHit);
     swap(z1.m_generator, z2.m_generator);
-    z1.next = 2;
+    z1.next = 1;
     swap(z1.hitPoints, z2.hitPoints);
     swap(z1.isAlive, z2.isAlive);
     swap(z1.hitBuffer, z2.hitBuffer);

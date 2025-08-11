@@ -21,6 +21,11 @@ void SpecialTreasureRemastered::interactWith(Entity &other, int frame) {
     }
 }
 
+void SpecialTreasureRemastered::reset() {
+    canGive = true;
+}
+
+
 SpecialTreasureRemastered& SpecialTreasureRemastered::operator=(const SpecialTreasureRemastered &other) {
     if(this != &other) {
         Entity::operator=(other);

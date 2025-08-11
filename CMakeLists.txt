@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 
-# NOTE: update executable name in .github/workflows/cmake.yml:25 when changing executable name in this file
-# for now, the project name is used as the executable name
 project(DumbHack-Survival)
-# set(CMAKE_PROJECT_VERSION_MAJOR 0)
-# set(CMAKE_PROJECT_VERSION_MINOR 0)
-# set(CMAKE_PROJECT_VERSION_PATCH 1)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -27,21 +22,33 @@ set(WARNINGS_AS_ERRORS OFF)
 
 # NOTE: Also update SFML_VERSION env var in .github/workflows/cmake.yml:84
 FetchContent_Declare(
-    SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG        2.6.1
-    # GIT_TAG        69ea0cd863aed1d4092b970b676924a716ff718b # 2.6.1
-    # GIT_TAG        origin/master
-    GIT_SHALLOW    1  # works only with branches or tags, not with arbitrary commit hashes
+        SFML
+        GIT_REPOSITORY https://github.com/SFML/SFML.git
+        GIT_TAG        2.6.1
+        GIT_SHALLOW    1
 )
 
-FetchContent_MakeAvailable(SFML)
+FetchContent_Declare(cpr
+        GIT_REPOSITORY https://github.com/libcpr/cpr.git
+        GIT_TAG        1.10.0
+)
+
+FetchContent_Declare(
+        nlohmann_json
+        GIT_REPOSITORY https://github.com/nlohmann/json.git
+        GIT_TAG v3.11.2
+)
+
+FetchContent_MakeAvailable(SFML cpr nlohmann_json)
 
 ###############################################################################
 
 # external dependencies with find_package
 
+find_package(CURL REQUIRED)
+find_package(OpenSSL REQUIRED)
 find_package(Threads REQUIRED)
+
 if(APPLE)
 elseif(UNIX)
     find_package(X11)
@@ -106,6 +113,8 @@ add_executable(${PROJECT_NAME}
         header/ZombieBuilder.h
         source/ZombieBuilder.cpp
         header/Singleton.h
+        source/AI_Agent.cpp
+        header/AI_Agent.h
 )
 
 include(cmake/CompilerFlags.cmake)
@@ -116,12 +125,24 @@ include(cmake/CompilerFlags.cmake)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE generated/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE cpr::cpr::include_dirs)
 
 add_library(AStarLib STATIC ext/AStar/AStar.cpp)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE header)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/AStar)
 target_link_directories(${PROJECT_NAME} PRIVATE ${SFML_BINARY_DIR}/lib)
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics sfml-window sfml-system sfml-audio Threads::Threads)
-target_link_libraries(${PROJECT_NAME} PRIVATE AStarLib)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+        sfml-graphics
+        sfml-window
+        sfml-system
+        sfml-audio
+        Threads::Threads
+        cpr::cpr
+        AStarLib
+        nlohmann_json::nlohmann_json
+)
+
 
 if(APPLE)
 elseif(UNIX)
@@ -142,9 +163,9 @@ endif()
 # remove this if not using audio or if using SFML 3
 if (WIN32 AND SFML_BUILD_AUDIO)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy_if_different
-         ${SFML_SOURCE_DIR}/extlibs/bin/x64/openal32.dll
-         $<TARGET_FILE_DIR:${PROJECT_NAME}>
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            ${SFML_SOURCE_DIR}/extlibs/bin/x64/openal32.dll
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>
     )
 endif()
 

@@ -1,6 +1,6 @@
 #include "../header/GameEngine.h"
 
-GameEngine::GameEngine(std::string  setupPath) : m_setupPath(std::move(setupPath)) {}
+GameEngine::GameEngine() = default;
 
 void GameEngine::Init(const std::string& setupPath) {
     std::ifstream input(setupPath);
@@ -16,8 +16,8 @@ void GameEngine::Init(const std::string& setupPath) {
             input >> myWindowConfig.fullscreen;
         }
     }
+    m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", sf::Style::Fullscreen);
 
-    m_window.create(sf::VideoMode(myWindowConfig.width, myWindowConfig.height), "DumbHack :: Survival", myWindowConfig.fullscreen ? sf::Style::None : sf::Style::Default);
     windowAspectRatio = static_cast<float>(m_window.getSize().x) / static_cast<float>(m_window.getSize().y);
     mapAspectRatio = 1920.f / 1080.f;
 
@@ -58,7 +58,7 @@ void GameEngine::Init(const std::string& setupPath) {
        if(!m_music.openFromFile("assets/music.ogg")) {
            throw std::runtime_error("Failed to load music");
        }
-        m_music.setVolume(40.0f);
+        m_music.setVolume(0.0f);
         m_music.setLoop(true);
         m_music.play();
     }catch(const textureError& err) {
@@ -77,10 +77,11 @@ void GameEngine::Init(const std::string& setupPath) {
         std::cerr << "Other exception: " << err.what() << std::endl;
         m_window.close();
     }
+
+    agent.startBotCommunication(*this);
 }
 
 void GameEngine::run() {
-    Init(m_setupPath);
     while(m_window.isOpen()) {
         listenEvents();
         if(entityManager.isGameStillPlayable()) {
@@ -104,12 +105,17 @@ void GameEngine::run() {
             case 2: //result could be 2 which means neither the player is dead or the computers have been completed
             default: break;
         }
-
         m_window.display();
 
         entityManager.updateAnimations();
         m_frame++;
+
+        agent.updateGameState(*this);
     }
+}
+
+void GameEngine::restart() {
+    m_frame = 0;
 }
 
 void GameEngine::listenEvents() {
@@ -124,11 +130,14 @@ void GameEngine::listenEvents() {
                 entityManager.togglePlayerKey(keyMap.at(event.key.code), true);
             }
             if(event.key.code == sf::Keyboard::Escape) {
+                agent.stopBotCommunication();
                 m_window.close();
             }
-            // if(event.key.code == sf::Keyboard::R) {
-            //     run(); /// Trebuie sa gasesc o metoda pentru a da restart corect la joc
-            // }
+            if(event.key.code == sf::Keyboard::R) {
+                entityManager.resetEntities();
+                m_music.stop();
+                m_music.play();
+            }
         }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
             entityManager.attackZombies(m_frame);
@@ -139,4 +148,48 @@ void GameEngine::listenEvents() {
             }
         }
     }
+    int action = agent.getAgentAction();
+    if (action != -1) {
+        entityManager.togglePlayerKey(0, false);
+        entityManager.togglePlayerKey(1, false);
+        entityManager.togglePlayerKey(2, false);
+        entityManager.togglePlayerKey(3, false);
+        switch (action) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+                entityManager.togglePlayerKey(action, true);
+                break;
+            case 4:
+                entityManager.resetEntities();
+                m_music.stop();
+                m_music.play();
+        }
+    }
+}
+
+const Player& GameEngine::getPlayer() const {
+    return entityManager.getPlayer();
+}
+
+std::vector<std::pair<float, float>> GameEngine::getZombiesPositions() const {
+    auto zombies = entityManager.getZombies();
+    std::vector<std::pair<float, float>> zombiesPositions;
+    for(const auto& zombie : zombies) {
+        zombiesPositions.emplace_back(zombie->getPositionFromComp().getX(), zombie->getPositionFromComp().getY());
+    }
+    return zombiesPositions;
+}
+
+std::vector<std::pair<float, float>> GameEngine::getComputerPositions() const {
+    return entityManager.getComputerPositions();
+}
+
+std::vector<int> GameEngine::getComputersCompletions() const {
+    return entityManager.getComputersCompletions();
+}
+
+std::vector<std::pair<float, float>> GameEngine::getTrapsPositions() const {
+    return entityManager.getTrapsPositions();
 }

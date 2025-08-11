@@ -36,6 +36,7 @@ public:
 
     using Entity::draw;
     void draw(sf::RenderTarget& target, int frame);
+    void reset() override;
 
     void interactWith(Entity& other, int frame) override;
 };

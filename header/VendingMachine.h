@@ -43,6 +43,7 @@ public:
 
     void takeDamage(int damage) override;
     void interactWith(Entity &other, int frame) override;
+    void reset() override;
     std::shared_ptr<Entity> clone() const override;
     VendingMachine& operator=(const VendingMachine &rhs);
 };

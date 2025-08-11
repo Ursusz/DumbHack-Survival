@@ -66,6 +66,16 @@ void ZombieWaveManager::spawnZombies() {
     }
 }
 
+void ZombieWaveManager::resetZombies() {
+    spawnedZombies = 0;
+    killedZombies = 0;
+    zombiesPerWave = 2;
+    zombies.clear();
+    spawnZombies();
+    score = 0;
+    scoreText.setString("Score: " + std::to_string(score));
+}
+
 void ZombieWaveManager::updateZombies(Player& player, std::function<void(Entity&, Entity&)> collissionFunc) {
     for(auto& zombie : zombies) {
         zombie->followPlayer(player.getPositionFromComp());

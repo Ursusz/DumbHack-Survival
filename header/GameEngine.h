@@ -21,6 +21,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/Music.hpp>
+#include "../header/AI_Agent.h"
 
 class GameEngine {
     struct WindowSetup {int width=1920, height=1080, FPS=60; bool fullscreen=false;} myWindowConfig;
@@ -43,14 +44,22 @@ class GameEngine {
 
     sf::Music m_music;
 
-    void Init(const std::string& setupPath);
+    AI_Agent agent;
 
+    void restart();
     void listenEvents();
 public:
-    explicit GameEngine(std::string  setupPath);
+    GameEngine();
     ~GameEngine() = default;
 
+    void Init(const std::string& setupPath);
     void run();
+
+    const Player& getPlayer() const;
+    std::vector<std::pair<float, float>> getZombiesPositions() const;
+    std::vector<std::pair<float, float>> getComputerPositions() const;
+    std::vector<int> getComputersCompletions() const;
+    std::vector<std::pair<float, float>> getTrapsPositions() const;
 
     friend std::ostream& operator << (std::ostream& os, const GameEngine& game) {
         os << "Setup path: " << game.m_setupPath << std::endl;

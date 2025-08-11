@@ -22,6 +22,7 @@ public:
 
     using Entity::draw;
     void draw(sf::RenderTarget& target, int frame);
+    void reset() override;
 
     Trap& operator=(const Trap& other);
 };

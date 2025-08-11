@@ -34,6 +34,10 @@ void Trap::draw(sf::RenderTarget &target, int frame) {
     }
 }
 
+void Trap::reset() {
+    isSet = true;
+}
+
 
 Trap& Trap::operator=(const Trap &other) {
     if (this != &other) {

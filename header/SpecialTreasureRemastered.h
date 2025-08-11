@@ -13,6 +13,7 @@ public:
     SpecialTreasureRemastered(const myVec& position, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority);
 
     void interactWith(Entity &other, int frame) override;
+    void reset() override;
 
     SpecialTreasureRemastered& operator=(const SpecialTreasureRemastered& other);
 };

@@ -21,6 +21,7 @@ public:
     void interactWith(Entity &other, int frame) override;
 
     std::shared_ptr<Entity> clone() const override;
+    void reset() override;
 
     friend std::ostream& operator<<(std::ostream& os, const Tile& tile);
     Tile& operator=(const Tile& rhs);

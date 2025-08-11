@@ -89,6 +89,14 @@ void VendingMachine::interactWith(Entity &other, int frame) {
     }
 }
 
+void VendingMachine::reset() {
+    drinkSound.stop();
+    lastUsedTime = 0.0f;
+    numOfDoses = 5;
+    clock.restart();
+}
+
+
 std::shared_ptr<Entity> VendingMachine::clone() const {
     return std::make_shared<VendingMachine>(*this);
 }

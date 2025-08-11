@@ -37,6 +37,7 @@ protected:
     EntityManager() = default;
     ~EntityManager();
 public:
+    void resetEntities();
     void drawComputerLoadBars(sf::RenderTarget& target);
     void initEntities();
     void computeZombieWaves();
@@ -47,6 +48,12 @@ public:
     void resetMainEntitiesForCollissions(int frame);
     void drawEntities(sf::RenderTarget& target, int frame);
     void updateAnimations();
+    Player& getPlayer();
+    std::vector<std::pair<float, float>> getComputerPositions() const;
+    std::vector<int> getComputersCompletions() const;
+    std::vector<std::pair<float, float>> getTrapsPositions() const;
+
+    const std::vector<std::shared_ptr<Zombie>>& getZombies() const;
 
     int verifyPlayerExistance_and_ComputersCompletion(sf::RenderTarget& target, int frame);
     bool isGameStillPlayable() const;

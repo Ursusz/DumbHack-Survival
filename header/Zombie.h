@@ -63,6 +63,7 @@ public:
     std::shared_ptr<Entity> clone() const override;
 
     void swap(Zombie& z1, Zombie& z2) noexcept;
+    void reset() override;
     Zombie& operator=(Zombie zombie);
 
     friend std::ostream& operator<<(std::ostream& os, const Zombie& zombie);

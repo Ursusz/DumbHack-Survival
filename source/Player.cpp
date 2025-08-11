@@ -1,5 +1,7 @@
 #include "../header/Player.h"
 
+#include <emmintrin.h>
+
 
 Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority)
     : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic, drawPriority)
@@ -84,7 +86,7 @@ void Player::interactWith(Entity &other, int frame) {
 
 bool Player::isEnemyInFront(const myVec &enemyPos, const myVec &playerDirection, float range, float angleThreshHold) {
     if(this->getPositionFromComp().distance(enemyPos) > range) return false;
-    myVec playerToEnemyVec = (this->getPositionFromComp()-enemyPos);
+    myVec playerToEnemyVec = enemyPos - this->getPositionFromComp();
     try {
         playerToEnemyVec.normalize();
     }catch(const divideByZero& err) {
@@ -94,7 +96,7 @@ bool Player::isEnemyInFront(const myVec &enemyPos, const myVec &playerDirection,
     float dotProduct = playerToEnemyVec.getX() * playerDirection.getX() + playerToEnemyVec.getY() * playerDirection.getY();
 
     float cosAngle = std::cos(angleThreshHold * (3.14159f / 180.0f));
-    return dotProduct <= cosAngle;
+    return dotProduct >= cosAngle;
 }
 
 
@@ -123,6 +125,15 @@ void Player::draw(sf::RenderTarget &target) {
     drawHP(target);
     drawWeapon(target);
     drawRange(target, 110, atan2(sf::Mouse::getPosition().y - getPositionFromComp().getY(), sf::Mouse::getPosition().x - getPositionFromComp().getX()) * 180.0f / 3.14159265f);
+}
+
+void Player::reset() {
+    hitPoints = 100;
+    hitCooldown = 0;
+    lastHit = -1;
+    setPositionInComp(myVec(1000, 552));
+    player_damage = 15;
+    hitCooldown = 30;
 }
 
 
@@ -168,7 +179,6 @@ void Player::drawRange(sf::RenderTarget &target, float radius, float directionAn
         );
         semicircle.append(sf::Vertex(point, sf::Color(200, 200, 200, 30)));
     }
-
     target.draw(semicircle);
 }
 
@@ -217,4 +227,8 @@ void Player::takeBonus(int bonus, const std::string &option) {
         unlockPower.setString("Achieved bonus: hit cooldown reduction " + std::to_string(bonus));
     }
     unlockPowerClock.restart();
+}
+
+int Player::getHP() const {
+    return hitPoints;
 }

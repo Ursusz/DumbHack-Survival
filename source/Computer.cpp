@@ -38,8 +38,22 @@ void Computer::drawLoadBars(sf::RenderTarget &target, const myVec& playerPos) {
     }
 }
 
+void Computer::reset() {
+    computersCount = 5;
+    frameCounterInsideComputerRange = 0;
+    hasCompleted = false;
+}
+
 bool Computer::allComputersCompleted(){
     return computersCount == 0;
 }
 
 int Computer::computersCount = 0;
+
+const myVec& Computer::getPosition() const {
+    return position;
+};
+
+int Computer::getCompletion() const {
+    return frameCounterInsideComputerRange/60;
+}

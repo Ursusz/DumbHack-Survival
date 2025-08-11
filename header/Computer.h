@@ -21,6 +21,10 @@ public:
     Computer(const Computer& rhs);
     ~Computer();
 
+    const myVec& getPosition() const;
+    int getCompletion() const;
+
+    void reset();
     void drawLoadBars(sf::RenderTarget& target, const myVec& playerPos);
     static bool allComputersCompleted();
 };

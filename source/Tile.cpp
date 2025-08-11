@@ -22,6 +22,10 @@ std::ostream &operator<<(std::ostream &os, const Tile &tile) {
     return os;
 }
 
+void Tile::reset() {
+}
+
+
 Tile &Tile::operator=(const Tile &rhs) {
     Entity::operator=(rhs);
     std::swap(this->tileType, rhs.tileType);

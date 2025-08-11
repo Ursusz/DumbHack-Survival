@@ -28,6 +28,7 @@ public:
     bool canHit(int /*frame*/) override;
     void takeDamage(int /*damage*/) override;
     void interactWith(Entity &other, int frame) override;
+    void reset() override;
 
     SpecialTrap& operator=(const SpecialTrap& other);
 };

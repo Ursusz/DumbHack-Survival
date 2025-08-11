@@ -28,6 +28,8 @@ public:
     Entity(const Entity& rhs);
     virtual ~Entity() = default;
 
+    virtual void reset() = 0;
+
     myVec getPositionFromComp() const;
     myVec getVelocityFromComp() const;
 

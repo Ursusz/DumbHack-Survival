@@ -65,3 +65,7 @@ void Treasure::interactWith(Entity &other, int frame) {
         }
     }
 }
+
+void Treasure::reset() {
+    m_isAvailable = true;
+}

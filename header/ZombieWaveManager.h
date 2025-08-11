@@ -34,6 +34,7 @@ public:
 
     void startNextWave();
     void spawnZombies();
+    void resetZombies();
     void updateZombies(Player& player, std::function<void(Entity&, Entity&)> collissionFunc);
     bool isWaveFinished() const;
 

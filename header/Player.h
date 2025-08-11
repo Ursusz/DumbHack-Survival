@@ -60,6 +60,9 @@ public:
     Player(const Player& rhs);
     ~Player() override = default;
 
+    void reset() override;
+    int getHP() const;
+
     bool isKeyUp() const;
     bool isKeyDown() const;
     bool isKeyLeft() const;

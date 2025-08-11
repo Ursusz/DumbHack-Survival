@@ -23,14 +23,14 @@ void EntityManager::drawComputerLoadBars(sf::RenderTarget& target) {
 
 void EntityManager::initEntities() {
 
-    tileManager.loadMap("Init/world.txt", objectComputers);
+    tileManager.loadMap("./Init/world.txt", objectComputers);
     for(size_t i = 0; i < MAP_HEIGHT; i++) {
         for(size_t j = 0; j < MAP_WIDTH; j++) {
             collisionManager.add_entities_to_verify_collission(&tileManager.getTile(i, j));
         }
     }
-
-    m_player = Player(myVec(1889, 552),
+    /// 1889 552
+    m_player = Player(myVec(1000, 552),
                         myVec(5, 5),
                         "assets/Player.png",
                         true,
@@ -92,6 +92,16 @@ void EntityManager::initEntities() {
                                                     false);
 }
 
+void EntityManager::resetEntities() {
+    zombieWaveManager.resetZombies();
+    for (auto& entity : entities) {
+        entity->reset();
+    }
+    m_player.reset();
+    for(auto& computer : objectComputers) {
+        computer.reset();
+    }
+}
 
 void EntityManager::computeZombieWaves() {
     if(zombieWaveManager.isWaveFinished()) {
@@ -186,4 +196,40 @@ int EntityManager::verifyPlayerExistance_and_ComputersCompletion(sf::RenderTarge
 
 bool EntityManager::isGameStillPlayable() const {
     return m_player.isAlive() && !Computer::allComputersCompleted();
+}
+
+Player& EntityManager::getPlayer() {
+    return m_player;
+}
+
+const std::vector<std::shared_ptr<Zombie>>& EntityManager::getZombies() const {
+    return zombieWaveManager.getZombies();
+};
+
+std::vector<std::pair<float, float>> EntityManager::getComputerPositions() const {
+    std::vector<std::pair<float, float>> positions;
+    for (const auto& computer : objectComputers) {
+        positions.emplace_back(computer.getPosition().getX(), computer.getPosition().getY());
+    }
+    return positions;
+};
+
+std::vector<int> EntityManager::getComputersCompletions() const {
+    std::vector<int> computers;
+    for (const auto& computer : objectComputers) {
+        computers.emplace_back(computer.getCompletion());
+    }
+    return computers;
+}
+
+std::vector<std::pair<float, float>> EntityManager::getTrapsPositions() const {
+    std::vector<std::pair<float, float>> positions;
+    for (const auto& entity : entities) {
+        if (const Trap* trap = dynamic_cast<const Trap*>(entity.get())) {
+            positions.emplace_back(trap->getPositionFromComp().getX(), trap->getPositionFromComp().getY());
+        }else if (const SpecialTrap* trap = dynamic_cast<const SpecialTrap*>(entity.get())) {
+            positions.emplace_back(trap->getPositionFromComp().getX(), trap->getPositionFromComp().getY());
+        }
+    }
+    return positions;
 }
