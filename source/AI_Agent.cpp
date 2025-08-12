@@ -1,6 +1,6 @@
 // AI_Agent.cpp
-#include "../header/AI_Agent.h"
 #include "GameEngine.h"
+#include "../header/AI_Agent.h"
 
 void AI_Agent::updateGameState(const GameEngine& game) {
     std::lock_guard<std::mutex> lock(m_GameDataMutex);

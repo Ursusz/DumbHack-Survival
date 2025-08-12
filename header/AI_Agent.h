@@ -3,9 +3,9 @@
 #include <string>
 #include <thread>
 #include <mutex>
-#include <iostream>
 #include <vector>
 #include <utility>
+
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
 
@@ -23,8 +23,8 @@ class AI_Agent {
     int m_agentAction = -1;
     std::mutex m_actionMutex;
 
-    float playerX, playerY;
-    int playerHP;
+    float playerX = 0, playerY = 0;
+    int playerHP = 100;
 
     std::vector<std::pair<float, float>> zombiesPositions;
     std::vector<std::pair<float, float>> computerPositions;
