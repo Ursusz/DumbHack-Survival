@@ -4,7 +4,6 @@
 #include <iostream>
 #include <unordered_set>
 
-#include "../header/AI_Agent.h"
 #include "../header/Text.h"
 #include "../header/MapConfig.h"
 #include "../header/EntityManager.h"
@@ -20,6 +19,7 @@
 #undef Status
 #endif
 
+#include "../header/AI_Agent.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/Music.hpp>
 
