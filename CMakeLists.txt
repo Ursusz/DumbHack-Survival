@@ -40,7 +40,7 @@ FetchContent_Declare(
         GIT_TAG v3.11.2
 )
 
-set(CPR_USE_SYSTEM_CURL OFF CACHE BOOL "" FORCE)
+set(CPR_USE_SYSTEM_CURL ON CACHE BOOL "" FORCE)
 set(CPR_ENABLE_SSL OFF CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(SFML cpr nlohmann_json)
