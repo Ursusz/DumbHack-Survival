@@ -178,8 +178,13 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install Meson
-        run: pip3 install meson
+      - name: Install Meson and Ninja
+        run: pip3 install meson ninja
+
+      - name: Add Python user site to PATH
+        run: |
+          echo "pip3 install directory: $(python3 -m site --user-base)/bin"
+          echo "$(python3 -m site --user-base)/bin" >> $GITHUB_PATH
 
       - name: Set timestamp and zip name
         run: |
