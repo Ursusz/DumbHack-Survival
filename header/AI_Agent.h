@@ -5,9 +5,9 @@
 #include <mutex>
 #include <iostream>
 #include <vector>
-#include <nlohmann/json.hpp>
 #include <utility>
 #include <cpr/cpr.h>
+#include <nlohmann/json.hpp>
 
 class GameEngine;
 
@@ -25,7 +25,6 @@ class AI_Agent {
 
     float playerX, playerY;
     int playerHP;
-
 
     std::vector<std::pair<float, float>> zombiesPositions;
     std::vector<std::pair<float, float>> computerPositions;
