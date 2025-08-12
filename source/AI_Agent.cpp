@@ -1,12 +1,8 @@
 // AI_Agent.cpp
 #include "../header/AI_Agent.h"
+
 #include "GameEngine.h"
-#include <cpr/cpr.h>
-#include <nlohmann/json.hpp>
-#include <iostream>
-#include <mutex>
-#include <thread>
-#include <utility>
+
 
 void AI_Agent::updateGameState(const GameEngine& game) {
     std::lock_guard<std::mutex> lock(m_GameDataMutex);

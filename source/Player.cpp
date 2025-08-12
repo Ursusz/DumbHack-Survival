@@ -1,8 +1,5 @@
 #include "../header/Player.h"
 
-#include <emmintrin.h>
-
-
 Player::Player(const myVec &position, const myVec &velocity, const std::string& texture_path, bool hitAble, bool collidable, bool isDynamic, int drawPriority)
     : Entity(position, velocity, texture_path, hitAble, collidable, isDynamic, drawPriority)
     , m_cKeyboard(std::make_shared<KeyboardComponent>())

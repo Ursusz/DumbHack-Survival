@@ -127,6 +127,9 @@ void Zombie::setObstacles(const std::vector<sf::Vector2i> &obs) {
     for(const auto& obstacle : obs) {
         m_generator.addCollision(AStar::Vec2i(obstacle.x, obstacle.y));
     }
+    m_generator.addCollision(AStar::Vec2i(31, 4));
+    m_generator.addCollision(AStar::Vec2i(10, 16));
+
 }
 
 void Zombie::reset() {
