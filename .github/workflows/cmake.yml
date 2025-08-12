@@ -185,6 +185,11 @@ jobs:
         if: runner.os == 'Windows' && matrix.cxx == 'cl'
         uses: ilammy/msvc-dev-cmd@v1
 
+      - name: Check PATH
+        if: runner.os == 'Windows' && matrix.cxx == 'cl'
+        run: echo $PATH
+
+
       - name: Set timestamp and zip name
         run: |
           echo "TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)" >> ${GITHUB_ENV}
