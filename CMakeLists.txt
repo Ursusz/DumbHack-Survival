@@ -28,9 +28,10 @@ FetchContent_Declare(
         GIT_SHALLOW    1
 )
 
-FetchContent_Declare(cpr
+FetchContent_Declare(
+        cpr
         GIT_REPOSITORY https://github.com/libcpr/cpr.git
-        GIT_TAG        1.10.0
+        GIT_TAG master
 )
 
 FetchContent_Declare(
@@ -39,15 +40,7 @@ FetchContent_Declare(
         GIT_TAG v3.11.2
 )
 
-FetchContent_Declare(
-        curl
-        GIT_REPOSITORY https://github.com/curl/curl.git
-        GIT_TAG curl-8_15_0
-)
-
-
-set(CURL_DISABLE_LIBPSL ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(curl)
+set(CPR_USE_SYSTEM_CURL ON CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(SFML cpr nlohmann_json)
 
@@ -151,7 +144,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         cpr::cpr
         AStarLib
         nlohmann_json::nlohmann_json
-        libcurl
 )
 if(APPLE)
 elseif(UNIX)
