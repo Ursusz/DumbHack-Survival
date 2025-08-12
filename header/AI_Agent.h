@@ -1,11 +1,11 @@
 #pragma once
 #include <cpr/cpr.h>
+#include <nlohmann/json.hpp>
 #include <string>
 #include <thread>
 #include <mutex>
 #include <vector>
 #include <utility>
-#include <nlohmann/json.hpp>
 
 class GameEngine;
 

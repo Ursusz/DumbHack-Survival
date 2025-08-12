@@ -19,9 +19,9 @@
 #undef Status
 #endif
 
+#include "../header/AI_Agent.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/Music.hpp>
-#include "../header/AI_Agent.h"
 
 class GameEngine {
     struct WindowSetup {int width=1920, height=1080, FPS=60; bool fullscreen=false;} myWindowConfig;
