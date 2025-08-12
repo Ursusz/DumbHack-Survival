@@ -17,6 +17,5 @@ runs:
           libdrm-dev \
           libgbm-dev \
           libfreetype6-dev \
-          xorg \
-          libcurl4-openssl-dev
+          xorg
       shell: bash

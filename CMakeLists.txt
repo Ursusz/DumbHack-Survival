@@ -29,21 +29,12 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
-        cpr
-        GIT_REPOSITORY https://github.com/libcpr/cpr.git
-        GIT_TAG master
-)
-
-FetchContent_Declare(
         nlohmann_json
         GIT_REPOSITORY https://github.com/nlohmann/json.git
         GIT_TAG v3.11.2
 )
 
-set(CPR_USE_SYSTEM_CURL ON CACHE BOOL "" FORCE)
-set(CPR_ENABLE_SSL OFF CACHE BOOL "" FORCE)
-
-FetchContent_MakeAvailable(SFML cpr nlohmann_json)
+FetchContent_MakeAvailable(SFML nlohmann_json)
 
 ###############################################################################
 
@@ -123,13 +114,14 @@ add_executable(${PROJECT_NAME}
 
 include(cmake/CompilerFlags.cmake)
 
+add_subdirectory(ext/cpr)
+
 ###############################################################################
 
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE generated/include)
 # target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ext/<SomeHppLib>/include)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${SFML_SOURCE_DIR}/include)
-target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE cpr::cpr::include_dirs)
 
 add_library(AStarLib STATIC ext/AStar/AStar.cpp)
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE header)
@@ -142,9 +134,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         sfml-system
         sfml-audio
         Threads::Threads
-        cpr::cpr
         AStarLib
         nlohmann_json::nlohmann_json
+        cpr
 )
 if(APPLE)
 elseif(UNIX)

@@ -3,12 +3,11 @@
 #include <string>
 #include <thread>
 #include <mutex>
-#include <cpr/cpr.h>
 #include <iostream>
 #include <vector>
 #include <nlohmann/json.hpp>
 #include <utility>
-
+#include <cpr/cpr.h>
 
 class GameEngine;
 

@@ -210,10 +210,6 @@ jobs:
           mv artifacts/${{ env.BIN_DIR }}/* ${{ env.ZIP_NAME }}
           ls -la ${{ env.ZIP_NAME }}
 
-      - name: Install CURL with Chocolatey
-        if: runner.os == 'Windows'
-        run: choco install curl
-
       - name: Process artifacts
         uses: ./.github/actions/process-artifacts
 
