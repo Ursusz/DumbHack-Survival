@@ -227,8 +227,8 @@ std::vector<std::pair<float, float>> EntityManager::getTrapsPositions() const {
     for (const auto& entity : entities) {
         if (const Trap* trap = dynamic_cast<const Trap*>(entity.get())) {
             positions.emplace_back(trap->getPositionFromComp().getX(), trap->getPositionFromComp().getY());
-        }else if (const SpecialTrap* trap = dynamic_cast<const SpecialTrap*>(entity.get())) {
-            positions.emplace_back(trap->getPositionFromComp().getX(), trap->getPositionFromComp().getY());
+        }else if (const SpecialTrap* trap1 = dynamic_cast<const SpecialTrap*>(entity.get())) {
+            positions.emplace_back(trap1->getPositionFromComp().getX(), trap->getPositionFromComp().getY());
         }
     }
     return positions;
