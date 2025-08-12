@@ -41,6 +41,7 @@ FetchContent_Declare(
 )
 
 set(CPR_USE_SYSTEM_CURL OFF CACHE BOOL "" FORCE)
+set(CPR_ENABLE_SSL OFF CACHE BOOL "" FORCE)
 
 FetchContent_MakeAvailable(SFML cpr nlohmann_json)
 
