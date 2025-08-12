@@ -8,7 +8,7 @@ int main() {
     Helper helper;
     helper.help();
     GameEngine game;
-    game.Init("Init/setup.txt");
+    game.Init("./Init/setup.txt");
     game.run();
     return 0;
 }

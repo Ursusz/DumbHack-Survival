@@ -23,6 +23,15 @@ endif()
 
 # sanitizers
 
+if("${ARG_RUN_SANITIZERS}" STREQUAL "TRUE")
+
+    if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")
+    else()
+        set_custom_stdlib_and_sanitizers(cpr false)
+    endif()
+    set_custom_stdlib_and_sanitizers(${TARGET_NAME} true)
+endif ()
+
 include(cmake/CustomStdlibAndSanitizers.cmake)
 
 if("${CMAKE_CXX_COMPILER_ID}" MATCHES "GNU")

@@ -37,7 +37,7 @@ FetchContent_Declare(
 FetchContent_Declare(
         cpr
         GIT_REPOSITORY https://github.com/libcpr/cpr.git
-        GIT_TAG master
+        GIT_TAG 1.11.3
 )
 set(CURL_DISABLE_SSL ON)
 
