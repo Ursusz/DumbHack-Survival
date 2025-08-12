@@ -1,5 +1,5 @@
 #pragma once
-#define NONMINMAX
+#define NOMINMAX
 
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
