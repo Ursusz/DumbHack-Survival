@@ -184,6 +184,8 @@ jobs:
           # the regex splits by / and keeps everything after / without the / character
           # echo "ZIP_NAME=$(echo "${GITHUB_REPOSITORY}_${{ env.BUILD_TYPE }}_${{ matrix.os }}_${{ matrix.cxx }}${{ matrix.asan_name }}" | sed -E 's|.+/(.+)|\1|')" >> ${GITHUB_ENV}
 
+      
+
       - name: Install packages
         uses: ./.github/actions/install-packages
 
@@ -207,6 +209,10 @@ jobs:
           mkdir ${{ env.ZIP_NAME }}
           mv artifacts/${{ env.BIN_DIR }}/* ${{ env.ZIP_NAME }}
           ls -la ${{ env.ZIP_NAME }}
+
+      - name: Install CURL with Chocolatey
+        if: runner.os == 'Windows'
+        run: choco install curl
 
       - name: Process artifacts
         uses: ./.github/actions/process-artifacts
