@@ -183,7 +183,7 @@ jobs:
 
       - name: Setup MSVC environment
         if: runner.os == 'Windows' && matrix.cxx == 'cl'
-        uses: ilammy/msvc-dev-cmd@v1
+        uses: microsoft/setup-msbuild@v1.1
 
       - name: Check PATH
         if: runner.os == 'Windows' && matrix.cxx == 'cl'
