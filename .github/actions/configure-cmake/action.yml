@@ -32,6 +32,11 @@ runs:
       run: sudo xcode-select --switch /Applications/Xcode_15.4.app/Contents/Developer
       shell: bash
 
+    - name: Accept Xcode license (macOS)
+      if: runner.os == 'macOS'
+      run: sudo xcodebuild -license accept
+      shell: bash
+
     - name: Setup MSVC environment (Windows)
       if: runner.os == 'Windows' && matrix.cxx == 'cl'
       uses: ilammy/msvc-dev-cmd@v1

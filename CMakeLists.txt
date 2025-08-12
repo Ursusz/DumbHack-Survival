@@ -39,6 +39,7 @@ FetchContent_Declare(
         GIT_REPOSITORY https://github.com/libcpr/cpr.git
         GIT_TAG master
 )
+set(CURL_DISABLE_SSL ON)
 
 FetchContent_MakeAvailable(SFML nlohmann_json cpr)
 
