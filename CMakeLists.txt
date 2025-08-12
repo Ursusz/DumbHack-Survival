@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.26)
 
+if(APPLE)
+    find_library(LIBIDN2_LIBRARY idn2 HINTS /opt/homebrew/lib)
+    if(NOT LIBIDN2_LIBRARY)
+        message(FATAL_ERROR "libidn2 not found")
+    endif()
+endif()
+
 project(DumbHack-Survival)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -142,6 +149,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         cpr::cpr
 )
 if(APPLE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBIDN2_LIBRARY})
 elseif(UNIX)
     target_link_libraries(${PROJECT_NAME} PRIVATE X11)
 endif()
