@@ -47,8 +47,6 @@ FetchContent_MakeAvailable(SFML nlohmann_json cpr)
 
 # external dependencies with find_package
 
-#find_package(CURL REQUIRED)
-find_package(OpenSSL REQUIRED)
 find_package(Threads REQUIRED)
 
 if(APPLE)
