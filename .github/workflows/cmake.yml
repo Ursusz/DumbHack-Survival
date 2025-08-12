@@ -170,6 +170,14 @@ jobs:
             cmake_generator: Ninja
 
     steps:
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: `3.x`
+
+      - name: Install Meson
+        run:
+          pip3 install meson
       - name: Checkout repo
         uses: actions/checkout@v4
 

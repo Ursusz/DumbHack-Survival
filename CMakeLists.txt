@@ -34,7 +34,13 @@ FetchContent_Declare(
         GIT_TAG v3.11.2
 )
 
-FetchContent_MakeAvailable(SFML nlohmann_json)
+FetchContent_Declare(
+        cpr
+        GIT_REPOSITORY https://github.com/libcpr/cpr.git
+        GIT_TAG master
+)
+
+FetchContent_MakeAvailable(SFML nlohmann_json cpr)
 
 ###############################################################################
 
@@ -114,8 +120,6 @@ add_executable(${PROJECT_NAME}
 
 include(cmake/CompilerFlags.cmake)
 
-add_subdirectory(ext/cpr)
-
 ###############################################################################
 
 # use SYSTEM so cppcheck and clang-tidy do not report warnings from these directories
@@ -136,7 +140,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         Threads::Threads
         AStarLib
         nlohmann_json::nlohmann_json
-        cpr
+        cpr::cpr
 )
 if(APPLE)
 elseif(UNIX)
