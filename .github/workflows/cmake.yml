@@ -173,6 +173,18 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Ensure Xcode is active
+        if: runner.os == 'macOS'
+        run: sudo xcode-select --reset
+
+      - name: Accept Xcode license
+        if: runner.os == 'macOS'
+        run: sudo xcodebuild -license accept
+
+      - name: Setup MSVC environment
+        if: runner.os == 'Windows' && matrix.cxx == 'cl'
+        uses: ilammy/msvc-dev-cmd@v1
+
       - name: Set timestamp and zip name
         run: |
           echo "TIMESTAMP=$(date +%Y-%m-%d-%H-%M-%S)" >> ${GITHUB_ENV}
